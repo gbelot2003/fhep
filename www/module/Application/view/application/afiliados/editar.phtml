@@ -1,0 +1,142 @@
+<?php
+$this->headTitle("FHEP| Editar Afiliado");
+$this->head;
+?>
+<!-- DataTable -->
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_conf_usuarios.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+<div class="container mt-4">
+    <!-- encabezado -->
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Afiliados</h2>
+                <em>Editar Afiliados.</em>
+            </div>
+            <div class="col-lg-6">
+                <div class="btn-group pull-right">
+                    <a href="<?php echo $this->basePath(); ?>/afiliados" class="w-75 btn btn-md btn-primary next"><span class="icon icon-std icon-back"></span><i class="fa-thin fa-circle-chevron-left"></i>  Regresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /encabezado -->
+    <div class="border " style="padding: 10px; min-height: 700px;">
+        <div class="row">
+            <h3 class="">Identificación del Afiliado</h3>
+        </div><!-- /.box-header -->
+
+        <div class="content">
+            <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/controller/action" enctype="multipart/form-data" data-parsley-validate >
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-6 ">
+                            <i class="fad fa-user"></i>
+                            <label class="form-label" for="typeEmailX">Usuario</label>
+                            <div class="input-group flex-nowrap">
+                                <input type="edit"  name="usuario" class="form-control form-control-lg" id="usuario"  autocomplete="off" placeholder="">
+                                <span    class="input-group-text" onclick="mostrarContrasena('edit')"> <i id="icon_edit" class="fa-thin fa-pencil"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 ">
+                            <i class="fad fa-envelope"></i>
+                            <label class="form-label" for="typeEmailX">Correo</label>
+                            <div class="input-group flex-nowrap">
+                                <input type="edit"  name="usuario" class="form-control form-control-lg" id="usuario"  autocomplete="off" placeholder="">
+                                <span    class="input-group-text" onclick="mostrarContrasena('edit')"> <i id="icon_edit" class="fa-thin fa-pencil"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-6 ">
+                            <i class="fad fa-key"></i>
+                            <label class="form-label" for="typeEmailX">Contraseña</label>
+                            <div class="input-group flex-nowrap">
+                                <input type="edit"  name="usuario" class="form-control form-control-lg" id="usuario"  autocomplete="off" placeholder="">
+                                <span    class="input-group-text" onclick="mostrarContrasena('edit')"> <i id="icon_edit" class="fa-thin fa-pencil"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 ">
+                            <i class="fad fa-key-skeleton-left-right"></i>
+                            <label class="form-label" for="typeEmailX">Tipo de Rol</label>
+                            <div class="input-group flex-nowrap">
+                                <input type="edit"  name="usuario" class="form-control form-control-lg" id="usuario"  autocomplete="off" placeholder="">
+                                <span    class="input-group-text" onclick="mostrarContrasena('edit')"> <i id="icon_edit" class="fa-thin fa-pencil"></i></span>
+                            </div>                        
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <h3 class="">Editar Preguntas de Seguridad </h3>
+                    </div>
+                    <div class="row md-2">
+                        <div class="col-md-6 ">
+                            <i class="fad fa-seal-question"></i>
+                            <label class="form-label" for="typeEmailX">Preguntas de Seguridad</label>
+                            <div class="input-group flex-nowrap">
+                                <input type="edit"  name="usuario" class="form-control form-control-lg" id="usuario"  autocomplete="off" placeholder="">
+                                <span    class="input-group-text" onclick="mostrarContrasena('edit')"> <i id="icon_edit" class="fa-thin fa-pencil"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                     <div class="row md-2 mt-4">
+                                <div class="col-md-6 ">
+                                    <input type="text" class="form-control" name="objeto" id="objeto" maxlength="30" placeholder="Respuestas" required>
+                                </div>  
+                            </div>
+
+                    <div class="row mt-4">
+                        <h3 class="">Confirmación</h3>
+                    </div>
+                    <div class="row ms-2">
+                        <div class="col-4">
+
+                            <div class="checkbox" data-toggle="tooltip" title="">
+                                <label>
+                                    <input type="checkbox" value="1" name="chk3" id="Name3" data-toggle="toggle" data-on="Confirmado!" data-off="Terminar y Guardar" data-onstyle="success" data-offstyle="primary" data-size="normal" data-width="330" data-height="15">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div><!-- /.box -->
+
+<script>
+    function mostrarContrasena(id) {
+        var tipo = document.getElementById(id);
+        if (tipo.type == "edit") {
+            tipo.type = "text";
+            $('#icon_edit').removeClass('fa-eye');
+            $('#icon_edit').addClass('fa-eye-slash');
+
+        } else {
+            tipo.type = "edit";
+            $('#icon_edit').removeClass('fa-eye-slash');
+            $('#icon_edit').addClass('fa-eye');
+        }
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+</script>

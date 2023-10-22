@@ -1,0 +1,398 @@
+<?php
+$this->headTitle("FHEP| Nueva Cita");
+$this->head;
+
+
+if (isset($_SESSION["auth"])) {
+
+    $nombre_usuario = $_SESSION["auth"]['usuario'];
+    
+}
+
+?>
+<!-- DataTable -->
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_conf_usuarios.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+<div class="container mt-4">
+    <!-- encabezado -->
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Pacientes</h2>
+                <em>Nueva Cita.</em>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="btn-group pull-right">
+                    <a href="<?php echo $this->basePath(); ?>/pacientes/triaje" class="w-75 btn btn-md btn-primary next"><span class="icon icon-std icon-back"></span><i class="fa-thin fa-calendar-pen"></i>  Ir a Triaje</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /encabezado -->
+    <div class="border " style="padding: 10px; min-height: 700px;">
+
+        <div class="content">
+
+            <div id="_imprimir" class="hide" >
+
+                <div style="text-align: center;"><h3>FUNDACIÓN HOSPITAL DE EMERGENCIA POLICIAL</h3></div>
+                <img src="<?php echo $this->basePath(); ?>/img/logo.png" height="80" style="position: absolute; left: 44px; top: -1px; "  >
+                <div style="text-align: center;"><h4> Comprobante de Cita</h4></div>
+
+                <table border="0" width="0" cellspacing="0" cellpadding="0" style="width: 70%;">
+
+                    <tbody>
+                        <tr>
+                            <td>Nombre Completo: <span id="h_nombre_afiliado" style='font-weight: 600;'></span></td>
+                        </tr>
+                        <tr>
+                            <td>Número de Expediente: <span id="h_num_afiliado" style='font-weight: 600;'></span></td>
+                        </tr>
+                    <br>
+                    <tr>
+                        <td>Medico: <span id="h_nombre_afiliado" style='font-weight: 600;'></span></td>
+                    </tr>
+                    <tr>
+                        <td>Especialidad: <span id="h_especialidad" style='font-weight: 600;'></span></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <form id="id_frm_nuevo" method="post" action="<?php echo $this->basePath(); ?>/citas/nueva" enctype="multipart/form-data" data-parsley-validate >
+
+                <!--<input type="hidden" id="id_cita" name="creado_por" value="<?php echo $nombre_usuario ?>">-->
+
+                <input type="hidden" name="id_afiliado" id="id_afiliado" value="">
+
+                <div id="_imprimirw">
+                    <div class="text">
+                        <div class="row">
+                            <h4 class="">Datos del Afiliado</h4>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <label for="id" class="form-label">Número de Expediente:</label>
+                                <input type="text" name="dni" class="form-control" id="dni" required="yes" placeholder="Número expediente">
+                                <i id="dni" class="form-text text-muted">Ingrese el número de expediente</i>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="">
+                                <div class="row mt-4 text-primary  ">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <spam>Nombre Completo: </spam><span id="p_nombre_afiliado" class="fw-bold"></span>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <span>Tipo de Afiliado: </span><span id="p_tipo_afiliado" class="fw-bold"></span>
+
+                                        </div>
+                                        <!--                                        <div class="col-md-3">
+                                                                                    <span>Código de Afiliado: </span><span id="p_num_afiliado" class="fw-bold"></span>
+                                                                                </div>-->
+                                        <div class="col-md-3">
+                                            <span>Parentesco </span><span id="p_parentesco" class="fw-bold"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row mt-5">
+                                    <div class="row">
+                                        <h4 class="">Área De Interes:</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="nombre_es">Área De Interes *</label>
+                                            <select class="form-control" id="nombre_es"  required  name="id_especialidad">
+                                                <option value="">Seleccione Área De Interes</option>
+                                                <?php foreach ($this->espe as $d): ?>
+                                                    <option  title="<?php echo $d['nombre_e'] ?>" value="<?php echo $d['id'] ?>" >
+                                                        <?php echo $d['nombre_e'] ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="medicos">Profecional Responsable</label>
+                                            <select class="form-control" id="medicos" required  name="id_medico">
+                                                <option value="">Seleccione un profecional responsable</option>
+                                                <option value="" selected="selected">Debe seleccionar un área de interes primero</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+
+                        <!--nuevo-->
+                        <div class="row mt-5">
+                            <h4 class="">Tipo de Consulta</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="exampleFormControlTextarea1" class="form-label">Elija una opción</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"  required="yes" id="flexRadioDefault1" value="Ambulatoria">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Consulta Ambulatoria
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="Programada">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Cita Programada
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="fecha_cita">Fecha y Hora de Cita:</label>
+                                <input type="datetime-local" id="fecha_cita" required="yes" class="form-control" name="fecha_cita">
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <h4 class="">Motivo de la consulta</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <textarea class="form-control" id="exampleFormControlTextarea1" name="motivo_consulta" rows="3"
+                                          data-parsley-pattern="/^[a-zA-Z0-9,\.\#\ \n]{1,250}$/"   
+                                          data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                          ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-5">
+                            <center><button type="submit" id="btn_enviar" class="btn btn-primary "><i class="bi bi-std bi-upload"></i>Terminar y Guardar</button></center>
+                           
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="_pie"></div>
+    </div>
+
+</div>
+
+<br><br><br>
+
+
+</div>
+</div><!-- /.box -->
+</div>
+
+
+
+
+<script>
+    var submit = false;
+    window.onbeforeunload = function () {
+        if (!submit) {
+            return "Desea salir ? se perderan todos los cambios";
+        }
+    };
+    
+    $('#id_frm_nuevo').on('submit', function () {
+        submit = true;
+    });
+</script>
+
+<script type="text/javascript">
+    $("#flexRadioDefault1, #flexRadioDefault2").change(function () {//Elemento que voy a observar "#nombreIdElemento"
+        var val = $(this).val(); //Asignamos el valor del elemento observado
+
+        if (val === "Ambulatoria") {
+            var now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            $("#fecha_cita").val(now.toISOString().slice(0, 16));
+        } else {
+            $("#fecha_cita").val("");
+        }
+
+    });
+</script>
+
+<script>
+    $("#nombre_es").change(function () {//Elemento que voy a observar "#nombreIdElemento"
+        var val = $(this).val(); //Asignamos el valor del elemento observado
+
+        if (val === "") {
+            o = "<option value=\"\">Seleccione un profecional responsable</option> <option value=\"\">Debe seleccionar un área de interes primero</option>";
+            $("#medicos").html(o);
+        } else {
+            $.ajax({
+                type: "POST", //Metodo de envio
+                url: "<?php echo $this->basePath() ?>/citas/getnombremedicoaja", //URL del jsp que va a procesar mi solicitud asíncrona
+                traditional: true,
+                dataType: 'html',
+                async: true,
+                data: {buscar: val}, //{nombre-de-parametro:Valor-para-el-parametro}
+                beforeSend: function () {
+                    $("#medicos").html("<option value=\"\">Procesando... espere!!</option>");
+                },
+                success: function (data) {
+
+                    $("#medicos").html(data); //Elemento al que quiero meter la data "#nombreIdElemento"
+                },
+                error: function (XMLHttpRequest, textStatus, exception) {
+                    alert("Ajax failure\n" + errortext);
+                }
+
+
+            });
+        }
+    });
+
+</script>
+
+<script>
+//    $("#nombre_es").change(function () {//Elemento que voy a observar "#nombreIdElemento"
+//        var dni = $("#dni").val(); //Asignamos el valor del elemento observado
+//        var id_esp = $(this).val();
+//        //alert("ultima cita");
+//        if (val === "") {
+//            o = "<option value=\"\">Seleccione un Medico</option> <option value=\"\">Debe seleccionar una Especialidad primero</option>";
+//            //$("#medicos").html(o);
+//        } else {
+//            $.ajax({
+//                type: "POST", //Metodo de envio
+//                url: "<?php $this->basePath() ?>/citas/getnombremedicoaja", //URL del jsp que va a procesar mi solicitud asíncrona
+//                traditional: true,
+//                dataType: 'html',
+//                data: {dni: dni, id_esp: id_esp}, //{nombre-de-parametro:Valor-para-el-parametro}
+//                beforeSend: function () {
+//                    //$("#medicos").html("<option value=\"\">Procesando... espere!!</option>");
+//                },
+//                success: function (data) {
+//                    //alert(data);
+//                    //$("#medicos").html(data); //Elemento al que quiero meter la data "#nombreIdElemento"
+//                }
+//
+//            });
+//        }
+//    });
+
+</script>
+
+<script>
+    $("#dni").keyup(function () {//Elemento que voy a observar "#nombreIdElemento"
+        var val = $(this).val(); //Asignamos el valor del elemento observado
+        $("#nombre_afiliado").val("");
+        $("#tipo_afiliado").val("");
+        $("#num_afiliado").val("");
+        $("#h_nombre_afiliado").val("");
+        $("#h_tipo_afiliado").val("");
+        $("#h_num_afiliado").val("");
+
+
+        var listo = false;
+        if (val.length >= 13 && val.length <= 15) {
+            var regexp;
+
+            regexp = /^[0-9]{4}[-| ]?[0-9]{4}[-| ]?[0-9]{5}$/;
+
+            if (regexp.test(val))
+            {
+                listo = true;
+                $("#respId").html("<div class=\"semibold\"><b>Procesando....</b>   <img src=\"<?php $this->basePath() ?>/img/ajax-loader.gif\" width=\"20\" ></div>");
+
+            } else {
+                listo = false;
+                $("#respId").html("");
+
+            }
+        }
+        if (listo) {
+            $.ajax({
+                type: "POST", //Metodo de envio
+                url: "<?php echo $this->url('afiliados/getnombreafiliado') ?>", //URL del jsp que va a procesar mi solicitud asíncrona
+                traditional: true,
+                dataType: 'json',
+                data: {id: val}, //{nombre-de-parametro:Valor-para-el-parametro}
+                beforeSend: function () {
+                    $("#respuesta_id_afiliado").val("");//Limpiar el campo de respuesta
+                },
+                success: function (data) {
+                    
+                    if (data.estado === 'ok') {
+
+                        $("#p_nombre_afiliado").html(data.d.nombres);
+                        $("#p_tipo_afiliado").html(data.d.nombre_ta);
+                        $("#p_num_afiliado").html(data.d.id_afiliado);
+                        $("#h_nombre_afiliado").html(data.d.nombres);
+                        $("#h_tipo_afiliado").html(data.d.nombre_ta);
+                        $("#h_num_afiliado").html(data.d.id_afiliado);
+                        $("#id_afiliado").val(data.d.id_afiliado);
+                        $("#p_parentesco").html(data.d.parentesco);
+
+                        $("#btn_enviar").removeClass('disabled');
+                    } else {
+
+                        mensajeAutoERROR('Error', data.mensaje);
+                        $("#btn_enviar").addClass('disabled');
+                    }
+                }
+
+            });
+        }
+    });
+
+
+</script>
+
+
+<script>
+    function imprimirDiv() {
+        var p = 'Recibida por: <?php echo $_SESSION['auth']['usuario'] ?> el <?php echo date('d/m/Y'); ?>';
+        $("#_pie").html(p);
+        $("#_hd1").hide();
+        $("#p_especialidad").html($('#id_especialidad option:selected').text());
+
+
+        //        $("#_hid2").hide();
+        //        $("#_hid3").hide();
+        //        $("#_hid4").hide();
+        //        $("#_hid5").show();
+        //        $("#_hid6").hide();
+        //        $("#_hid7").show();
+        //        $("#_hid8").hide();
+        //
+        $("#_pie").css("font-size", "20px");
+        //        $("#det_1").css("font-size","10px");
+        //        $("#det_2").css("font-size","10px");
+        //        $("#det_3").css("font-size","10px");
+
+        var objeto = document.getElementById('_imprimir'); //obtenemos el objeto a imprimir
+        var ventana = window.open('', '_blank'); //abrimos una ventana vacía nueva
+        ventana.document.write(objeto.innerHTML); //imprimimos el HTML del objeto en la nueva ventana
+        ventana.document.close(); //cerramos el documento
+        ventana.print(); //imprimimos la ventana
+        ventana.close(); //cerramos la ventana
+
+        $("#_hd1").show();
+        //        $("#_hid2").show();
+        //        $("#_hid3").show();
+        //        $("#_hid4").show();
+        //        $("#_hid5").hide();
+        //        $("#_hid6").show();
+        //        $("#_hid7").hide();
+        //        $("#_hid8").show();
+        $("#_pie").html("");
+        $("#_pie").css("font-size", "14px");
+        //        $("#det_1").css("font-size","14px");
+        //        $("#det_2").css("font-size","14px");
+        //        $("#det_3").css("font-size","14px");
+    }
+
+</script>
+

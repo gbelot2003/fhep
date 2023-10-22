@@ -1,0 +1,137 @@
+/*
+
+@Nombre    : personalizacion
+@Author    : Oscar A. Reyes
+@Copyright : Oscar A. Reyes
+@Email     : oscareyes3019@gmail.com
+@Creado el : 14-mar-2022, 10:28:57 PM
+*/
+/* 
+    Created on : 14/03/2022, 10:28:57 PM
+    Author     : Oscar A. Reyes
+*/
+root{
+    --bs-green: #10af40;
+    --bs-green-border: #161817;
+
+}
+.bg-white {
+  background: #fff !important;
+  border: 1px solid #fff !important;
+  color: #73879C; }
+
+.bg-green {
+  background: var(--bs-green) !important;
+  border: 1px solid var(--bs-green-border) !important;
+  color: #fff; }
+
+.bg-red {
+  background: #b1120dd2 !important;
+  border: 1px solid #E74C3C !important;
+  color: #fff; }
+
+.bg-blue {
+  background: #096cad !important;
+  border: 1px solid #3498DB !important;
+  color: #fff; }
+
+.bg-orange {
+  background: #d88909 !important;
+  border: 1px solid #F39C12 !important;
+  color: #fff; }
+
+.bg-purple {
+  background: #9B59B6 !important;
+  border: 1px solid #9B59B6 !important;
+  color: #fff; }
+
+.bg-blue-sky {
+  background: #50C1CF !important;
+  border: 1px solid #50C1CF !important;
+  color: #fff; }
+
+.bg-yellow {
+    background: #bfca1dda !important;
+    border: 1px solid #c1ccce !important;
+    color: #fff; }
+
+  .small-box {
+    border-radius: 2px;
+    position: relative;
+    display: block;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  }
+  .small-box > .inner {
+    padding: 10px;
+  }
+  .small-box > .small-box-footer {
+    position: relative;
+    text-align: center;
+    padding: 3px 0;
+    color: #fff;
+    color: rgba(255, 255, 255, 0.8);
+    display: block;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+  }
+  .small-box > .small-box-footer:hover {
+    color: #fff;
+    background: rgba(0, 0, 0, 0.15);
+  }
+  .small-box h3 {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0 ;
+    white-space: nowrap;
+    padding: 0;
+    text-align: left;
+  }
+  .small-box p {
+    font-size: 20px;
+    text-align: left;
+  }
+  .small-box p > small {
+    display: block;
+    color: #f9f9f9;
+    font-size: 13px;
+    margin-top: 2px;
+  }
+  .small-box h3,
+  .small-box p {
+    z-index: 5px;
+  }
+  .small-box .icon {
+    -webkit-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 0;
+    font-size: 16px;
+    color: rgba(216, 210, 210, 0.897);
+  }
+  .small-box:hover {
+    text-decoration: none;
+    color: #f5eeee;
+  }
+ .small-box a>i {
+   margin-left:5px;
+ }
+
+  .small-box:hover .icon {
+    font-size: 20px;
+  }
+  @media (max-width: 767px) {
+    .small-box {
+      text-align: center;
+    }
+    .small-box .icon {
+      display: none;
+    }
+    .small-box p {
+      font-size: 12px;
+    }
+  }

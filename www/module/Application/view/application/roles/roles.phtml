@@ -1,0 +1,119 @@
+
+<?php
+$this->headTitle("FHEP | Roles");
+$this->head;
+?>
+<!-- DataTable -->
+
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_conf_roles.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+<div class="container mt-4">
+    <!-- encabezado -->
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-7">
+                <h2>Roles</h2>
+                <em>Catálogo de Roles.</em>
+            </div>
+            <div class="col-12 mt-4">
+
+                <a href="<?php echo $this->basePath(); ?>/roles/nuevo"  class="btn btn-primary"><i class="fa-light fa-layer-plus"></i> Agregar Nuevo</a>   
+                <!--<a href="<?php echo $this->basePath(); ?>/pacientes/exportexceltriaje"  class="btn btn-success"><i class="fa-light fa-file-excel"></i> Exportar Excel</a>-->
+                <a href="<?php echo $this->basePath(); ?>/roles/exportarroles" target="_blank"  class="btn btn-danger"><i class="fa-light fa-file-pdf"></i> Exportar PDF</a>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- /encabezado -->
+
+    <!--tabla prueba-->
+    <div class="border " style="padding: 10px;">
+        <div class="">
+            <h5 class="">Roles Actuales</h5>
+        </div><!-- /.box-header -->
+        <div class="content">
+            <div class="row">
+
+                <div class="col-sm-9  me-auto">
+                    <div class="form-group" style="padding-top: 30px; ">
+                        Mostrando 
+                        <select class="form-contr" id="pagesizes" data-parsley-group="block2" name="pagesizes">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="500">500</option>
+                        </select>
+                        Resultados por página
+                    </div>
+                </div>
+
+                <div class="col-lg-3 ms-auto">
+                    <div class="input-group flex-nowrap">
+                        <label></label>
+                        <input type="text" class="form-control" id="filter"  autocomplete="off" placeholder="">
+                        <span class="input-group-text" ><i class="bi bi-std bi-search form-control-feedback"></i></span>
+                    </div>
+
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-12 ">
+                    <!-- Grid contents -->
+                    <div id="divtabla" style="min-height: 400px; overflow-x: auto;">
+                        <center>
+                            <div style="margin: 100px;">
+                                <span >
+                                    <img src="<?php echo $this->basePath(); ?>/img/ajax-loader.gif" width="80" >
+                                </span>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+            <!-- Paginator control -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="paginator" class="pull-right"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</div><!-- /.box -->
+
+<script type="text/javascript">
+    direcciones("<?php echo $this->basePath() ?>/roles/gettablaroles", "<?php echo $this->basePath() ?>");
+    var datagrid = new DatabaseGrid("tbl_ms_roles");
+
+    window.onload = function () {
+        $("#filter").keyup(function () {
+            datagrid.editableGrid.filter($(this).val());
+        });
+        $("#pagesizes").change(function () {
+            datagrid.editableGrid.setPageSize($(this).val());
+        });
+    };
+
+
+</script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+</script>

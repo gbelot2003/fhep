@@ -1,0 +1,656 @@
+<?php echo $this->doctype(); ?>
+
+<?php
+$nombre_usuario = "";
+
+if (isset($_SESSION["auth"])) {
+
+    $nombre_usuario = $_SESSION["auth"]['usuario'];
+    $max_cantra = $_SESSION['parametros']['max_len_pass'];
+    $min_contra = $_SESSION['parametros']['min_len_pass'];
+} else {
+    $nombre_usuario = 'USUARIO';
+}
+
+
+//echo "<pre>";
+//print_r($_SESSION);
+?>
+<html lang="es_ES">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+        <meta name="generator" content="Hugo 0.88.1">
+        <?php echo $this->headTitle($this->title) ?>
+
+        <?php echo $this->headMeta() ?>
+
+        <?php $this->headLink(array('rel' => 'shortcut icon', 'href' => $this->basePath() . '/img/logo.ico')) ?>
+
+        <!--        Wizard Formularios-->
+        <?php $this->headLink()->prependStylesheet($this->basePath() . '/Theme/css/personalizacion.css') ?>
+
+        <?php $this->headLink()->prependStylesheet($this->basePath() . '/fa_web/css/awesome-font.css') ?>
+        <?php $this->headLink()->prependStylesheet($this->basePath() . '/parsley/parsley.css') ?>
+        <?php $this->headLink()->prependStylesheet($this->basePath() . '/Theme/css/bootstrap-toggle.min.css') ?>
+        <?php $this->headLink()->prependStylesheet($this->basePath() . '/Theme/css/bootstrap.min.css') ?>
+        <?php $this->headLink()->prependStylesheet($this->basePath() . '/Theme/css/estiloCSS.css') ?>
+        <?php $this->headLink()->prependStylesheet($this->basePath() . '/MensajesGritter/css/jquery.gritter.css') ?>
+        <?php echo $this->headLink() ?>
+
+        <!-- Bootstrap core CSS -->
+
+
+        <!--        Iconos-->
+        <link rel="stylesheet" href="<?php echo $this->basePath() ?>/web_fonts/bootstrap-icons.css">
+
+        <script src="<?php echo $this->basePath() ?>/MensajesGritter/js/jquery-2.1.0.min.js"></script>
+        <!--Librerías JS para los mensajes  gritter-->
+        <!--   Require JQuery-->
+        <script src="<?php echo $this->basePath() ?>/MensajesGritter/js/jquery.gritter.min.js"></script>
+        <script src="<?php echo $this->basePath() ?>/MensajesGritter/js/gritter.messages.js"></script>
+
+        <?php $this->headScript()->prependFile($this->basePath() . '/Theme/js/bootstrap-toggle.min.js') ?>
+
+        <!--       Validaciones Wizard Formularios-->
+        <?php $this->headScript()->prependFile($this->basePath() . '/parsley/i18n/es.js') ?>
+        <?php $this->headScript()->prependFile($this->basePath() . '/parsley/parsley.min.js') ?>
+
+        <?php echo $this->headScript() ?>
+
+
+
+    </head>
+
+    <body>
+        <main class="ms-auto me-auto col-md-12">
+            <div class="row">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-primary " aria-label="Fifth navbar example">
+                    <div class="container-fluid">
+                        <div>
+                            <!-- O si queremos incluir un logotipo y texto... -->
+                            <nav class="navbar navbar-expand-lg">
+                                <?php
+                                if (isset($_SESSION["auth"]) && (isset($_SESSION['permisos']['Mantenimientos']) && $_SESSION['permisos']['Mantenimientos']['permiso_consultar'] == '1') || (isset($_SESSION["auth"]) && (isset($_SESSION['permisos']['Seguridad']) && $_SESSION['permisos']['Seguridad']['permiso_consultar'] == '1'))):
+                                    ?>
+                                    <button class="btn float-end text-white me-5" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" role="button">
+                                        <i class="fas fa-xl fa-bars  " data-bs-toggle="offcanvas" data-bs-target="#offcanvas"></i>
+                                    </button>
+                                <?php else : ?>
+                                    <div class="me-5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                                <?php endif; ?>
+                                <a class="navbar-brand ms-5" href="<?php echo $this->url("home") ?>">
+                                    <img width ="90" src="<?php echo $this->basePath(); ?>/img/logo.ico">
+                                    Fundación Hospital de Emergencia Policial  </a>
+                                <?php if (isset($_SESSION["auth"])): ?>
+                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample05" aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
+                                        <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                <?php endif; ?>
+                            </nav>
+                        </div>
+
+
+                        <div class="collapse navbar-collapse " id="navbarsExample05">
+                            <!--        Menú superior-->
+
+                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                                
+
+                                <?php if (isset($_SESSION["auth"])): ?>
+
+
+                                    <?php
+                                    if ((isset($_SESSION['permisos']['Afiliados']) && $_SESSION['permisos']['Afiliados']['permiso_consultar'] == '1') || (isset($_SESSION['permisos']['Afiliados']) && $_SESSION['permisos']['Afiliados']['permiso_reportes'] == '1') || (isset($_SESSION['permisos']['Afiliados']) && $_SESSION['permisos']['Afiliados']['permiso_gestion_medicos'] == '1')):
+                                        ?>
+
+
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle active" href="#" id="dropdown05" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-id-card"></i>  Gestión Afiliado</a>
+
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown05">
+                                                <?php if (isset($_SESSION['permisos']['Afiliados']) && $_SESSION['permisos']['Afiliados']['permiso_consultar'] == '1'): ?>
+
+                                                    <li>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/afiliados/agregarafiliado">
+                                                            <i class="fas fa-user-edit"></i>  Agregar Afiliado</a>
+                                                    </li>
+
+                                                <?php endif; ?>
+                                                    
+
+                                                <?php if (isset($_SESSION['permisos']['Afiliados']) && $_SESSION['permisos']['Afiliados']['permiso_consultar'] == '1'): ?>
+
+                                                    <li>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/afiliados">
+                                                            <i class="fas fa-list"></i>  Listado de Afiliados </a>
+                                                    </li>
+
+                                                <?php endif; ?>
+
+                                                <?php if (isset($_SESSION['permisos']['Afiliados']) && $_SESSION['permisos']['Afiliados']['permiso_gestion_medicos'] == '1'): ?>
+
+                                                    <li>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/afiliados/listmedicos">
+                                                            <i class="fas fa-list"></i>  Listado de Medicos </a>
+                                                    </li>
+
+
+                                                <?php endif; ?>
+
+                                                <?php if (isset($_SESSION['permisos']['Afiliados']) && $_SESSION['permisos']['Afiliados']['permiso_reportes'] == '1'): ?>
+
+                                                    <li>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/reportes">
+                                                            <i class="fa-light fa-laptop-arrow-down"></i>  Reportes</a>
+                                                    </li>
+                                                <?php endif; ?>
+
+                                            </ul>
+                                        </li>
+
+                                    <?php endif; ?>
+                                        
+                                    
+
+                                    <?php if ((isset($_SESSION['permisos']['Citas']) && $_SESSION['permisos']['Citas']['permiso_insercion'] == '1') || isset($_SESSION['permisos']['Citas']) && $_SESSION['permisos']['Citas']['permiso_consultar'] == '1'):
+                                        ?>
+
+
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle active" href="#" id="dropdown05" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa-light fa-hospital-user"></i>  Gestión de Citas</a>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown05">
+
+                                                <?php if (isset($_SESSION['permisos']['Citas']) && $_SESSION['permisos']['Citas']['permiso_insercion'] == '1'): ?>
+                                                    <li>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/citas/nueva">
+                                                            <i class="fas fa-edit"></i>  Nueva Cita</a>
+                                                    </li>
+                                                <?php endif; ?>
+
+                                                <?php if (isset($_SESSION['permisos']['Citas']) && $_SESSION['permisos']['Citas']['permiso_consultar'] == '1'): ?>
+
+                                                    <li>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/citas/gestionarcitas">
+                                                            <i class="fas fa-calendar-check"></i> General de Citas</a>
+                                                    </li>
+                                                <?php endif; ?>
+                                            </ul>
+                                        </li>
+
+                                    <?php endif; ?>
+                                        
+                                    <?php if ((isset($_SESSION['permisos']['Citas']) && $_SESSION['permisos']['Citas']['permiso_insercion'] == '1') || isset($_SESSION['permisos']['Citas']) && $_SESSION['permisos']['Citas']['permiso_consultar'] == '1'):
+                                        ?>
+
+
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle active" href="#" id="dropdown05" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa-light fa-hospital-user"></i>  Laboratorios</a>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown05">
+
+                                                <?php if (isset($_SESSION['permisos']['Citas']) && $_SESSION['permisos']['Citas']['permiso_insercion'] == '1'): ?>
+                                                    <li>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>">
+                                                            <i class="fas fa-edit"></i>  Laboratorio Clinico</a>
+                                                    </li>
+                                                <?php endif; ?>
+
+                                                <?php if (isset($_SESSION['permisos']['Citas']) && $_SESSION['permisos']['Citas']['permiso_consultar'] == '1'): ?>
+
+                                                    <li>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>">
+                                                            <i class="fas fa-calendar-check"></i> Laboratorio de Imagen</a>
+                                                    </li>
+                                                <?php endif; ?>
+                                            </ul>
+                                        </li>
+
+                                    <?php endif; ?>
+
+                                    <?php
+                                    if ((isset($_SESSION['permisos']['Medicos']) && $_SESSION['permisos']['Medicos']['permiso_consultar'] == '1') || (isset($_SESSION['permisos']['Medicos']) && $_SESSION['permisos']['Medicos']['permiso_triaje'] == '1') || (isset($_SESSION['permisos']['Medicos']) && $_SESSION['permisos']['Medicos']['permiso_expedientes'] == '1')):
+                                        ?>
+
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle active" href="#" id="dropdown05" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa fa-user-md"></i></i>  Gestión de Consultas</a>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown05">
+
+                                                <?php if (isset($_SESSION['permisos']['Medicos']) && $_SESSION['permisos']['Medicos']['permiso_triaje'] == '1'): ?>
+
+                                                    <li>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/pacientes/triaje">
+                                                            <i class="fa-regular fa-calendar-pen"></i> Triaje de Pacientes</a>
+                                                    </li>
+                                                <?php endif; ?>
+
+                                                <?php if (isset($_SESSION['permisos']['Medicos']) && $_SESSION['permisos']['Medicos']['permiso_consultar'] == '1'): ?>
+
+                                                    <li>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/pacientes/consultas">
+                                                            <i class="fa-regular fa-hand-holding-medical"></i>Consultas Medicas</a>
+                                                    </li>
+
+                                                <?php endif; ?>
+
+                                                <?php if (isset($_SESSION['permisos']['Medicos']) && $_SESSION['permisos']['Medicos']['permiso_consultar'] == '1'): ?>
+
+                                                  
+                                                <?php endif; ?>
+
+                                                <?php if (isset($_SESSION['permisos']['Medicos']) && $_SESSION['permisos']['Medicos']['permiso_expedientes'] == '1'): ?>
+
+                                                    <li>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/pacientes/historicopacientes">
+                                                            <i class="fas fa-calendar-plus"></i>Historico de Expedientes</a>
+                                                    </li>
+
+                                                <?php endif; ?>
+                                            </ul>
+                                        </li>
+
+                                    <?php endif; ?>
+
+                                    <!--endif la sesion -->
+
+                                <?php endif; ?>
+                                <!--final-->       
+
+
+                                <?php if (isset($_SESSION["auth"]) || isset($_SESSION["inicio_1"])): ?>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle active " href="#" id="dropdown05" 
+                                           data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-light fa-user-unlock"></i> <?php echo $nombre_usuario ?> </a>
+
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown05">
+                                            <li>
+                                                <a class="dropdown-item" data-toggle-'modal' data- href="javascript:mostrarCambioPass()">
+                                                    <i class="fas fa-key"></i>  Cambiar Contraseña</a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item" data-toggle-'modal' data- href="javascript:mostrarCambioCorreo()">
+                                                    <i class="fas fa-envelopes-bulk"></i>  Cambiar Correo</a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item" href="<?php echo $this->basePath() ?>/usuarios/cerrarsesion"> 
+                                                    <i class="fas fa-sign-in-alt"></i>  Cerrar Sesión</a>
+                                            </li>
+
+                                        </ul>
+
+                                    </li>
+                                <?php endif; ?>
+                            </ul>
+
+                            <!--       Final menú superior-->
+
+                        </div>
+                    </div>
+                </nav>
+            </div>
+
+
+            <div class="row" style="min-height: 800px;" >
+                <?php if (isset($_SESSION["auth"])): ?>
+                    <!--        Menú lateral-->
+
+                    <?php
+                    if ((isset($_SESSION['permisos']['Mantenimientos']) && $_SESSION['permisos']['Mantenimientos']['permiso_consultar'] == '1') || isset($_SESSION['permisos']['Seguridad']) && $_SESSION['permisos']['Seguridad']['permiso_consultar'] == '1')
+                        :
+                        ?>
+
+                        <div class="offcanvas offcanvas-start " tabindex="-1" id="offcanvas" data-bs-keyboard="true" data-bs-backdrop="false" style="background-color: var(--bs-bg-color-menu);">
+                            <div class="side-menu">
+                                <div class="offcanvas-header">
+                                    <h6 class="offcanvas-title d-none d-sm-block" id="offcanvas"><i class="fal fa-lg fa-bars mx-2"></i>Panel de Opciones</h6>
+                                    <button type="button" class="btn-collapse-left mt-1 " data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                </div>
+                                <div class="offcanvas-body px-0">
+                                    <div class="" id="accordionExample">
+
+                                        <?php
+                                        if ((isset($_SESSION['permisos']['Seguridad']) && $_SESSION['permisos']['Seguridad']['permiso_consultar'] == '1'))
+                                            :
+                                            ?>
+                                            <div class=" ">
+                                                <h5 class="accordion-header" id="menu_heading_1 accordion-icn" data-bs-toggle="collapse" data-bs-target="#menu_1" aria-expanded="false" aria-controls="menu_1">
+                                                    <i class="fal fa-lg fa-lock-keyhole "></i>  Seguridad 
+                                                </h5>
+                                                <div id="menu_1" class="accordion-collapse collapse" aria-labelledby="menu_heading_1" data-bs-parent="#accordionExample">
+                                                    <div class="accordion-body">
+
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/usuarios">
+                                                            <i class="fas fa-users-gear"></i>  Usuarios</a>
+
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/roles">
+                                                            <i class="fas fa-server"></i>  Roles</a>
+
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/permisos">
+                                                            <i class="fas fa-unlock-alt"></i>  Permisos</a>
+
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/parametros">
+                                                            <i class="fas fa-cogs"></i>  Parametros</a>
+
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/bitacoras">
+                                                            <i class="far fa-list-alt"></i>  Bitacora</a>
+
+
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/objetos">
+                                                            <i class="fas fa-cubes"></i>  Objetos</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+
+                                        <?php
+                                        if ((isset($_SESSION['permisos']['Mantenimientos']) && $_SESSION['permisos']['Mantenimientos']['permiso_consultar'] == '1'))
+                                            :
+                                            ?>
+                                            <div class="">
+                                                <h5   class="accordion-header " id="menu_heading_2" data-bs-toggle="collapse" data-bs-target="#menu_2" aria-expanded="false" aria-controls="menu_2">
+                                                    <i class="fal  fa-lg fa-screwdriver-wrench"></i>  Mantenimientos
+                                                </h5>
+                                                <div id="menu_2" class="accordion-collapse collapse" aria-labelledby="menu_heading_2" data-bs-parent="#accordionExample">
+                                                    <div class="accordion-body">
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/mantenimientos/dependencias">
+                                                            <i class="fa-light fa-table-pivot"></i>  Dependecias</a>
+
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/mantenimientos/departamentos">
+                                                            <i class="fa-light fa-table-tree"></i>  Departamentos</a>
+
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/mantenimientos/rangos">
+                                                            <i class="fa-light fa-diagram-nested"></i>  Rangos</a>
+
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/mantenimientos/categorias">
+                                                            <i class="fa-light fa-diagram-nested"></i>  Categorias</a>
+
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/mantenimientos/especialidades">
+                                                            <i class="fa-light fa-diagram-nested"></i>  Especialidades</a>
+
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/mantenimientos/ecivil">
+                                                            <i class="fa-light fa-diagram-nested"></i>  Estado Civil</a>
+
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/mantenimientos/sucursales">
+                                                            <i class="fa-light fa-planet-moon"></i>  Sucursales</a>
+
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/mantenimientos/estadosu">
+                                                            <i class="fa-light fa-user-bounty-hunter"></i>  Estado De Usuarios</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                        <?php
+                                        if ((isset($_SESSION['permisos']['Mantenimientos']) && $_SESSION['permisos']['Mantenimientos']['permiso_consultar'] == '1'))
+                                            :
+                                            ?>
+                                            <div class="">
+                                                <h5   class="accordion-header " id="menu_heading_3" data-bs-toggle="collapse" data-bs-target="#menu_3" aria-expanded="false" aria-controls="menu_3">
+                                                    <i class="fal  fa-lg fa-screwdriver-wrench"></i>  Mantenimientos Laboratorio
+                                                </h5>
+                                                <div id="menu_3" class="accordion-collapse collapse" aria-labelledby="menu_heading_3" data-bs-parent="#accordionExample">
+                                                    <div class="accordion-body">
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/mantenimientos/tiposoli">
+                                                            <i class="fa-light fa-table-pivot"></i>  Tipo de Solicitud</a>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/mantenimientos/estadosoli">
+                                                            <i class="fa-light fa-table-pivot"></i>  Estado de solicitud</a>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/mantenimientos/tipodato">
+                                                            <i class="fa-light fa-table-pivot"></i>  Tipo de dato para valores</a>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/mantenimientos/categoriavalor">
+                                                            <i class="fa-light fa-table-pivot"></i>  Categoria valor</a>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/mantenimientos/tipoexamen">
+                                                            <i class="fa-light fa-table-pivot"></i>  Tipo de Examen</a>
+                                                        <a class="dropdown-item" href="<?php echo $this->basePath() ?>/mantenimientos/firmasello">
+                                                            <i class="fa-light fa-table-pivot"></i>  Firma y Sello</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--      Final Menú lateral-->
+                    <?php endif; ?>
+                <?php endif; ?>
+
+
+                <div class="col-12">
+
+
+                    <!--Contenido-->
+
+                    <?php echo $this->content; ?>
+
+
+                    <!--Final Contenido-->
+                </div>
+            </div>
+
+            <div class="container">
+                <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                    <div class="col-md-4 d-flex align-items-center">
+                        <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+                            <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+                        </a>
+                        <span class="text-muted">&copy; 2021 Company, Inc</span>
+                    </div>
+
+                    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                        <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"/></svg></a></li>
+                        <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"/></svg></a></li>
+                        <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"/></svg></a></li>
+                    </ul>
+                </footer>
+            </div>
+            <?php if (isset($_SESSION["auth"])): ?>
+                <!--            Modal de cambio de contraseña-->
+
+                <div class="modal fade" id="mod_camb_pass" tabindex="-1" role="dialog" aria-labelledby="camb_pass" aria-hidden="true">
+                    <div class="modal-dialog" role="document"> 
+
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="camb_pass">Cambio de Contraseña</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/usuarios/contrasena" enctype="multipart/form-data" data-parsley-validate >
+                                <div class="modal-body">
+
+
+                                    <div class="form-group">
+                                        <label for="contra_actual" class="col-form-label">Contraseña Actual:</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" name="pass_anterior" id="contra_actual"
+                                                   data-parsley-errors-container="#err_contra_actual"
+                                                   required="">
+                                            <span class="input-group-text" onclick="mostrarContrasena('contra_actual')"><i id="icon_contra_actual" class="fad fa-eye"></i></span>
+                                        </div>
+                                        <div id="err_contra_actual"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ncontra" class="col-form-label">Nueva Contraseña:</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" name="contrasenia" id="ncontra"
+                                                   data-parsley-pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$-$_]*$" 
+                                                   data-parsley-errors-container="#err_ncontra"
+                                                   data-parsley-pattern-message="debe contener al menos 1 número,1 mayúscula y 1 carácter especial" required="">
+                                            <span class="input-group-text" onclick="mostrarContrasena('ncontra')"><i id="icon_ncontra" class="fad fa-eye"></i></span>
+                                        </div>
+                                        <div id="err_ncontra"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="rpass-name" class="col-form-label">Confirmar Contraseña:</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" name="rpass" id="rpass-name"
+                                                   data-parsley-range="[<?php echo $min_contra; ?>,<?php echo $max_cantra; ?>]" class="form-control" 
+                                                   required data-parsley-equalto="#ncontra" 
+                                                   data-parsley-errors-container="#err_rpass-name"
+                                                   data-parsley-equalto-message="Las contraseñas son distintas.">
+                                            <span class="input-group-text" onclick="mostrarContrasena('rpass-name')"><i id="icon_rpass-name" class="fad fa-eye"></i></span>
+                                        </div>
+                                        <div id="err_rpass-name"></div>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
+                                </div> 
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal fade" id="mod_camb_correo" tabindex="-1" role="dialog" aria-labelledby="mod_camb_correo" aria-hidden="true">
+                    <div class="modal-dialog" role="document"> 
+
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="camb_pass">Cambio de Correo</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+                            <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/usuarios/cambiocorreo" enctype="multipart/form-data" data-parsley-validate >
+                                <div class="modal-body">
+
+                                    <div class="form-group">
+                                        <label for="recipient-name" class="col-form-label">Nuevo correo:</label>
+                                        <input type="email" class="form-control" name="correo" id="correo_anterior" required="">
+                                    </div>
+
+                                    <div class="form-group mt-2">
+                                        <label for="typeEmailX">Introduzca su contraseña:</label>
+                                        <div class="input-group">
+                                            <input type="password"  name="contrasenia" class="form-control form-control-lg" id="contrasenia2"  
+                                                   autocomplete="off" required=""
+                                                   data-parsley-errors-container="#err_contrasenia2"
+                                                   placeholder="Introduzca su contraseña">
+                                            <span class="input-group-text" onclick="mostrarContrasena('contrasenia2')"><i id="icon_contrasenia2" class="fad fa-eye"></i></span>
+                                        </div>
+                                        <div id="err_contrasenia2"></div>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Cambiar Correo</button>
+                                </div> 
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+        </main>
+
+        <script>
+
+            function mostrarCambioCorreo() {
+
+                var mod_camb_correo = new bootstrap.Modal(document.getElementById('mod_camb_correo'), {
+                    keyboard: false
+                });
+                mod_camb_correo.show();
+            }
+
+            function mostrarContrasena(id) {
+
+                var tipo = document.getElementById(id);
+                if (tipo.type === "password") {
+                    tipo.type = "text";
+                    $('#icon_' + id).removeClass('fa-eye');
+                    $('#icon_' + id).addClass('fa-eye-slash');
+                } else {
+                    tipo.type = "password";
+                    $('#icon_' + id).removeClass('fa-eye-slash');
+                    $('#icon_' + id).addClass('fa-eye');
+                }
+            }
+
+            function mostrarCambioPass() {
+
+                var mod_camb_pass = new bootstrap.Modal(document.getElementById('mod_camb_pass'), {
+                    keyboard: false
+                });
+                mod_camb_pass.show();
+            }
+
+
+        </script>
+
+
+        <!-- Javascript para Bootstrap-->
+        <script src="<?php echo $this->basePath() ?>/Theme/js/bootstrap.bundle.min.js"></script>
+
+        <?php echo $this->inlineScript() ?>
+
+        <?php if (isset($_SESSION['mnsError'])) : ?>
+            <!-- Mensaje error -->
+            <script>
+            mensajeERROR('<?php echo $_SESSION['mnsError']['titulo']; ?>', '<?php echo $_SESSION['mnsError']['texto']; ?>');
+            </script>
+            <?php unset($_SESSION['mnsError']); ?>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['mnsAutoError'])) : ?>
+            <!-- Mensaje error -->
+            <script>
+                mensajeAutoERROR('<?php echo $_SESSION['mnsAutoError']['titulo']; ?>', '<?php echo $_SESSION['mnsAutoError']['texto']; ?>');
+            </script>
+            <?php unset($_SESSION['mnsAutoError']); ?>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['mnsAutoWarning'])) : ?>
+            <!-- Mensaje Warning -->
+            <script>
+                mensajeAutoWARNING('<?php echo $_SESSION['mnsAutoWarning']['titulo']; ?>', '<?php echo $_SESSION['mnsAutoWarning']['texto']; ?>');
+            </script>
+            <?php unset($_SESSION['mnsAutoWarning']); ?>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['mnsAutoInfo'])) : ?>
+            <!-- Mensaje Info auto -->
+            <script>
+                mensajeAutoINFO('<?php echo $_SESSION['mnsAutoInfo']['titulo']; ?>', '<?php echo $_SESSION['mnsAutoInfo']['texto']; ?>');
+            </script>
+            <?php unset($_SESSION['mnsAutoInfo']); ?>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['mnsAutoOK'])) : ?>
+            <!-- Mensaje OK auto -->
+            <script>
+                mensajeAutoSUCCESS('<?php echo $_SESSION['mnsAutoOK']['titulo']; ?>', '<?php echo $_SESSION['mnsAutoOK']['texto']; ?>');
+            </script>
+            <?php unset($_SESSION['mnsAutoOK']); ?>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['mnsInfo'])) : ?>
+            <!-- Mensaje Info auto -->
+            <script>
+                mensajeINFO('<?php echo $_SESSION['mnsInfo']['titulo']; ?>', '<?php echo $_SESSION['mnsInfo']['texto']; ?>');
+            </script>
+            <?php unset($_SESSION['mnsInfo']); ?>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['mnsWar'])) : ?>
+            <!-- Mensaje Info auto -->
+            <script>
+                mensajeWARNING('<?php echo $_SESSION['mnsWar']['titulo']; ?>', '<?php echo $_SESSION['mnsWar']['texto']; ?>');
+            </script>
+            <?php unset($_SESSION['mnsWar']); ?>
+        <?php endif; ?>
+
+    </body>
+</html>
+

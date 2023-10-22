@@ -1,0 +1,165 @@
+<?php
+$this->headTitle("FHEP | Reportes");
+$this->head;
+?>
+<!-- DataTable -->
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_list_bitacora.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+<div class="container mt-4">
+    <!-- encabezado -->
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-7">
+                <h2>Reportes Generales </h2>
+                <em>Reportes Generales.</em>
+            </div>
+            <div class="col-lg-5" style="margin-top: 0px;">
+                <div class="btn-group pull-right" style="padding-top: 10px;">
+                    <a href="<?php echo $this->basePath(); ?>/"  class="btn btn-primary btn-sm"><span class="fa-solid fa-circle-arrow-left"></span>  Regresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /encabezado -->
+    <!--<div class="border " style="padding: 10px; min-height: 700px;">-->
+
+
+
+
+    <div class="box-header with-border ">
+
+        <div class="shadow p-2">
+            <center><h5 class="">Seleccione un Reporte:</h5></center> 
+            <div class="row ">
+                <div class="col-md-3 ">
+                    <div class="form-group">
+                        <label for="rol" ><i class="fa-duotone fa-file-chart-column"></i> Lista de Reportes:</label>
+                        <select class="form-control" id="reporte" data-parsley-group="block1"  name="reporte" >
+                            <option  title="" value="" >Seleccione el Tipo de Reporte</option>
+                            <option  title="" value="gettablarepafiliados" >Reporte de Afiliados</option>
+                            <option  title="" value="gettablarepcitas" >Reporte de Citas</option>
+                        </select>
+                    </div>                   
+                </div>
+
+
+
+                <div class ="col-sm-3 "> 
+                    <div class="form-group">
+                        <label for="fi">Rango Inicio *</label>
+                        <input type="date" maxlength="15" id="fi" name="fi"  required="required" class="form-control" data-parsley-group="block1"
+                               />
+                    </div> 
+                </div> 
+                <div class ="col-sm-3">
+                    <div class="form-group">
+                        <label for="ff">Rango Final *</label>
+                        <input type="date" maxlength="15" id="ff" name="ff"  required="required" class="form-control" data-parsley-group="block1"
+                               />
+                    </div>
+                </div>
+
+
+                <div class="col-sm-3 mt-4 me-auto">
+                    <center> <a href="javascript:actualizarTabla2()"  class="btn btn-primary"><span class="fas fa-arrows-rotate"></span> Generar</a> </center>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="border " style="padding: 10px;">
+
+            <!-- /.box-header -->
+            <div class="content">
+                <div class="row">
+                    <h3><span id="titulo"></span></h3>
+                    <div class="col-sm-9  me-auto">
+                        <div class="form-group" style="padding-top: 30px; ">
+                            Mostrando 
+                            <select class="form-contr" id="pagesizes" data-parsley-group="block2" name="pagesizes">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="500">500</option>
+                            </select>
+                            Resultados por página
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 ms-auto">
+                        <div class="input-group flex-nowrap">
+                            <label></label>
+                            <input type="text" class="form-control" id="filter"  autocomplete="off" placeholder="">
+                            <span class="input-group-text" ><i class="bi bi-std bi-search form-control-feedback"></i></span>
+                        </div>
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12 ">
+                        <!-- Grid contents -->
+                        <div id="divtabla" style="min-height: 400px; overflow-x: auto;">
+                            <center>
+                                <div style="margin: 100px;">
+                                    <span id="gif">            
+                                    </span>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                <!-- Paginator control -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="paginator" class="pull-right"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    
+    direcciones("<?php echo $this->basePath() ?>/reportes/gettablavacia", "<?php echo $this->basePath() ?>");
+    var datagrid = new DatabaseGrid("tbl_reportes");
+
+    window.onload = function () {
+        $("#filter").keyup(function () {
+            datagrid.editableGrid.filter($(this).val());
+        });
+        $("#pagesizes").change(function () {
+            datagrid.editableGrid.setPageSize($(this).val());
+        });
+    };
+    
+    function actualizarTabla2() {
+        var fi = $('#fi').val();
+        var ff = $('#ff').val();
+
+        var act = $('#reporte option:selected').val();
+        var act_txt = $('#reporte option:selected').text();
+        
+        $('#titulo').html(act_txt);
+        $('#gif').html("<img src=\"<?php echo $this->basePath(); ?>/img/ajax-loader.gif\" width=\"80\" >");
+        var url = "<?php echo $this->basePath() ?>/reportes/" + act + "/" + fi + "/" + ff;
+
+        direcciones(url, "<?php echo $this->basePath() ?>");
+        datagrid = new DatabaseGrid("tbl_reportes");
+
+    }
+
+</script>

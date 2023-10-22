@@ -1,0 +1,1211 @@
+
+<?php
+$this->headTitle("FHEP|Nueva Persona en Afiliación");
+$this->head;
+$info_afiliado = $this->afiliado;
+
+//echo "<pre>";
+//            print_r($info_afiliado);
+//            exit;
+$tbt_femenino = '';
+$tbt_masculino = '';
+if (strtolower($info_afiliado['genero']) == "f") {
+    $tbt_femenino = 'checked="checked"';
+} else if (strtolower($info_afiliado['genero']) == "m") {
+    $tbt_masculino = 'checked="checked"';
+}
+
+//echo "<pre>";
+//    print_r($info_afiliado);
+//    exit;
+?>
+<!-- DataTable -->
+
+<?php $this->headScript()->prependFile($this->basePath() . '/theme/js/jquery.maskedinput.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablas/js/jquery.dataTables.js') ?>
+
+
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablas/css/jquery.dataTables.css') ?>
+
+
+<!-- encabezado -->
+<div class="container mt-4">
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-7">
+                <h2>Afiliados</h2>
+                <em>Nuevo Afiliado.</em>
+            </div>
+            <div class="col-lg-5" style="margin-top: 0px;">
+                <div class="btn-group pull-right" style="padding-top: 10px;">
+                    <a href="<?php echo $this->basePath(); ?>/afiliados" class="w-75 btn btn-md btn-primary next"><span class="fa-thin fa-circle-chevron-left"></span>  Regresar</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /encabezado -->
+
+
+    <div class="bo">
+
+
+        <div class="widget box">
+            <div class="widget-header"><h3><i class="fa fa-magic"></i> Asistente de Creación de Nuevo Afiliado</h3></div>
+            <div class="widget-content">
+                <div class="wizard_form">
+                    <div id="demo-wizard" class="wizard">
+                        <ul class="">
+                            <li data-target="1" id="li_form1" class="pestania active "><span id="sp_form1" class="badge badge-info">1</span>General<span class="chevron"></span></li>
+                            <li data-target="2" id="li_form2" class="pestania"><span id="sp_form2" class="badge">2</span>Contacto<span class="chevron"></span></li>
+                            <li data-target="3" id="li_form3" class="pestania"><span id="sp_form3" class="badge">3</span>Profesional<span class="chevron"></span></li>
+                            <li data-target="4" id="li_form4" class="pestania"><span id="sp_form4" class="badge">4</span>Emergencia<span class="chevron"></span></li>
+                            <li data-target="5" id="li_form5" class="pestania"><span id="sp_form5" class="badge">5</span>Resumen<span class="chevron"></span></li>
+
+                        </ul>
+                    </div>
+                    <div class="step-content">
+                        <form id="frm_editar_afiliado" method="post" enctype="multipart/form-data" action="<?php echo $this->basePath(); ?>/afiliados/editarafiliado/<?php echo $info_afiliado['id_persona'] ?>" data-parsley-validate >
+<!--                            <input type="hidden" name="id" value="<?php echo $info_afiliado['dni'] ?>"">-->
+                            <div class="step-pane active" id="block1">
+
+                                <p>Por Favor Ingrese la información General del Afiliado<br/>
+                                    <em><small class="text-danger">Campos marcados con * son obligatorios</small></em>
+                                </p>
+                                <div class="row wizard_form " style="width: 95%;">
+
+
+
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="identidad">Número de Identidad *</label>
+                                                <input type="text"  value="<?php echo $info_afiliado['dni'] ?>" required="yes" id="n_identidad" name="dni" 
+                                                       data-parsley-pattern= "/^([0-9]{4})([1-2]{1})([0-9]{1,9})$/"
+                                                       data-parsley-minlength="13"
+                                                       maxlength="13"
+                                                       data-parsley-pattern-message="Este campo debe contener solo numeros con unformato de identidad valido ."
+                                                       class="form-control" data-parsley-group="block1" 
+                                                       >
+                                            </div>
+                                            <!--                                        required="required"-->
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="respId"></label>
+                                                <div id="respId" style="padding-top: 10px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="nombres">Nombres *</label>
+                                                <input type="text" maxlength="100" name="nombres" required="yes" id="nombres" 
+                                                       class="form-control"  data-parsley-group="block1" 
+                                                       autocomplete="off" 
+                                                       data-parsley-pattern="/^([A-Z{1}][a-zñÑáéíóúÁÉÍÓÚ ]{1,50})([A-Z{1}][a-zñÑáéíóúÁÉÍÓÚ]{1,50})|([A-Z{1}][a-zñÑáéíóúÁÉÍÓÚ]{1,50})$/"   
+                                                       data-parsley-pattern-message="Este campo debe contener la primera letra de los nombres en mayúscula." 
+                                                       value="<?php echo $info_afiliado['nombres'] ?>"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="apellidos">Apellidos *</label>
+                                                <input type="text" maxlength="100" name="apellidos" required="yes" id="apellidos" 
+                                                       class="form-control"  data-parsley-group="block1" 
+                                                       autocomplete="off" 
+                                                       data-parsley-pattern="/^([A-Z{1}][a-zñÑáéíóúÁÉÍÓÚ ]{1,50})([A-Z{1}][a-zñÑáéíóúÁÉÍÓÚ]{1,50})|([A-Z{1}][a-zñÑáéíóúÁÉÍÓÚ]{1,50})$/"   
+                                                       data-parsley-pattern-message="Este campo debe contener la primera letra de los apellidos en mayúscula."
+                                                       value="<?php echo $info_afiliado['apellidos'] ?>"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="identidad">Fecha De Naciemtento *</label>
+                                                <input type="text" value="<?php echo $info_afiliado['fecha_nacimiento'] ?>"  maxlength="15" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" data-parsley-group="block1"
+                                                       />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+
+
+
+                                            <div class="form-group">
+                                                <label for="sangre">Tipo De Sangre  *</label>
+                                                <select class="form-control" id="nombre_ts" data-parsley-group="block1" required="yes" name="id_tipo_sangre">
+                                                    <option value="<?php echo $info_afiliado['id_tipo_sangre'] ?>" ><?php echo $info_afiliado['sangre'] ?></option>
+<?php foreach ($this->san as $d) : ?> 
+                                                        <option  title="<?php echo $d['nombre_ts'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['nombre_ts'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="Estado"> Estado civil *</label>
+                                                <select class="form-control" id="nombre_es" data-parsley-group="block1" required="yes"  name="id_estado_civil">
+                                                    <option  value="<?php echo $info_afiliado['id_estado_civil'] ?>" ><?php echo $info_afiliado['sta_civlil'] ?></option>
+<?php foreach ($this->est as $d): ?>
+
+                                                        <option  title="<?php echo $d['nombre_es'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['nombre_es'] ?></option>
+
+<?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="departamento">Lugar de Nacimiento *</label>
+                                                <select class="form-control" id="nombre_de" data-parsley-group="block1" required="yes"  name="departamento">
+                                                    <option value="<?php echo $info_afiliado['id_dep'] ?>" ><?php echo $info_afiliado['dep_origen'] ?></option>
+<?php foreach ($this->asi as $d): ?>
+                                                        <option  title="<?php echo $d['nombre_d'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['nombre_d'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+
+
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="genero">Genero *</label>
+                                                <div style="margin-left: 30px;">
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio"  name="genero" <?php echo $tbt_masculino ?> id="genero1" required="required" value="M"  required="required" data-parsley-group="block1" >
+                                                            Masculino
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio"  name="genero"  id="tbt_femenino" <?php echo $tbt_femenino ?> required="required" value="F"> 
+                                                            Femenino
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                    </div>
+                                    <div class="col-md-3">
+
+                                        <button type="button" class="w-100 btn btn-lg btn-primary next" data-current-block="1" data-next-block="2">Siguiente  <i class="bi bi-std-12 bi-arrow-right"></i></button>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+                            <div class="step-pane" id="block2">
+                                <p>Por Favor Ingrese la Información de Contacto<br/>
+                                    <em><small class="text-danger">Campos marcados con * son obligatorios</small></em>
+                                </p>
+                                <div class="row wizard_form">
+
+                                    <!-- Aquí los elementos del formulario-->
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="tel_fijo">Teléfono Fijo</label>
+                                                <input type="texto" maxlength="8" name="telefono" id="tel_fijo" 
+                                                       class="form-control"  data-parsley-group="block2" autocomplete="off"
+                                                       <!-- data-parsley-pattern="/^([0-9]{4}[0-9]{4})$/" 
+                                                       data-parsley-pattern-message="Este campo debe contener solo números 99999999."
+                                                       value="<?php echo $info_afiliado['telefono'] ?>"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="celular">Celular *</label>
+                                                <input type="texto" maxlength="8" name="celular" required="yes" id="celular_r" class="form-control"  data-parsley-group="block2" 
+                                                       autocomplete="off"  
+                                                       <!-- data-parsley-pattern="/^([0-9]{4}[0-9]{4})$/" 
+                                                       data-parsley-pattern-message="Este campo debe contener solo números 99999999."
+                                                       value="<?php echo $info_afiliado['celular'] ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input<label for="direccion"> Domicilio Actual de Residencia *</label>
+                                                <textarea  class="form-control" rows="3" style="resize: none;" required="yes" id="domicilio_actual" 
+                                                           name="domicilio_actual" data-parsley-group="block2"   
+                                                           placeholder="Ingrese la dirección"><?php echo $info_afiliado['domicilio_actual'] ?></textarea>
+
+                                                <!--text-transform:uppercase--> 
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <button type="button" class="w-100 btn btn-lg btn-primary next" data-current-block="2" data-next-block="1"><i class="fa fa-arrow-left"></i>  Atras </button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="w-100 btn btn-lg btn-primary next" data-current-block="2" data-next-block="3">Siguiente  <i class="fa fa-arrow-right"></i></button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step-pane" id="block3">
+
+                                <p>Por Favor Ingrese la Información solicitada<br/>
+                                    <em><small class="text-danger">Campos marcados con * son obligatorios</small></em>
+                                </p>
+
+                                <div class="row wizard_form">
+                                    <!-- Aquí los elementos del formulario-->
+
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="dependencia">Dependecia *</label>
+                                                <select class="form-control" id="nombre_dp" data-parsley-group="block3" required="required"  name="id_cod_dependencia">
+                                                    <option  value="<?php echo $info_afiliado['id_cod_dependencia'] ?>" ><?php echo $info_afiliado['dependencia'] ?></option>
+<?php foreach ($this->dep as $d): ?>
+                                                        <option  title="<?php echo $d['nombre_dp'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['nombre_dp'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="asignacion">Departamento De Asignacion *</label>
+                                                <select class="form-control" id="asignacion" data-parsley-group="block3" required="yes"  name="id_departamento">
+                                                    <option  value="<?php echo $info_afiliado['id_asignacion'] ?>" ><?php echo $info_afiliado['asiganacion'] ?></option>
+<?php foreach ($this->asi as $d): ?>
+
+                                                        <option  title="<?php echo $d['nombre_d'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['nombre_d'] ?></option>
+
+<?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="id_categoria">Categoria  *</label>
+                                                <select class="form-control" id="nombre_c" data-parsley-group="block3" required="yes"  name="id_categoria">
+                                                    <option  value="<?php echo $info_afiliado['id_categoria'] ?>" ><?php echo $info_afiliado['categoria'] ?></option>
+<?php foreach ($this->cat as $d): ?>
+
+                                                        <option  title="<?php echo $d['nombre_c'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['nombre_c'] ?></option>
+
+<?php endforeach; ?>
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="rango">Rango *</label>
+                                                <select class="form-control" id="rango" data-parsley-group="block3" required="yes" name="id_rango">
+                                                    <option value="<?php echo $info_afiliado['id_rango'] ?>" ><?php echo $info_afiliado['rango'] ?></option>
+<?php foreach ($this->ran as $d): ?>
+
+                                                        <option  title="<?php echo $d['nombre_r'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['nombre_r'] ?></option>
+
+<?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="tel_fijo">N° Placa</label>
+                                                <input type="texto" maxlength="15" name="n_placa_policial" id="n_placa_policial" class="form-control"  data-parsley-group="block3" autocomplete="off"
+                                                       placeholder="____-____"/
+                                                       value="<?php echo $info_afiliado['placa'] ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <button type="button" class="w-100 btn btn-lg btn-primary next" data-current-block="3" data-next-block="2"><i class="fa fa-arrow-left"></i>  Atras </button>
+                                    </div>
+                                    <div class="col-md-3">
+
+                                        <button type="button" class="w-100 btn btn-lg btn-primary next" data-current-block="3" data-next-block="4">Siguiente  <i class="fa fa-arrow-right"></i></button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="step-pane" id="block4">
+
+                                <p>Por Favor Ingrese el Contacto de Emergencia<br/>
+    <!--                                <em><small class="text-danger">Ingrese un contacto de emergencia</small></em>-->
+                                </p>
+
+                                <div class="row wizard_form">
+                                    <!-- Aquí los elementos del formulario-->
+
+                                    <div class="row ">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="nombre_emergencia_1">Nombres Completo del Contacto *</label>
+                                                <input type="text" maxlength="80" name="nom_contacto_emergencia"  id="nom_contacto_emergenciacel_emergencia" 
+                                                       class="form-control"  data-parsley-group="block4"  autocomplete="off" required="yes" "
+                                                       data-parsley-pattern="/^([a-zA-Z0-9_- ñÑáéíóúÁÉÍÓÚ]{5,80})$/" 
+                                                       data-parsley-pattern-message="Este campo debe contener al menos 2 caracteres." 
+                                                       value="<?php echo $info_afiliado['Nom_contacto_emergencia'] ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="telefono_contacto_emergencia">Telefono *</label>
+                                                <input type="text" maxlength="8" name="telefono_contacto_emergencia" required="yes" id="telefono_contacto_emergencia" 
+                                                       class="form-control"  data-parsley-group="block4" autocomplete="off"
+                                                       <!-- data-parsley-pattern="/^([0-9]{4}[0-9]{4})$/" 
+                                                       data-parsley-pattern-message="Este campo debe contener solo números 99999999."
+                                                       value="<?php echo $info_afiliado['telefono_contacto_emergencia'] ?>">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <button type="button" class="w-100 btn btn-lg btn-primary next" data-current-block="4" data-next-block="3"><i class="fa fa-arrow-left"></i>  Atras </button>
+                                    </div>
+                                    <div class="col-md-3">
+
+                                        <button type="button" class="w-100 btn btn-lg btn-primary next" data-current-block="4" data-next-block="5">Siguiente  <i class="bi bi-std-12 bi-arrow-right"></i></button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--                        <div class="step-pane" id="block5">
+                            
+                                                        <p>Por Favor Ingrese la información de los beneficiarios<br/>
+                                                            <em><small class="text-danger">Campos marcados con * son obligatorios</small></em>
+                                                        </p>
+                            
+                                                        <div class="row wizard_form">
+                                                             Aquí los elementos del formulario
+                                                            <div class="rows box box-primary" style="width: 98%; padding: 10px;">
+                            
+                                                                <div class="row ">
+                                                                    <div class="col-md-12">
+                                                                        <h5>Beneficiario</h5>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row ">
+                                                                    <div class="col-lg-3">
+                                                                        <div class="form-group">
+                                                                            <label for="identidad_beneficiario">Número de Identidad *</label>
+                                                                            <input type="text" maxlength="15" id="identidad_beneficiario[]" name="identidad_beneficiario[]" 
+                                                                                   class="form-control identidad_beneficiario"  data-parsley-group="block5" placeholder="____-____-_____" 
+                                                                                   />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <div class="form-group">
+                                                                            <label for="nombre_completo_beneficiario">Nombres Completo del Beneficiario *</label>
+                                                                            <input type="text" maxlength="120" name="nombre_completo_beneficiario[]" id="nombre_completo_beneficiario[]" 
+                                                                                   class="form-control"  data-parsley-group="block5"  autocomplete="off" style="text-transform:uppercase;"
+                                                                                   data-parsley-pattern="/^([a-zA-Z0-9_- ñÑáéíóúÁÉÍÓÚ]{2,120})$/" 
+                                                                                   data-parsley-pattern-message="Este campo debe contener al menos 2 caracteres." />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <div class="form-group">
+                                                                            <label for="parentezco">Parentesco *</label>
+                                                                            <input type="text" maxlength="120" name="parentezco[]" id="parentezco[]" 
+                                                                                   class="form-control"  data-parsley-group="block5"  autocomplete="off" style="text-transform:uppercase;"
+                                                                                   data-parsley-pattern="/^([a-zA-Z0-9_- ñÑáéíóúÁÉÍÓÚ]{2,120})$/" 
+                                                                                   data-parsley-pattern-message="Este campo debe contener al menos 2 caracteres." />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row ">
+                                                                    <div class="col-md-3">
+                                                                        <div class="form-group">
+                                                                            <label for="telefono_fijo_beneficiario">Teléfono Fijo</label>
+                                                                            <input type="text" maxlength="10" name="telefono_fijo_beneficiario[]" id="telefono_fijo_beneficiario[]" 
+                                                                                   class="form-control telefono_fijo_beneficiario" data-parsley-group="block5" autocomplete="off"
+                                                                                   placeholder="____-____"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <div class="form-group">
+                                                                            <label for="celular_beneficiario">Celular </label>
+                                                                            <input type="text" maxlength="10" name="celular_beneficiario[]" id="celular_beneficiario[]" 
+                                                                                   class="form-control celular_beneficiario"  data-parsley-group="block5" autocomplete="off"
+                                                                                   placeholder="____-____"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <div class="form-group">
+                                                                            <label for="porcentaje_beneficiario">Porcentaje *</label>
+                                                                            <div class="input-group">
+                                                                                <input type="text" maxlength="5" id="porcentaje_beneficiario[]" name="porcentaje_beneficiario[]" 
+                                                                                       class="form-control porcentaje_beneficiario" 
+                                                                                       data-parsley-pattern="/^([1]?[0-9]{1,2}[.][0-9][0-9]?)$/" 
+                                                                                       data-parsley-group="block5"   placeholder="Monto que será repartido" 
+                                                                                       title="Ingrese el porcentaje."/>
+                                                                                <span class="input-group-addon"> % </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                            
+                                                            </div>
+                            
+                                                            <div id="listas">
+                            
+                                                            </div>
+                            
+                                                            <div class="col-md-2">
+                                                                <a href="javascript:nuevoBeneficiario()" id="nuevoBeneficiario" title="Agregar un nuevo beneficiario." class="btn  btn-primary"><span class="bi bi-std-12 bi-plus-lg"></span> Nuevo Beneficiario</a>
+                                                            </div>
+                            
+                            
+                            
+                            
+                            
+                            
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                            
+                                                                <button type="button" class="w-100 btn btn-lg btn-primary next" data-current-block="5" data-next-block="4"><i class="bi bi-std-12 bi-arrow-left"></i>  Atras </button>
+                                                            </div>
+                                                            <div class="col-md-3">
+                            
+                                                                <button type="button" class="w-100 btn btn-lg btn-primary next" data-current-block="5" data-next-block="6">Siguiente  <i class="bi bi-std-12 bi-arrow-right"></i></button>
+                                                            </div>
+                                                        </div>
+                            
+                                                    </div>-->
+                            <div class="step-pane" id="block5">
+
+                                <p>Por Favor Confirme la Información Ingresada<br/>
+                                    <em><small class="text-danger">Campos marcados con * son obligatorios</small></em>
+                                </p>
+
+                                <div class="row wizard_form">
+
+                                    <div style="width: 98%; padding: 10px;">
+                                        <table class="table">
+
+                                            <tr>
+                                                <th colspan="2" style="text-align: center; font-size: 15px;">INFORMACIÓN GENERAL</th>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Identidad:</th><td><span id="p_identidad"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Nombres :</th><td><span id="p_nombres"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Apellidos:</th><td><span id="p_apellidos"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Fecha de Nacimiento:</th><td><span id="p_nacimiento"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Tipo de Sangre:</th><td><span id="p_t_sangre"></span></td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Estado Civil:</th><td><span id="p_est_civil"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Lugar de Nacimiento:</th><td><span id="p_lugarn"></span></td>
+                                            </tr>
+
+                                            <tr>
+                                                <th colspan="2" style="text-align: center; font-size: 15px;">INFORMACIÓN DE CONTACTO</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Teléfono Fijo:</th><td><span id="p_tel_fijo"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Teléfono Celular:</th><td><span id="p_cel"></span></td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Dirección Actual de Residencia:</th><td><span id="p_direccion"></span></td>
+                                            </tr>
+
+                                            <tr>
+                                                <th colspan="2" style="text-align: center; font-size: 15px;">INFORMACIÓN PROFESIONAL</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Dependencia:</th><td><span id="p_dependencia"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Departamento de Asignación:</th><td><span id="p_asignacion"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Categoria:</th><td><span id="p_categoria"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Rango:</th><td><span id="p_rangos"></span></td>
+                                            </tr>
+
+                                            <tr>
+                                                <th colspan="2" style="text-align: center; font-size: 15px;">CONTACTOS DE EMERGENCIA</th>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <table style="width: 100%;" class="table">
+                                                        <tr>
+                                                            <th>Nombre</th><th>Telefono Fijo</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span id="p_nom_eme"></span></td><td><span id="p_tel_eme"></span></td><td><span id="p_cel_eme_1"></span></td>
+                                                        </tr>
+<!--                                                        <tr>
+                                                            <td><span id="p_nom_eme_2"></span></td><td><span id="p_tel_eme_2"></span></td><td><span id="p_cel_eme_2"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span id="p_nom_eme_3"></span></td><td><span id="p_tel_eme_3"></span></td><td><span id="p_cel_eme_3"></span></td>
+                                                        </tr>-->
+
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+    <!--                                            <th colspan="2" style="text-align: center; font-size: 15px;">Información de Beneficiarios</th>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" id="tabla_ben">
+    
+                                                </td>
+                                            </tr>-->
+
+
+                                        </table>
+                                    </div>
+
+                                    <div class="col-md-6" style="margin-left: 30px; margin-right: 30px;">
+                                        <div class="checkbox"  title="Confirmar que los datos se verificaron y está seguro de agregar a esta persona.">
+                                            <label>
+                                                <input type="checkbox" value="1" name="confirmacion" data-parsley-group="block5" required id="confirmacion">
+                                                Sí, he verificado y confirmado los datos ingresados.
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <button type="button" class="w-100 btn btn-lg btn-primary next" data-current-block="5" data-next-block="4"><i class="fa fa-arrow-left"></i>  Atras </button>
+                                    </div>
+                                    <div class="col-md-3">
+
+                                        <button type="submit" class="w-100 btn btn-lg btn-primary next" >Editar Afiliado  <i class="bi bi-std bi-check-circle"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.box -->
+
+<script>
+    var submit = false;
+    window.onbeforeunload = function () {
+        if (!submit) {
+            return "Desea salir ? se perderan todos los cambios";
+        }
+    };
+
+    $('#frm_editar_afiliado').on('submit', function () {
+        submit = true;
+    });
+</script>
+
+<script type="text/javascript">
+
+//jQuery(function($){
+
+    $("#identidad").mask("9999-9999-99999");
+    $("#tel_fijo").mask("9999-9999");
+    $("#tel_celular").mask("9999-9999");
+    $(".identidad_beneficiario").mask("9999-9999-99999");
+    $(".identidad_beneficiario").attr("placeholder", "____-____-_____");
+    $(".telefono_fijo_beneficiario").mask("9999-9999");
+    $(".celular_beneficiario").mask("9999-9999");
+    $(".telefono_fijo_beneficiario").attr("placeholder", "____-____");
+    $(".celular_beneficiario").attr("placeholder", "____-____");
+    $("#tel_emergencia_1").mask("9999-9999");
+    $("#tel_emergencia_2").mask("9999-9999");
+    $("#tel_emergencia_3").mask("9999-9999");
+    $("#cel_emergencia_1").mask("9999-9999");
+    $("#cel_emergencia_2").mask("9999-9999");
+    $("#cel_emergencia_3").mask("9999-9999");
+//});
+
+</script>
+
+<script type="text/javascript">
+
+    $('.pestania').on('click', function () {
+
+        var bloque = $(this).data('target');
+        if ($("#li_form" + bloque).hasClass("complete")) {
+
+            for (j = bloque + 1; j <= 20; j++) {
+                //Bloques
+                $('#block' + j).removeClass('active');
+                //$('#block' + next).addClass('active');
+                //Pestañas
+                $('#li_form' + j).removeClass('active');
+                $('#li_form' + j).removeClass('complete');
+                //$('#li_form' + next).addClass('active');
+                //Numeros
+                $('#sp_form' + j).removeClass('badge-info');
+                $('#sp_form' + j).removeClass('badge-success');
+                //$('#sp_form' + next).removeClass('badge-success');
+                //$('#sp_form' + next).addClass('badge-info');
+
+            }
+
+            $('#block' + bloque).addClass('active');
+
+            $('#li_form' + bloque).removeClass('complete');
+            $('#li_form' + bloque).addClass('active');
+
+            $('#sp_form' + bloque).removeClass('badge-success');
+            $('#sp_form' + bloque).addClass('badge-info');
+
+        }
+
+
+    });
+
+
+    $('.next').on('click', function () {
+
+
+        var current = $(this).data('currentBlock'),
+                next = $(this).data('nextBlock');
+        var isOk = false;
+        // only validate going forward. If current group is invalid, do not go further
+        // .parsley().validate() returns validation result AND show errors
+        if (next > current) {
+
+            if (false === $('#frm_editar_afiliado').parsley().validate('block' + current)) {
+                return;
+            } else {
+
+//                if (next === 7) {
+//                    isOk = (validarPorcentajeBeneficiarios() & validarIdentidadesBeneficiarios());
+//                } else {
+//                    isOk = true;
+//                }
+                isOk = true;
+
+                if (isOk) {
+
+                    // Cambiar las clases para mostrar el siguiente
+                    //Bloques
+                    $('#block' + current)
+                            .removeClass('active');
+                    $('#block' + next)
+                            .addClass('active');
+                    //Pestañas
+                    $('#li_form' + current)
+                            .removeClass('active');
+                    $('#li_form' + current)
+                            .addClass('complete');
+                    $('#li_form' + next)
+                            .addClass('active');
+                    //Numeros
+                    $('#sp_form' + current)
+                            .removeClass('badge-info');
+                    $('#sp_form' + current)
+                            .addClass('badge-success');
+                    $('#sp_form' + next)
+                            .addClass('badge-info');
+                }
+            }
+        }
+        //Regresar
+        if (next < current) {
+            // Cambiar las clases para mostrar el anterior
+            //Bloques
+            $('#block' + current)
+                    .removeClass('active');
+            $('#block' + next)
+                    .addClass('active');
+            //Pestañas
+            $('#li_form' + current)
+                    .removeClass('active');
+            $('#li_form' + next)
+                    .removeClass('complete');
+            $('#li_form' + next)
+                    .addClass('active');
+            //Numeros
+            $('#sp_form' + current)
+                    .removeClass('badge-info');
+            $('#sp_form' + next)
+                    .removeClass('badge-success');
+            $('#sp_form' + next)
+                    .addClass('badge-info');
+        }
+
+
+
+        if (next === 5) {
+//            $("#p_foto").html("<img class=\"img-thumbnail\" id=\"p_img\" src=\"" + $("#foto").val() + "\" alt=\"Foto\" width=\"100\">");
+//            var nac = $('#nacionalidad option:selected').text();
+//            $("#p_nacionalidad").html(nac.toUpperCase());
+            $("#p_identidad").html($("#n_identidad").val());
+            $("#p_nombres").html($("#nombres").val().toUpperCase());
+            $("#p_apellidos").html($("#apellidos").val().toUpperCase());
+            $("#p_nacimiento").html($("#fecha_nacimiento").val());
+
+            var t_sangre = $('#nombre_ts option:selected').text();
+            $("#p_t_sangre").html(t_sangre.toUpperCase());
+
+            var t_civil = $('#nombre_es option:selected').text();
+            $("#p_est_civil").html(t_civil.toUpperCase());
+//            $("#p_genero").html($('input:radio[name=genero]:checked').val().toUpperCase());
+
+            var t_nacimiento = $('#nombre_de option:selected').text();
+            $("#p_lugarn").html(t_nacimiento.toUpperCase());
+            $("#p_tel_fijo").html($("#tel_fijo").val());
+            $("#p_cel").html($("#celular_r").val());
+
+            var t_dependencia = $('#nombre_dp option:selected').text();
+            $("#p_dependencia").html(t_dependencia.toUpperCase());
+            $("#p_direccion").html($("#domicilio_actual").val().toUpperCase());
+
+            var t_asignacion = $('#asignacion option:selected').text();
+            $("#p_asignacion").html(t_asignacion.toUpperCase());
+
+            var t_categoria = $('#nombre_c option:selected').text();
+            $("#p_categoria").html(t_categoria.toUpperCase());
+
+            var t_rango = $('#rango option:selected').text();
+            $("#p_rangos").html(t_rango.toUpperCase());
+
+            $("#p_nom_eme").html($("#nom_contacto_emergenciacel_emergencia").val().toUpperCase());
+            $("#p_tel_eme").html($("#telefono_contacto_emergencia").val().toUpperCase());
+
+
+
+            var nivel_academico = $('#nivel_academico option:selected').val();
+            $("#p_nivel_academico").html(nivel_academico.toUpperCase());
+            $("#p_prof_oficio").html($("#profesion").val().toUpperCase());
+
+            if ($("#postgrado_doctorado").length > 0) {
+
+                $("#p_post_doc").html($("#postgrado_doctorado").val().toUpperCase());
+            } else {
+
+                $(".postgrado").remove();
+            }
+            $("#p_nom_eme_1").html($("#nombre_emergencia_1").val().toUpperCase());
+            $("#p_nom_eme_2").html($("#nombre_emergencia_2").val().toUpperCase());
+            $("#p_nom_eme_3").html($("#nombre_emergencia_3").val().toUpperCase());
+            $("#p_tel_eme_1").html($("#tel_emergencia_1").val());
+            $("#p_tel_eme_2").html($("#tel_emergencia_2").val());
+            $("#p_tel_eme_3").html($("#tel_emergencia_3").val());
+            $("#p_cel_eme_1").html($("#cel_emergencia_1").val());
+            $("#p_cel_eme_2").html($("#cel_emergencia_2").val());
+            $("#p_cel_eme_3").html($("#cel_emergencia_3").val());
+
+            var id_ben = document.getElementsByName('identidad_beneficiario[]');
+            var nom_ben = document.getElementsByName('nombre_completo_beneficiario[]');
+            var par_ben = document.getElementsByName("parentezco[]");
+            var tel_ben = document.getElementsByName("telefono_fijo_beneficiario[]");
+            var cel_ben = document.getElementsByName("celular_beneficiario[]");
+            var por_ben = document.getElementsByName("porcentaje_beneficiario[]");
+
+
+            var tabla = '<table style="width: 100%;" class="table">';
+            tabla += '<tr>';
+            tabla += '<th>Identidad</th><th>Nombre</th><th>Parentezco</th><th>Teléfono</th><th>Celular</th><th>Porcentaje</th>';
+            tabla += '</tr>';
+            for (var k = 0; k < id_ben.length; ++k) {
+                tabla += '<tr><td>' + id_ben[k].value + '</td><td>' + nom_ben[k].value.toUpperCase() + '</td><td>' + par_ben[k].value.toUpperCase() + '</td><td>' + tel_ben[k].value + '</td><td>' + cel_ben[k].value + '</td><td>' + por_ben[k].value + ' %</td></tr>';
+            }
+            $("#tabla_ben").html(tabla);
+
+        }
+
+    });
+
+
+    function validarPorcentajeBeneficiarios() {
+        //Validar que el porcentaje suma 100
+        var elem = document.getElementsByClassName("porcentaje_beneficiario");
+
+        var totalPorcentajeBen = 0;
+        for (var i = 0; i < elem.length; ++i) {
+            if (typeof elem[i].value !== "undefined") {
+                totalPorcentajeBen += parseFloat(elem[i].value);
+
+            }
+        }
+
+        if (totalPorcentajeBen < 100.00) {
+            mensajeERROR('Error en Porcentaje!', 'El porcentaje es menor del <b>100 %</b><br>Falta repartir el <b>' + (100.00 - totalPorcentajeBen) + ' %</b>');
+            return false;
+        } else if (totalPorcentajeBen > 100.00) {
+            mensajeERROR('Error en Porcentaje!', 'El porcentaje excede del <b>100 %</b><br>Se pasa por un <b>' + (totalPorcentajeBen - 100.00) + ' %</b>');
+            return false;
+        }
+
+        return true;
+    }
+
+    function validarIdentidadesBeneficiarios() {
+        //Validar que las identidades no esten repetidas
+        var elem = document.getElementsByClassName("identidad_beneficiario");
+        var identidades = [];
+        for (var i = 0; i < elem.length; ++i) {
+            if (typeof elem[i].value !== "undefined") {
+                if (!estaRepetido(identidades, elem[i].value)) {
+                    identidades.push(elem[i].value);
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    function estaRepetido(arreglo, valor) {
+
+        for (var i = 0; i < arreglo.length; i++) {
+
+            if (arreglo[i] === valor) {
+                mensajeERROR('Error en Identidades!', 'La identidad <b>' + valor + '</b> se encuentra repetida.');
+                return true;
+            }
+        }
+        return false;
+    }
+
+</script>
+
+<script type="text/javascript">
+
+
+
+    $("#identidaddes").keyup(function () {
+        var buscar = $(this).val();
+        //Validar Formato y longitud
+        var listo = false;
+        if (buscar.length === 15) {
+            var regexp;
+            regexp = /^[0-9]{4}[-][0-9]{4}[-][0-9]{5}$/;
+            if (!regexp.test(buscar))
+            {
+                $("#respId").html("");
+                limpiar();
+
+            } else {
+                listo = true;
+                $("#respId").html("<div class=\"semibold\"><b>Procesando....</b>   <img src=\"<?php $this->basePath() ?>/img/ajax-loader.gif\" width=\"20\" ></div>");
+            }
+        } else {
+            $("#respId").html("");
+            limpiar();
+        }
+        if (listo) {
+            limpiar();
+            $.ajax({
+                type: "POST",
+                url: "<?php echo $this->basePath() ?>/chpersonas/existe",
+                traditional: true,
+                dataType: "json",
+                data: {buscar: buscar},
+                success: function (r) {
+                    if (r.resp === "error") {
+                        $("#respId").html(r.mensaje);
+                        limpiar();
+                    } else if (r.resp === "no encontrado") {
+                        $("#respId").html("<b class=\"text-success\">" + r.mensaje + "<b/>");
+                        limpiar();
+                    } else if (r.resp === "ok") {
+                        $("#respId").html("<b class=\"text-success\">Identidad encontrada en el CNE<b/>");
+
+                        $("#nombres").val(r.d.nombres);
+                        $("#apellidos").val(r.d.apellidos);
+                        $("#fecha_nacimiento").val(r.d.fecha_nacimiento_f);
+                        $("#lugar_nacimiento").val(r.d.nombre_municipio + ", " + r.d.nombre_departamento);
+                        $("#direccion").val(r.d.direccion);
+
+                        var genero = r.d.descripcion_sexo;
+
+                        if (genero === "MASCULINO") {
+                            $("#genero_2").prop("checked", false);
+                            $("#genero_1").prop("checked", true);
+                        } else if (genero === "FEMENINO") {
+                            $("#genero_1").prop("checked", false);
+                            $("#genero_2").prop("checked", true);
+                        }
+
+
+                    } else {
+                        $("#respId").html("<b class=\"text-danger\">" + r.mensaje + "<b/>");
+                        limpiar();
+                    }
+                }
+            });
+        }
+    });
+    $("#nacionalidad").change(function () {
+
+        var nac = $('#nacionalidad option:selected').text();
+        if (nac === "Honduras") {
+            $("#identidad").mask("9999-9999-99999");
+                    $("#identidad").attr("placeholder") = "____-____-_____";
+        } else {
+            $("#identidad").mask("99-9999-9999-99999");
+                    $("#identidad").attr("placeholder") = "__-____-____-_____";
+        }
+
+    });
+
+    function limpiar() {
+
+        $("#nombres").val("");
+        $("#apellidos").val("");
+        $("#fecha_nacimiento").val("");
+        $("#lugar_nacimiento").val("");
+        $("#direccion").val("");
+
+        $("#genero_1").prop("checked", false);
+        $("#genero_2").prop("checked", false);
+
+
+    }
+
+</script>
+
+
+
+
+
+<!-- Configure a few settings and attach camera -->
+<script language="JavaScript">
+    function getFile() {
+        document.getElementById("inputFileToLoad").click();
+    }
+
+    function encodeImageFileAsURL() {
+
+        var filesSelected = document.getElementById("inputFileToLoad").files;
+        if (filesSelected.length > 0) {
+            var fileToLoad = filesSelected[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function (fileLoadedEvent) {
+                var srcData = fileLoadedEvent.target.result; // <--- data: base64
+
+                //var newImage = document.createElement('img');
+                //newImage.src = srcData;
+
+
+                $("#pic_server").html("<div class=\"semibold\"><b>Procesando....</b>   <img src=\"<?php echo $this->basePath(); ?>/ajax-loader.gif\" width=\"20\" ></div>");
+                $("#pic_server").html("<img  id=\"imagen_serv\" src=\"" + srcData + "\" alt=\"Foto\" width=\"300\">");
+                iniciarCropper();
+                //document.getElementById("imgTest").innerHTML = newImage.outerHTML;
+                // alert("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);
+                //console.log("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);
+            }
+            fileReader.readAsDataURL(fileToLoad);
+        }
+    }
+
+</script>
+
+<script language="JavaScript">
+
+    existe_campo_postgrado = false;
+    $("#nivel_academico").change(function () {
+
+        texto_insertar = '<div class="row postgrado_01">';
+        texto_insertar += '<div class="col-lg-4">';
+        texto_insertar += '<div class="form-group">';
+        texto_insertar += '<label for="postgrado_doctorado">Postgrado o Doctorado *</label>';
+        texto_insertar += '<input type="text" maxlength="150" id="postgrado_doctorado" name="postgrado_doctorado" class="form-control" style="text-transform:uppercase;"';
+        texto_insertar += 'data-parsley-pattern="/^([a-zA-Z0-9_-,:.ñÑáéíóúÁÉÍÓÚ ])$/" ';
+        texto_insertar += 'data-parsley-group="block4"  required placeholder="Ingrese el postgrado o doctorado" ';
+        texto_insertar += 'title="Ingrese el postgrado o doctorado obtenido"/>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        var nivel = $('#nivel_academico option:selected').val()
+        if (nivel === "POSTGRADO" || nivel === "DOCTORADO") {
+            //$("#for_postgrado").generaNuevosCampos("Desde", "rangos", 99);
+            if (!existe_campo_postgrado) {
+                $("#for_postgrado").html(texto_insertar);
+            }
+            existe_campo_postgrado = true;
+        } else {
+            if (existe_campo_postgrado) {
+                $(".postgrado_01").remove();
+            }
+            existe_campo_postgrado = false;
+        }
+
+    });</script>
+
+<script>
+
+    function borrarBeneficiario(clase) {
+        var r = confirm("Confirme que desea elminar este Beneficiario?");
+        if (r === true) {
+            $("." + clase).remove();
+        } else {
+
+        }
+    }
+
+    $('#nuevoBeneficiario').click(function (e) {
+        e.preventDefault();     //prevenir novos clicks
+
+        texto_insertar = '<div class="rows box box-primary ben_' + indice + '" style="width: 98%; padding: 10px;">';
+        texto_insertar += '<div class="row ">';
+        texto_insertar += '<div class="col-md-6">';
+        texto_insertar += '<h5>Beneficiario</h5>';
+        texto_insertar += '</div>';
+        texto_insertar += '<div class="col-md-6">';
+        texto_insertar += '<div class="form-group pull-right" style="padding-top: 22px;">';
+        texto_insertar += '<label></label>';
+        texto_insertar += '<a href="javascript:borrarBeneficiario(\'ben_' + indice + '\')" title="Eliminar Beneficiario." class="btn btn-outline-danger btn-xs"><span class="icon icon-std icon-minus"></span>  Eliminar</a>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '<div class="row ">';
+        texto_insertar += '<div class="col-lg-3">';
+        texto_insertar += '<div class="form-group">';
+        texto_insertar += '<label for="identidad_beneficiario">Número de Identidad *</label>';
+        texto_insertar += '<input type="text" maxlength="15" id="identidad_beneficiario[]" name="identidad_beneficiario[]" class="form-control identidad_beneficiario" required data-parsley-group="block5"/>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '<div class="col-md-3">';
+        texto_insertar += '<div class="form-group">';
+        texto_insertar += '<label for="nombre_completo_beneficiario">Nombres Completo del Beneficiario *</label>';
+        texto_insertar += '<input type="text" maxlength="120" name="nombre_completo_beneficiario[]" id="nombre_completo_beneficiario[]" class="form-control" required data-parsley-group="block5"  autocomplete="off" style="text-transform:uppercase;"';
+        texto_insertar += 'data-parsley-pattern="/^([a-zA-Z0-9_- ñÑáéíóúÁÉÍÓÚ]{2,120})$/" ';
+        texto_insertar += 'data-parsley-pattern-message="Este campo debe contener al menos 2 caracteres." />';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '<div class="col-md-3">';
+        texto_insertar += '<div class="form-group">';
+        texto_insertar += '<label for="parentezco">Parentezco *</label>';
+        texto_insertar += '<input type="text" maxlength="120" name="parentezco[]" id="parentezco[]" class="form-control" required data-parsley-group="block5"  autocomplete="off" style="text-transform:uppercase;"';
+        texto_insertar += 'data-parsley-pattern="/^([a-zA-Z0-9_- ñÑáéíóúÁÉÍÓÚ]{2,120})$/" ';
+        texto_insertar += 'data-parsley-pattern-message="Este campo debe contener al menos 2 caracteres." />';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '<div class="row ">';
+        texto_insertar += '<div class="col-md-3">';
+        texto_insertar += '<div class="form-group">';
+        texto_insertar += '<label for="telefono_fijo_beneficiario">Teléfono Fijo</label>';
+        texto_insertar += '<input type="text" maxlength="10" name="telefono_fijo_beneficiario[]" id="telefono_fijo_beneficiario[]" class="form-control telefono_fijo_beneficiario" data-parsley-group="block5" autocomplete="off"';
+        texto_insertar += 'placeholder="____-____"/>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '<div class="col-md-3">';
+        texto_insertar += '<div class="form-group">';
+        texto_insertar += '<label for="celular_beneficiario">Celular </label>';
+        texto_insertar += '<input type="text" maxlength="10" name="celular_beneficiario[]" id="celular_beneficiario[]" class="form-control celular_beneficiario" data-parsley-group="block5" autocomplete="off"';
+        texto_insertar += 'placeholder="____-____"/>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '<div class="col-md-3">';
+        texto_insertar += '<div class="form-group">';
+        texto_insertar += '<label for="porcentaje_beneficiario">Porcentaje *</label>';
+        texto_insertar += '<div class="input-group">';
+        texto_insertar += '<input type="text" maxlength="5" id="porcentaje_beneficiario[]" name="porcentaje_beneficiario[]" class="form-control porcentaje_beneficiario" ';
+        texto_insertar += 'data-parsley-pattern="/^([0-9]{1,2}[.][0-9][0-9]?)$/" ';
+        texto_insertar += 'data-parsley-group="block5"  required placeholder="Monto que será repartido" ';
+        texto_insertar += 'title="Ingrese el porcentaje."/>';
+        texto_insertar += '<span class="input-group-addon"> % </span>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+
+        $('#listas').append(texto_insertar);
+        indice++;
+
+    });
+
+    var indice = 1;
+
+    function formato() {
+
+        $(".identidad_beneficiario").mask("9999-9999-99999");
+        $(".identidad_beneficiario").attr("placeholder", "____-____-_____");
+        $(".telefono_fijo_beneficiario").mask("9999-9999");
+        $(".celular_beneficiario").mask("9999-9999");
+        $(".telefono_fijo_beneficiario").attr("placeholder", "____-____");
+        $(".celular_beneficiario").attr("placeholder", "____-____");
+    }
+
+
+</script>
+
+

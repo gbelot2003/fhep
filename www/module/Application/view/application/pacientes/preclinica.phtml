@@ -1,0 +1,414 @@
+<?php
+$this->headTitle("FHEP| Preclinica");
+$this->head;
+$info = $this->citapersona;
+
+//echo "<pre>";
+//print_r($this->citapersona);
+?>
+<!-- DataTable -->
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_list_pacientes.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+
+<div class="container mt-4">
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Pacientes</h2>
+                <em>Preclinica.</em>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="btn-group pull-right">
+                    <a href="<?php echo $this->basePath(); ?>/pacientes/triaje" class="w-75 btn btn-md btn-primary next"><span class="icon icon-std icon-back"></span><i class="fa-solid fa-circle-arrow-left"></i>  Regresar</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /encabezado -->
+    <form id="form_preclinica" method="post" enctype="multipart/form-data"  action="<?php echo $this->basePath(); ?>/pacientes/preclinica/<?php echo $info['id_cita'] ?>" data-parsley-validate  >
+        <input type="hidden" name="id_estado_cita " value="2" >
+
+
+
+        <div id="_imprimir">
+            <div class="border " style="padding: 10px; min-height: 700px;">
+                <div class="form-group row">
+                    <div class="text-primary">
+
+                        <div class="row">
+                            <h4 class="">Datos del Paciente</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <span class="fw-bold">Nombre Completo:</span><span> <?php echo $info['nombre_completo'] ?> </span>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="fw-bold">Número de Expediente:</span><span> <?php echo $info['num_expediente'] ?></span>                          
+                            </div> 
+                            <div class="col-md-2">
+                                <span class="fw-bold">Género:</span><span> <?php echo $info['genero'] ?></span>                          
+                            </div>             
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-5">
+                                <span class="fw-bold">Servicio: </span><span><?php echo $info['nombre_especialidad'] ?> </span> 
+                            </div>
+                            <div class="col-md-5">
+                                <span class="fw-bold">Medico: </span><span><?php echo $info['nombre_medico'] ?> </span> 
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-5">
+                                <span class="fw-bold">Edad: </span><span><?php echo $info['edad'] ?> </span> 
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-12">
+                                    <span class="fw-bold">Motivo de Consulta: </span><span><?php echo $info['motivo_consulta'] ?> </span> 
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="text-primary">
+                            <div class="row">
+                                <h4 class="">Signos Vitales</h4>
+                            </div>
+                            <div class="content">
+
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <label for="presion_arterial" class="form-label">Presión Arterial:</label>
+                                        <div class="input-group">
+                                            <input type="text" name="presion_arterial" 
+                                                   data-parsley-pattern="/^[0-9\/]{1,10}$/"   
+                                                   data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                                   class="form-control" id="presion_arterial" placeholder="Presión arterial">
+                                            <span class="input-group-text" >Mm/Hg</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="exampleFormControlInput1" class="form-label">Temperatura:</label>
+                                        <div class="input-group">
+                                            <input type="text" name="temperatura" class="form-control" 
+                                                   data-parsley-pattern="/^[a-zA-Z0-9,\.\ ]{1,100}$/"   
+                                                   data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                                   id="temperatura" placeholder="Temperatura">
+                                            <span class="input-group-text" >°C</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="glucometria" class="form-label">Glucometría:</label>
+                                        <div class="input-group">
+                                            <input type="text" name="glucometria" class="form-control" id="glucometria" 
+                                                   data-parsley-pattern="/^[l-oL-O0-9\.\/\ ]{1,20}$/"   
+                                                   data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                                   placeholder="Glucometria">
+                                            <span class="input-group-text" >mg/dL</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="frec_respiratoria" class="form-label">Frec Respiratoria:</label>
+                                        <div class="input-group">
+                                            <input type="text" name="frecuencia_respiratoria" 
+                                                   data-parsley-pattern="/^[0-9-\=\>\/]{1,20}$/"   
+                                                   data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                                   class="form-control" id="frec_respiratoria" placeholder="Frecuencia Respiratoria">
+                                            <span class="input-group-text" >x Min</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="saturacion_oxigeno" class="form-label">Saturación O2:</label>
+                                        <div class="input-group">
+                                            <input type="text" name="saturacion_oxigeno" 
+                                                   data-parsley-pattern="/^[a-zA-Z0-9\.\%\-\/]{1,20}$/"   
+                                                   data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                                   class="form-control" id="saturacion_oxigeno" placeholder="Saturación O2">
+                                            <span class="input-group-text" >O2</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="frec_cardiaca" class="form-label">Frecuencia Cardiaca:</label>
+                                        <div class="input-group">
+                                            <input type="text" name="frecuencia_cardiaca" 
+                                                   data-parsley-pattern="/^[0-9-]{1,20}$/"   
+                                                   data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                                   class="form-control" id="frec_cardiaca" placeholder="Frecuencia Cardiaca">
+                                            <span class="input-group-text" >x Min</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-5">
+                                    <h4 class="">Datos antropométricos </h4>
+                                </div>
+                                <div class="content">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label for="peso" class="form-label">Peso:</label>
+                                            <div class="input-group">
+                                                <input type="text" name="peso" 
+                                                       data-parsley-pattern="/^[0-9.]{1,20}$/"   
+                                                       data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                                       class="form-control" id="peso" placeholder="Peso">
+                                                <span class="input-group-text" >Kg</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="estatura" class="form-label">Estatura:</label>
+                                            <div class="input-group">
+                                                <input type="text" name="estatura" class="form-control" id="estatura" 
+                                                       data-parsley-pattern="/^[0-9.]{1,20}$/"   
+                                                       data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                                       placeholder="Estatura">
+                                                <span class="input-group-text" >cm</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="exampleFormControlInput1" class="form-label">Imc:</label>
+                                            <div class="input-group">
+                                                <input type="text" name="imc" class="form-control" id="imc" 
+                                                       data-parsley-pattern="" readonly="yes"
+                                                       data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                                       placeholder="Imc">
+                                                <span class="input-group-text" >kg/m<sup>2</sup></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="imc" class="form-label">Categoria Imc:</label>
+                                            <input type="text" name="imc_categoria" class="form-control" id="imc_categoria" 
+                                                   data-parsley-pattern="" readonly="yes"
+                                                   placeholder="Categoria Imc">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label for="talla_abdominal" class="form-label">Talla abdominal:</label>
+                                            <div class="input-group">
+                                                <input type="text" name="talla_abdominal" class="form-control" id="talla_abdominal" 
+                                                       data-parsley-pattern="/^[0-9.]{1,20}$/"   
+                                                       data-parsley-pattern-message="Este campo solo puede tener el caracter especioal .. ."
+                                                       placeholder="Talla abdominal">
+                                                <span class="input-group-text" >cm</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label for="talla_cuello" class="form-label">Talla cuello:</label>
+                                            <div class="input-group">
+                                                <input type="text" name="talla_cuello" class="form-control" id="talla_cuello" 
+                                                       data-parsley-pattern="/^[0-9.]{1,20}$/"   
+                                                       data-parsley-pattern-message= "Este campo solo puede tener el caracter especioal .. ."
+                                                       placeholder="Talla cuello">
+                                                <span class="input-group-text" >cm</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <br>
+                                <div class="row">
+                                    <h4 class="">Observaciones/Comentarios Preclinica:</h4>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <textarea class="form-control" style="resize:none" name="observaciones" id="observaciones" 
+                                                  data-parsley-pattern="/^[a-zA-Z0-9,\.\#\ ]{1,250}$/"   
+                                                  data-parsley-pattern-message="Este campo solo acepta los caracteres . , #   ."
+                                                  rows="3"  ></textarea>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                <div class="col-12 mt-5">
+                    <center><button type="submit" id="btn_enviar" class="btn btn-primary "><i class="bi bi-std bi-upload"></i>Terminar y Guardar</button></center>
+                </div>
+            </div>   
+        </div><!-- /.box -->  
+    </form>
+
+</div>
+
+
+
+<!--MODAL-->
+<div class="modal fade" id="mod_camb_estado" tabindex="-1" role="dialog" aria-labelledby="camb_estado" aria-hidden="true">
+    <div class="modal-dialog" role="document"> 
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="camb_estado">Cambiar Estado de Preclinica</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/pacientes/preclinica" enctype="multipart/form-data" data-parsley-validate >
+                <div class="modal-body">
+                    <input type="hidden" id="id_cita" name="id_cita">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Estado Actual:</label>
+                        <input type="text" class="form-control" name="e_actual" id="e_actual">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nuevo Estado:</label>
+                        <input type="text" class="form-control" name="n_estado" id="n_estado">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Motivo:</label>
+                        <textarea class="form-control" name="motivo" id="motivo" rows="3"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Cambiar Estado</button>
+                </div> 
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    var submit = false;
+    window.onbeforeunload = function () {
+        if (!submit) {
+            return "Desea salir ? se perderan todos los cambios";
+        }
+    };
+    
+    $('#form_preclinica').on('submit', function () {
+        submit = true;
+    });
+</script>
+
+
+<script>
+
+    function cambiarEstado(id) {
+        $('#id_cita').val(id);
+        var mod_camb_estado = new bootstrap.Modal(document.getElementById('mod_camb_estado'), {
+            keyboard: false
+        });
+        mod_camb_estado.show();
+        //$('#btn_crear_rep_depto').removeClass('disabled');
+    }
+
+
+
+//            $('#frm_rep_vac_depto').on('submit', function () {
+//                $('#btn_crear_rep_depto').addClass('disabled');
+//                $('#mod_reporte_vac_depto').modal('hide');
+//            });
+
+</script>
+
+<script type="text/javascript">
+    $("#peso, #estatura").keyup(function () {
+
+        var peso = $('#peso').val();
+        var estatura = $('#estatura').val();
+
+        if (peso.trim() === "") {
+            $('#imc_categoria').val("");
+            $('#imc').val("");
+        }
+
+        if (estatura.trim() === "") {
+            estatura = 0;
+            $('#imc_categoria').val("");
+            $('#imc').val("");
+        } else if (estatura.trim() !== 0) {
+            estatura = estatura / 100; //estatura en metros
+        }
+
+        if (peso > 0 && estatura > 0) {
+            var imc = (peso / (estatura * estatura)).toFixed(2);
+            $('#imc').val(imc);
+
+            var cat_imc = "";
+
+            if (imc < 18.50) {
+                cat_imc = "Bajo peso";
+            } else if (imc <= 24.99) {
+                cat_imc = "Normal";
+            } else if (imc <= 29.99) {
+                cat_imc = "Sobrepeso";
+            } else {
+                cat_imc = "Obesidad";
+            }
+
+            $('#imc_categoria').val(cat_imc);
+        }
+    });
+
+</script>
+<script>
+    $("#dni").keyup(function () {//Elemento que voy a observar "#nombreIdElemento"
+        var val = $(this).val(); //Asignamos el valor del elemento observado
+        $("#nombre_afiliado").val("");
+        $("#num_expediente").val("");
+        $("#edad").val("");
+        $("#servicio").val("");
+        $("#medico").val("");
+        $("#motivo").val("");
+        var listo = false;
+        if (val.length >= 13 && val.length <= 15) {
+            var regexp;
+            regexp = /^[0-9]{4}[-| ]?[0-9]{4}[-| ]?[0-9]{5}$/;
+            if (regexp.test(val))
+            {
+                listo = true;
+                $("#respId").html("<div class=\"semibold\"><b>Procesando....</b>   <img src=\"<?php $this->basePath() ?>/img/ajax-loader.gif\" width=\"20\" ></div>");
+            } else {
+                listo = false;
+                $("#respId").html("");
+            }
+        }
+        if (listo) {
+            $.ajax({
+                type: "POST", //Metodo de envio
+                url: "<?php echo $this->url('afiliados/getnombreafiliado') ?>", //URL del jsp que va a procesar mi solicitud asíncrona
+                traditional: true,
+                dataType: 'json',
+                data: {id: val}, //{nombre-de-parametro:Valor-para-el-parametro}
+                beforeSend: function () {
+                    $("#respuesta_id_afiliado").val(""); //Limpiar el campo de respuesta
+                },
+                success: function (data) {
+
+                    if (data.estado === 'ok') {
+
+                        $("#p_nombre_afiliado").html(data.d.nombres);
+                        $("#p_num_expediente").html(data.d.id);
+                        $("#p_edad").html(data.d.edad);
+                        $("#p_servicio").html(data.d.nombre_e);
+                        $("#p_medico").html(data.d.id_medico);
+                        $("#p_motivo").html(data.d.motivo);
+                        $("#btn_enviar").removeClass('disabled');
+                    } else {
+
+                        mensajeAutoERROR('Error', data.mensaje);
+                        $("#btn_enviar").addClass('disabled');
+                    }
+                }
+
+            });
+        }
+    });
+
+
+</script>

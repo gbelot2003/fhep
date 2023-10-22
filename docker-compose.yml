@@ -1,0 +1,45 @@
+version: "2"
+services:
+  www:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/var/www/html/
+    links:
+      - mysql
+    networks:
+      - default
+
+  mysql:
+    image: mariadb
+    restart: always
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_DATABASE: apachetester
+      MARIADB_USER: homestead
+      MARIADB_PASSWORD: password
+      MARIADB_ROOT_PASSWORD: password
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./dump:/docker-entrypoint-initdb.d
+      - ./mysql:/var/lib/mysql
+    networks:
+      - default
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      - PMA_ARBITRARY=1
+    links:
+      - mysql
+    ports:
+      - 8085:80
+    volumes:
+      - /sessions
+    networks:
+      - default

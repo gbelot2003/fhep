@@ -1,0 +1,80 @@
+
+<?php if (isset($this->reason) && $this->reason): ?>
+
+    <?php
+    $reasonMessage = '';
+    switch ($this->reason) {
+        case 'error-controller-cannot-dispatch':
+            $reasonMessage = $this->translate('The requested controller was unable to dispatch the request.');
+            break;
+        case 'error-controller-not-found':
+            $reasonMessage = $this->translate('The requested controller could not be mapped to an existing controller class.');
+            break;
+        case 'error-controller-invalid':
+            $reasonMessage = $this->translate('The requested controller was not dispatchable.');
+            break;
+        case 'error-router-no-match':
+            $reasonMessage = $this->translate('The requested URL could not be matched by routing.');
+            break;
+        default:
+            $reasonMessage = $this->translate('We cannot determine at this time why a 404 was generated.');
+            break;
+    }
+    ?>
+<?php endif ?>
+
+<style>
+
+    .img-error-404 {
+
+        background-image: url("<?php echo $this->basePath() ?>/img/img_404.png");
+        background-image: no-repeat;
+        background-image: fixed;
+        background-image: center;
+
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+
+        /* Center and scale the image nicely */
+       
+        
+        background-size: cover;
+    }
+
+</style>
+
+<div class="container img-error-404" >
+
+
+    <!-- Error wrapper -->
+    <div class="error-wrapper text-center" >
+        <h1></h1>
+
+        <div style="margin-top: 350px;">
+            <h6>- Oops, Un error inesperado ha ocurrido. </h6>
+            <p><?php echo $this->translate($this->message) ?></p>
+        </div>
+        <!-- Error content -->
+        <div class=""  >
+            <div class="col-8 mx-auto" style="overflow-y: scroll; text-align: center;">
+                <pre class=""><?php echo $reasonMessage ?></pre> 
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12 ">
+                    <a href="javascript:history.back(1)" class="btn btn-danger btn-lg">Regresar</a>
+                </div>
+
+            </div>
+        </div>
+        <!-- /error content -->
+
+    </div>  
+</div>
+<!-- /error wrapper -->
+

@@ -1,0 +1,217 @@
+<?php
+$this->headTitle("FHEP| Nuevo Usuario");
+$this->head;
+
+if (isset($_SESSION["auth"])) {
+
+    $nombre_usuario = $_SESSION["auth"]['usuario'];
+
+    $DateAndTime = date('Y-m-d H:i:s');
+}
+?>
+<!-- DataTable -->
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_conf_usuarios.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+<div class="container mt-4">
+    <!-- encabezado -->
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Usuarios</h2>
+                <em>Crear Usuario.</em>
+            </div>
+            <div class="col-lg-6">
+                <div class="btn-group pull-right">
+                    <a href="<?php echo $this->basePath(); ?>/usuarios" class="w-75 btn btn-md btn-primary next"><span class="icon icon-std icon-back"></span><i class="fa-thin fa-circle-chevron-left"></i>  Regresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /encabezado -->
+    <div class="border " style="padding: 10px; min-height: 700px;">
+        <div class="row">
+            <h3 class="">Identificación del Usuario</h3>
+        </div><!-- /.box-header -->
+
+        <div class="content">
+            <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/usuarios/nuevo" enctype="multipart/form-data" data-parsley-validate >
+
+                <input type="hidden" id="id_cita" name="creado_por" value="<?php echo $nombre_usuario ?>"  >
+                <input type="hidden" id="id_cita" name="fecha_creacion" value="<?php echo $DateAndTime ?>" >
+                <input type="hidden" id="id_cita" name="fecha_reset_pass" value="<?php echo $DateAndTime ?>" >
+
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Nombres:</label>
+                        <input type="text" class="form-control" name="nombres" 
+                               id="descripcion" maxlength="100"placeholder="Nombres" 
+                               data-parsley-pattern="/^[a-zA-Z ]{1,50}$/" 
+                               data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                               required >
+                    </div>
+                    <div class="col-md-6 ">
+                        <label>Apellidos:</label>
+                        <input type="text" class="form-control" name="apellidos" id="dato" maxlength="100" placeholder="Apellidos" 
+                               data-parsley-pattern="/^[a-zA-Z ]{1,50}$/" 
+                               data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                               required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Nombre de Usuario:</label>
+                        <input type="text" class="form-control" name="usuario" id="objeto" 
+                               maxlength="20" placeholder="Nombre del Usuario" 
+                               data-parsley-pattern="/^[A-Z0-9a-zñÑ]{5,20}$/"
+                               data-parsley-pattern-message="Este campo no puede tener caracteres especiales y solo acepta mayusculas o numeros."
+                               required style="text-transform:uppercase" >
+                    </div>
+                    <div class="col-md-6 ">
+                        <label>Correo eléctronico:</label>
+                        <input type="email" class="form-control" name="correo" id="tipo_objeto" maxlength="50" placeholder="Correo eléctronico" 
+                               data-parsley-pattern="/^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/" 
+                               required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Contraseña:</label>
+                        <div class="input-group flex-wrap">
+                        <input type="password" class="form-control" name="contrasenia" id="ncontra" required
+                               data-parsley-pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$-$_]*$" 
+                               data-parsley-errors-container="#err_pass1"
+                               data-parsley-pattern-message="Debe contener al menos 1 número, 1 letra mayúscula y  1 caracter especial.">
+                         <span class="input-group-text" onclick="mostrarContrasena('ncontra')"><i id="icon_pass" class="fad fa-eye"></i></span>
+                    </div>
+                        <div id="#err_pass1" ></div>
+                    </div>
+
+                    <div class="col-md-6 ">
+                          <label>Confirmar Contraseña:</label>
+                        <div class="input-group flex-nowrap">
+                         <input type="password" class="form-control" name="rpass" id="rpass-name"
+                               data-parsley-range="[<?php echo $min_contra; ?>,<?php echo $max_cantra; ?>]" class="form-control" required
+                               required data-parsley-equalto="#ncontra" placeholder="Confirmar Contraseña"
+                               data-parsley-equalto-message="Las contraseñas no coinciden." >
+                             <span class="input-group-text" onclick="mostrarContrasena('rpass-name')"><i id="icon_pass" class="fad fa-eye"></i></span>
+                 </div>
+                </div>
+                    </div>
+                </div>
+                <div class="row mt-4 ">
+                    <div class="col-md-6">
+                        <h3 class="">Rol</h3>
+                    </div> 
+                    <div class="col-md-6">
+                        <h3 class="">Sucursal</h3>
+                    </div> 
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="rol">Tipo de Rol *</label>
+                            <select class="form-control" id="rol" data-parsley-group="block3" required="required"  name="id_rol">
+                                <option value="">Seleccione un rol</option>
+                                <?php foreach ($this->roles as $d): ?>
+
+                                    <option  title="<?php echo $d['nombre_rol'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['nombre_rol'] ?></option>
+
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="rol">Seleccione una Sucursal *</label>
+                            <select class="form-control" id="id_sucursal" required="required"  name="id_sucursal">
+                                 <option value="">Seleccione una sucursal</option>
+                                <?php foreach ($this->sucursales as $d): ?>
+                                    <option  title="<?php echo $d['nombre_sucursal'] ?>" value="<?php echo $d['Id'] ?>" ><?php echo $d['nombre_sucursal'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mt-4">
+                    <h3 class="">Estado </h3>
+                </div>
+                <div class="row md-2">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="estado">Estado *</label>
+                            <select class="form-control" id="estado_usuario" data-parsley-group="block3" required="yes"  name="estado_u">
+                                <option value="">Seleccione un estado</option>
+                                <?php foreach ($this->estados as $d): ?>
+
+                                    <option  title="<?php echo $d['nombre'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['nombre'] ?></option>
+
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row ms-2">
+                        <div class="col-3  mt-2">
+                            <div class="checkbox" data-toggle="tooltip" >
+                                <label>
+                                    <input type="checkbox" value="2" name="primer_ingreso" id="name1" data-toggle="toggle" data-on="Si" data-off="No" data-onstyle="primary" data-offstyle="secondary" data-size="mini">
+                                    Permitir saltar registro
+                                </label>
+
+                            </div>
+<!--                            <input type="file" webkitdirectory directory/>-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <h3 class="">Confirmar y Guardar</h3>
+                </div>
+                <div class="col mt-2">
+                    <div class="d-grid gap-2 col-4">
+                        <button class=" btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Terminar y Guardar</button>
+                        <button class="btn btn-danger" onclick="cancelarform()"  type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div><!-- /.box -->
+    <script>
+    function mostrarContrasena(id) {
+        var tipo = document.getElementById(id);
+        if (tipo.type == "password") {
+            tipo.type = "text";
+            $('#icon_pass').removeClass('fa-eye');
+            $('#icon_pass').addClass('fa-eye-slash');
+
+        } else {
+            tipo.type = "password";
+            $('#icon_pass').removeClass('fa-eye-slash');
+            $('#icon_pass').addClass('fa-eye');
+        }
+    }
+</script>
+     
+<script>
+    var submit = false;
+    window.onbeforeunload = function () {
+        if (!submit) {
+            return "Desea salir ? se perderan todos los cambios";
+        }
+    };
+    
+    $('#id_frm_name').on('submit', function () {
+        submit = true;
+    });
+</script>

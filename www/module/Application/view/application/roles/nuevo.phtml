@@ -1,0 +1,104 @@
+<?php
+$this->headTitle("FHEP | Agregar Roles");
+$this->head;
+
+if (isset($_SESSION["auth"])) {
+
+    $nombre_usuario = $_SESSION["auth"]['usuario'];
+
+    $DateAndTime = date('Y-m-d h:i:s a', time());
+}
+?>
+<!-- DataTable -->
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_conf_usuarios.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+
+<!-- encabezado -->
+<div class="container mt-4">
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Roles</h2>
+                <em>Crear Rol.</em>
+            </div>
+            <div class="col-lg-6">
+                <div class="btn-group pull-right">
+                    <a href="<?php echo $this->basePath(); ?>/roles" class="w-75 btn btn-md btn-primary next"><span class="icon icon-std icon-back"></span><i class="fa-thin fa-circle-chevron-left"></i>  Regresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- /encabezado -->
+    <div class="border " style="padding: 10px; min-height: 700px;">
+        <div class="row">
+            <h3 class="">Agregar Rol</h3>
+        </div><!-- /.box-header -->
+
+        <div class="content">
+            <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/roles/nuevo" enctype="multipart/form-data" data-parsley-validate >
+
+                <input type="hidden" id="id_cita" name="creado_por" value="<?php echo $nombre_usuario ?>"  >
+                <input type="hidden" id="id_cita" name="fecha_creacion" value="<?php echo $DateAndTime ?>" >
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Rol:</label>
+                        <input type="text" class="form-control" name="nombre_rol" id="objeto" 
+                               data-parsley-pattern="/^[a-zA-Z ]{1,20}$/" 
+                               data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                               maxlength="30" placeholder="Nombre del Rol" required>
+                    </div>
+<!--                    <div class="col-md-6 ">
+                        <label for="tipo_rol">Tipo de Rol *</label>
+                        <select class="form-control" id="tipo"  name="tipo">
+                            <option value="">Tipo de Rol *</option>
+                            <option value="Administrativo">Administrativo</option>
+                            <option value="Mantenimineto">Mantenimieto</option>
+                        </select>
+                    </div>-->
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Descripcion:</label>
+                        <input type="text" class="form-control" name="descripcion" id="descripcion" maxlength="100" placeholder="Descripcion"" required>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label for="estado">Estado de Rol *</label>
+                        <select class="form-control" id="rol_estado" name="estado">
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <h3 class="">Confirmar y Guardar</h3>
+                </div>
+                <div class="col mt-2">
+                    <div class="d-grid gap-2 col-4">
+                        <button class=" btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i>Terminar y Guardar</button>
+                        <!--<button class="btn btn-danger" onclick="cancelarform()"  type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>-->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+</script>

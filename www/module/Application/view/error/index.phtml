@@ -1,0 +1,27 @@
+
+<!-- Error wrapper -->
+<div class="error-wrapper text-center">
+    <h2>ERROR</h2>
+    <h6>- Upss!, Un error inesperado ha ocurrido.</h6>
+    <p> </p>
+
+    <!-- Error content -->
+    <div class="error-content" style="width: 60%;">
+        <div class="box" style="overflow-y: scroll;"><?php echo $this->exception->getFile() ?>:<?php echo $this->exception->getLine() ?></div>
+        <div class="box" style="text-align: left;"><?php echo $this->escapeHtml($this->exception->getMessage()) ?></div> 
+
+        <div class="row">
+
+            <div class="col-md-12 ">
+                <a href="javascript:history.back(1)" class="btn btn-danger btn-lg btn-block">Regresar</a>
+            </div>
+
+        </div>
+    </div>
+    <!-- /error content -->
+
+</div>  
+<!-- /error wrapper -->
+
+
+

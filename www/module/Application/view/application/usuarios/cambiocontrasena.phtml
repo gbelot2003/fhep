@@ -1,0 +1,77 @@
+
+<?php
+$this->headTitle("FHEP| Recuperar Contraseña");
+$this->head;
+?>
+
+<?php
+$ds = [];
+
+if (isset($_SESSION["inicio_1"])) {
+    $ds = $_SESSION["inicio_1"];
+}  
+?>
+<!-- DataTable -->
+
+<?php $this->headScript()->prependFile($this->basePath() . '/theme/js/jquery.maskedinput.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablas/js/jquery.dataTables.js') ?>
+
+
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablas/css/jquery.dataTables.css') ?>
+
+
+
+<div class="container mt-4">
+    <!-- encabezado -->
+    <!--<div class="modal fade" id="camb_pass" tabindex="-1" role="dialog" aria-labelledby="camb_pass" aria-hidden="true">-->
+    <div class="modal-dialog" role="document"> 
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="camb_pass">Cambiar Contraseña</h5>
+            </div>
+
+            <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/usuarios/cambiocontrasena" enctype="multipart/form-data" data-parsley-validate >
+                <input type="hidden" name="id" value="<?php echo $this->du['id_usuario'] ?>">
+                <div class="modal-body">
+                    <h5><?php echo $this->du['nombres'] . " " . $this->du['apellidos']; ?></h5>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nueva  Contraseña:</label>
+                        <input type="password" class="form-control" name="pass" id="ncontra"  autocomplete="off"
+                               data-parsley-pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$-$_]*$" 
+                               data-parsley-pattern-message="debe contener al menos 1 número,1 mayúscula y 1 carácter especial.">
+                        <span class="input-group-text" onclick="mostrarContrasena('ncontra')"><i id="icon_pass" class="fad fa-eye"></i></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Repita Contraseña:</label>
+                        <input type="password" class="form-control" name="rpass" id="respuestas" autocomplete="off"
+                               required data-parsley-equalto="#ncontra"
+                               data-parsley-range="[<?php echo $this->du['pass_min']; ?>,<?php echo $this->du['pass_max']; ?>]"
+                               data-parsley-equalto-message="Las contraseñas son distintas.">
+                        <span class="input-group-text" onclick="mostrarContrasena('respuestas')"><i id="icon_pass" class="fad fa-eye"></i></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="<?php echo $this->basePath(); ?>/" class="w-100 btn btn-md btn-primary next"><span class="icon icon-std icon-back"></span><i class="fa-thin fa-circle-chevron-left"></i>  Regresar</a>
+
+                    <button class="w-100 btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Terminar y Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function mostrarContrasena(id) {
+        var tipo = document.getElementById(id);
+        if (tipo.type == "password") {
+            tipo.type = "text";
+            $('#icon_pass').removeClass('fa-eye');
+            $('#icon_pass').addClass('fa-eye-slash');
+
+        } else {
+            tipo.type = "password";
+            $('#icon_pass').removeClass('fa-eye-slash');
+            $('#icon_pass').addClass('fa-eye');
+        }
+    }
+</script>

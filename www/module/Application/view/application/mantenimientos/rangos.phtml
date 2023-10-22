@@ -1,0 +1,257 @@
+<?php
+$this->headTitle("FHEP | Rangos");
+$this->head;
+
+if (isset($_SESSION["auth"])) {
+
+    $nombre_usuario = $_SESSION["auth"]['usuario'];
+
+    $DateAndTime = date('Y-m-d h:i:s');
+}
+?>
+<!-- DataTable -->
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_conf_rangos.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+<div class="container mt-4">
+    <!-- encabezado -->
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-7">
+                <h2>Mantenimiento</h2>
+                <em>Rangos.</em>
+            </div>
+            <div class="col-12 mt-4">
+
+                <a href="javascript:mostraragregarrango()"  class="btn btn-primary"><span class="fa-light fa-transporter-2"></span>  Agregar Nuevo Rango</a>
+                <!--<a href="<?php echo $this->basePath(); ?>/mantenimientos/exportarexcelrangos"  class="btn btn-success"><i class="fa-light fa-file-excel"></i> Exportar Excel</a>-->
+                <a href="<?php echo $this->basePath(); ?>/mantenimientos/exportarpdfrangos" target="_blank"  class="btn btn-danger"><i class="fa-light fa-file-pdf"></i> Exportar PDF</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- /encabezado -->
+    <div class="border " style="padding: 10px;">
+        <div class="">
+            <h5 class="">Tabla de Datos</h5>
+        </div><!-- /.box-header -->
+        <div class="content">
+            <div class="row">
+                <div class="col-sm-5  me-auto ">
+                    <div class="form-group" style="padding-top: 30px; ">
+                        Mostrando 
+                        <select class="form-contr" id="pagesizes" data-parsley-group="block2" name="pagesizes">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="500">500</option>
+                        </select>
+                        Resultados por página
+                    </div>
+                </div>
+                <div class="col-lg-3 ms-auto">
+                    <div class="input-group flex-nowrap">
+                        <label></label>
+                        <input type="text" class="form-control" id="filter"  autocomplete="off" placeholder="">
+                        <span class="input-group-text" ><i class="bi bi-std bi-search form-control-feedback"></i></span>
+                    </div>
+
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-12 ">
+                    <!-- Grid contents -->
+                    <div id="divtabla" style="min-height: 400px; overflow-x: auto;">
+                        <center>
+                            <div style="margin: 100px;">
+                                <span >
+                                    <img src="<?php echo $this->basePath(); ?>/img/ajax-loader.gif" width="80" >
+                                </span>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+            <!-- Paginator control -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="paginator" class="pull-right"></div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.box -->
+</div>
+<!--MODAL-->
+<div class="modal fade" id="mod_add_rango" tabindex="-1" role="dialog" aria-labelledby="mod_add_rango" aria-hidden="true">
+    <div class="modal-dialog" role="document"> 
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="camb_estado">Agregar Nuevo Rango</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/mantenimientos/rangos" enctype="multipart/form-data" data-parsley-validate >
+
+                <input type="hidden" id="id_cita" name="creado_por" value="<?php echo $nombre_usuario ?>"  >
+                <input type="hidden" id="id_cita" name="fecha_creacion" value="<?php echo $DateAndTime ?>" >
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nombre de Rango:</label>
+                        <input type="text" class="form-control" name="nombre_r" id="n_rango">
+                    </div>
+                    <div class="form-group">
+                        <label for="estado">Estado  *</label>
+                        <select class="form-control" id="parentesco"  name="estado" required>
+                            <option value="">Seleccione Un Estado *</option>
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Descripción:</label>
+                        <textarea class="form-control" name="descripcion" id="dsc" rows="3"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Agregar Rango</button>
+                </div> 
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!--MODAL EDITAR-->
+<div class="modal fade" id="mod_add_editar" tabindex="-1" role="dialog" aria-labelledby="mod_add_editar" aria-hidden="true">
+    <div class="modal-dialog" role="document"> 
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="camb_estado">Editar Rango</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/mantenimientos/editarrango" enctype="multipart/form-data" data-parsley-validate >
+
+                <input type="hidden" id="id_cita" name="modificado_por" value="<?php echo $nombre_usuario ?>"  >
+                <input type="hidden" id="id_cita" name="fecha_modificacion" value="<?php echo $DateAndTime ?>"  >
+                <input type="hidden" id="id_rango" name="id">
+
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nombre de Rango:</label>
+                        <input type="text" class="form-control" name="nombre_r" id="nombre_r">
+                    </div>
+                    <div class="form-group">
+                        <label for="estado">Estado  *</label>
+                        <select class="form-control" id="parentesco"  name="estado" required>
+                            <option value="">Seleccione Un Estado *</option>
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Descripción:</label>
+                        <textarea class="form-control" name="descripcion" id="dsc" rows="3"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div> 
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+
+    function mostraragregarrango() {
+
+        var mod_add_rango = new bootstrap.Modal(document.getElementById('mod_add_rango'), {
+            keyboard: false
+        });
+
+        mod_add_rango.show();
+        //$('#btn_crear_rep_depto').removeClass('disabled');
+    }
+
+//            $('#frm_rep_vac_depto').on('submit', function () {
+//                $('#btn_crear_rep_depto').addClass('disabled');
+//                $('#mod_reporte_vac_depto').modal('hide');
+//            });
+
+</script>
+
+<script>
+
+    function editarRan(id) {
+        $('#id_rango').val(id);
+        var mod_camb_estado = new bootstrap.Modal(document.getElementById('mod_add_editar'), {
+            keyboard: false
+        });
+
+        $.ajax({
+            type: "POST", //Metodo de envio
+            url: "<?php echo $this->basePath() ?>/mantenimientos/getinforango", //URL del jsp que va a procesar mi solicitud asíncrona
+            traditional: true,
+            dataType: 'json',
+            async: true,
+            data: {id: id}, //{nombre-de-parametro:Valor-para-el-parametro}
+            beforeSend: function () {
+//                    $("#medicos").html("<option value=\"\">Procesando... espere!!</option>");
+            },
+            success: function (data) {
+
+
+
+                $("#nombre_r").val(data.nombre_r);
+                $("#estado").val(data.estado);
+                $("#descripcion").val(data.descripcion);
+            },
+            error: function (XMLHttpRequest, textStatus, exception) {
+                alert("Ajax failure\n" + errortext);
+            }
+
+
+        });
+
+        mod_camb_estado.show();
+        //$('#btn_crear_rep_depto').removeClass('disabled');
+    }
+
+//            $('#frm_rep_vac_depto').on('submit', function () {
+//                $('#btn_crear_rep_depto').addClass('disabled');
+//                $('#mod_reporte_vac_depto').modal('hide');
+//            });
+
+</script>
+
+<script type="text/javascript">
+    direcciones("<?php echo $this->basePath() ?>/mantenimientos/gettablarangos", "<?php echo $this->basePath() ?>");
+    var datagrid = new DatabaseGrid("tbl_dependencias");
+
+    window.onload = function () {
+        $("#filter").keyup(function () {
+            datagrid.editableGrid.filter($(this).val());
+        });
+        $("#pagesizes").change(function () {
+            datagrid.editableGrid.setPageSize($(this).val());
+        });
+    };
+
+
+</script>

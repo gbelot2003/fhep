@@ -1,0 +1,109 @@
+<?php
+$this->headTitle("APP | Title");
+$this->head;
+$info = $this->ob;
+
+if (isset($_SESSION["auth"])) {
+
+    $nombre_usuario = $_SESSION["auth"]['usuario'];
+
+    $DateAndTime = date('Y-m-d h:i:s a', time());
+}
+?>
+<!-- DataTable -->
+
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+
+<!-- encabezado -->
+<div class="container mt-4">
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Objetos</h2>
+                <em>Crear Objetos.</em>
+            </div>
+            <div class="col-lg-6">
+                <div class="btn-group pull-right">
+                    <a href="<?php echo $this->basePath(); ?>/roles" class="w-75 btn btn-md btn-primary next"><span class="icon icon-std icon-back"></span><i class="fa-thin fa-circle-chevron-left"></i>  Regresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- /encabezado -->
+    <div class="border " style="padding: 10px; min-height: 700px;">
+        <div class="row">
+            <h3 class="">Agregar Objetos</h3>
+        </div><!-- /.box-header -->
+
+        <div class="content">
+            <form id="frm_editar_objeto" method="post" enctype="multipart/form-data" action="<?php echo $this->basePath(); ?>/objetos/editar/<?php echo $info['id'] ?>" data-parsley-validate >   
+
+                <input type="hidden" id="id_cita" name="fecha_modificacion" value="<?php echo $DateAndTime ?>" >
+                <input type="hidden" id="id_cita" name="modificado_por" value="<?php echo $nombre_usuario ?>"  >
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Objeto:</label>
+                        <input type="text" class="form-control" name="objeto" id="objeto" maxlength="30" 
+                               value="<?php echo $info['objeto'] ?>" placeholder="Nombre del Objeto"  readonly >
+                    </div>
+                    <!--                    <div class="col-md-6 ">
+                                            <label for="tipo_rol">Tipo de Objeto *</label>
+                                            <select class="form-control" id="objeto"   name="tipo_objeto">
+                                                <option value="Adminitravito">Administrativo</option>
+                                                <option value="Mantenimineto">Mantenimieto</option>
+                                            </select>
+                                        </div>-->
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="descripcion"> descripcion </label>
+                            <input type="text" id="n_identidad" name="descripcion" 
+                                   class="form-control"   placeholder="____-____-_____" 
+                                   value="<?php echo $info['descripcion'] ?>"    />
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label for="estado">Estado de Objeto *</label>
+                        <select class="form-control" id="objeto_estado" name="estado">
+                            <option value="<?php echo $info['estado'] ?>" ><?php echo $info['estado'] ?></option>
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <div class="row mt-4">
+                    <h3 class="">Confirmar y Guardar</h3>
+                </div>
+                <div class="col mt-2">
+                    <div class="d-grid gap-2 col-4">
+                        <button class=" btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Terminar y Guardar</button>
+                        <!--<button class="btn btn-danger" onclick="cancelarform()"  type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>-->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+</script>

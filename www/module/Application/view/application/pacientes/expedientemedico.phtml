@@ -1,0 +1,357 @@
+<?php
+$this->headTitle("FHEP| Expediente Clinico");
+$this->head;
+$info = $this->info;
+
+$DateAndTime = date('Y-m-d H:i:s');
+//echo "<pre>";
+//print_r($this->citapersona);
+?>
+<!-- DataTable -->
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_list_pacientes.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_list_consultas.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+
+<div class="container mt-4">
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Pacientes</h2>
+                <em>Expediente Clínico.</em>
+            </div>
+            <div class="col-lg-6">
+                <div class="btn-group pull-right">
+                    <a href="<?php echo $this->basePath(); ?>/pacientes/consultas" class=" btn btn-md btn-primary next"><span class="icon icon-std icon-back"></span><i class="fa-solid fa-circle-arrow-left"></i>  Regresar</a>
+                    <a href="<?php echo $this->basePath(); ?>/pacientes/expedientehistorico/<?php echo $info['id_cita'] ?>" class=" btn btn-md btn-success next"><i class="fa-light fa-eye"></i>  Ver historial </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /encabezado -->
+    <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/pacientes/expedientemedico/<?php echo $info['id_cita'] ?>" enctype="multipart/form-data" data-parsley-validate >
+
+        <input type="hidden" name="id_afiliado" value="<?php echo $info['id_afiliado'] ?>">
+        <input type="hidden" name="id_medico" value="<?php echo $info['id_medico'] ?>">
+        <input type="hidden" name="id_cita" value="<?php echo $info['id_cita'] ?>">
+        <input type="hidden" name="id_preclinica" value="<?php echo $info['id_preclinica'] ?>">
+        <input type="hidden" name="edad" value="<?php echo $info['edad'] ?>">
+        <input type="hidden" name="id_estado_cita" value="6">
+        <input type="hidden" name="fec_consulta" value="<?php echo $DateAndTime ?>" >
+
+        <div id="_imprimir">
+            <div class="border " style="padding: 10px; min-height: 700px;">
+
+                <div class="form-group row">
+
+                    <div class="  col-11 shadow-sm p-2 mb-5 bg-white rounded mx-auto">
+                        <div class="row">
+                            <h3  class="  text-lg-center text-black mx-auto">Datos de Preclínica</h3>
+                        </div>
+                        <div class="row">
+                            <h4 class=" col-4 text-primary">Generales del Paciente</h4>
+                        </div>
+                        <div class="text-black">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <span class="fw-bold">Nombre Completo:</span><span> <?php echo $info['nombre_completo'] ?> </span>
+                                </div>
+                                <div class="col-md-4">
+                                    <span class="fw-bold">Número de Expediente:</span><span> <?php echo $info['num_expediente'] ?></span>                          
+                                </div> 
+                                <div class="col-md-2">
+                                    <span class="fw-bold">Género:</span><span> <?php echo $info['genero'] ?></span>                          
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-5">
+                                    <span class="fw-bold">Edad: </span><span><?php echo $info['edad'] ?> </span> 
+                                </div>
+                                <div class="col-md-5">
+                                    <span class="fw-bold">Tipo de Sangre:  </span><span><?php echo $info['nombre_ts'] ?> </span> 
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-5">
+                                    <span class="fw-bold">Servicio: </span><span><?php echo $info['especialidad'] ?> </span> 
+                                </div>
+                                <div class="col-md-5">
+                                    <span class="fw-bold">Medico: </span><span><?php echo $info['medico'] ?> </span> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="row">
+                                <h4 class="text-primary">Signos Vitales</h4>
+                            </div>
+                            <div class="content">
+                                <div class="text-black">
+                                    <div class="row mt-2">
+                                        <div class="col-md-4">
+                                            <span class="fw-bold">P/A(mmHg): </span><span><?php echo $info['presion_arterial'] ?> </span> 
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span class="fw-bold">T(Cº): </span><span><?php echo $info['temperatura'] ?> </span> 
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <span class="fw-bold">Glucometría(mg/dl): </span><span><?php echo $info['glucometria'] ?> </span> 
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="row mt-2">
+                                            <div class="col-md-4">
+                                                <span class="fw-bold">FR(x Min): </span><span><?php echo $info['frecuencia_respiratoria'] ?> </span> 
+                                            </div>
+                                            <div class="col-md-3">
+                                                <span class="fw-bold">SpO2%: </span><span><?php echo $info['saturacion_oxigeno'] ?> </span> 
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <span class="fw-bold">FC(x Min): </span><span><?php echo $info['frecuencia_cardiaca'] ?> </span> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <h4 class="col-4 text-primary">Datos antropométricos</h4>
+                        </div>
+                        <div class="content">
+
+                            <div class="text-black">
+                                <div class="row mt-2">
+                                    <div class="col-md-3">
+                                        <span class="fw-bold">Peso(Kg): </span><span><?php echo $info['peso'] ?> </span> 
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span class="fw-bold">Estatura(cm): </span><span><?php echo $info['estatura'] ?> </span> 
+                                    </div>
+                                    <div class="col-md-2">
+                                        <span class="fw-bold">Imc:</span><span><?php echo $info['imc'] ?> </span> 
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span class="fw-bold">Categoria Imc:</span><span><?php echo $info['imc_categoria'] ?> </span> 
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-3">
+                                        <span class="fw-bold">Talla abdominal(cm): </span><span><?php echo $info['talla_abdominal'] ?> </span> 
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span class="fw-bold">Talla cuello(cm): </span><span><?php echo $info['talla_cuello'] ?> </span> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-black">
+                            <div class="row mt-2">
+                                <h4 class="col-4 text-primary">Consulta</h4>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-12">
+                                    <span class="fw-bold">Motivo de Consulta: </span><span><?php echo $info['motivo_consulta'] ?> </span> 
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row mt-1">
+                                <div class="col-md-12">
+                                    <span class="fw-bold">Observaciones/Comentarios Preclinica: </span><span><?php echo $info['observaciones'] ?> </span> 
+                                </div>
+                            </div>
+                        </div>   
+                    </div>
+
+                    <div class="  col-11 shadow-sm p-2 mb-5 bg-transparent rounded mx-auto">
+
+                        <div class="row">
+                            <h4 class="col-6 text-primary ">Anamnesis/Examen fisico:</h4>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="fw-bold">Comentarios Medicos:</label>
+                                <textarea class="form-control" name="comentario_medico" required="yes" id="Comentarios_medicos" rows="3"
+                                          data-parsley-pattern="/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ,\.\#\ \n]{5,5000}$/"   
+                                          data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                          ></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 mt-4 ">
+                                <label class="fw-bold">  Diagnóstico:</label>
+                                <input type="text" class="form-control" name="diagnostico" required="yes" id="diagnostico"  placeholder="Diagnostico" 
+                                       data-parsley-pattern="/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ,\.\#\ \n]{5,1000}$/"   
+                                       data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                       required>
+                            </div>
+                        </div> 
+
+                        <div class="row">
+                            <div class="col-md-12 mt-4">
+                                <label class="fw-bold">Tratamiento:</label>
+                                <textarea class="form-control" name="prescripcion" required="yes" id="Comentarios_medicos" rows="3"
+                                          data-parsley-pattern="/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ,\.\#\ \n]{1,5000}$/" 
+                                          data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                          ></textarea>
+                            </div>
+                        </div>
+
+                        <div class="content">
+                            <h4 class="col-6 mt-4 text-primary ">Dias de incapacidad:</h4>
+
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="dias_reposo">Desde </label>
+                                        <input type="date" id="dias_reposo" name="dias_reposoi" 
+                                               class="form-control" 
+                                               />
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="dias_reposo">Hasta </label>
+                                        <input type="date" id="dias_reposo" name="dias_reposof" 
+                                               class="form-control" 
+                                               />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <h4 class="col-6 text-primary">Plan de Seguimiento:</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="fw-bold">Examenes Laboratotiales:</label>
+                                    <textarea class="form-control" name="examenes_lab" id="examenes_lab" rows="2"
+                                              data-parsley-pattern="/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ,\.\#\ \n]{1,5000}$/" 
+                                              data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                              ></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 mt-3">
+                                    <label class="fw-bold">Examenes Especiales :</label>
+                                    <textarea class="form-control" name="examenes_esp" id="examenes_esp" rows="2"
+                                              data-parsley-pattern="/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ,\.\#\ \n]{1,5000}$/" 
+                                              data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                              ></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 mt-3">
+                                    <label class="fw-bold">Referencias/Citas :</label>
+                                    <textarea class="form-control" name="referencias" id="referencias" rows="2"
+                                              data-parsley-pattern="/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ,\.\#\ \n]{1,5000}$/" 
+                                              data-parsley-pattern-message="Este campo no puede tener caracteres especiales."
+                                              ></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row mt-2">
+                    <div class="box-footer ">
+                        <center>   <button type="submit" id="btn_enviar" class="btn btn-primary "><i class="fal fa-floppy-disk"></i></i>Guardar</button> </center> 
+                        <!--<a href="javascript:imprimirDiv()" class="btn btn-success"><i class="fal fa-1x fa-print"></i> Imprimir</a>-->
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </form>
+</div><!-- /.box -->  
+
+<script>
+    var submit = false;
+    window.onbeforeunload = function () {
+        if (!submit) {
+            return "Desea salir ? se perderan todos los cambios";
+        }
+    };
+
+    $('#id_frm_name').on('submit', function () {
+        submit = true;
+    });
+</script>
+
+<script type="text/javascript">
+
+
+</script>
+<script>
+    $("#dni").keyup(function () {//Elemento que voy a observar "#nombreIdElemento"
+        var val = $(this).val(); //Asignamos el valor del elemento observado
+        $("#nombre_afiliado").val("");
+        $("#num_expediente").val("");
+        $("#edad").val("");
+        $("#servicio").val("");
+        $("#medico").val("");
+        $("#motivo").val("");
+
+
+        var listo = false;
+        if (val.length >= 13 && val.length <= 15) {
+            var regexp;
+
+            regexp = /^[0-9]{4}[-| ]?[0-9]{4}[-| ]?[0-9]{5}$/;
+
+            if (regexp.test(val))
+            {
+                listo = true;
+                $("#respId").html("<div class=\"semibold\"><b>Procesando....</b>   <img src=\"<?php $this->basePath() ?>/img/ajax-loader.gif\" width=\"20\" ></div>");
+
+            } else {
+                listo = false;
+                $("#respId").html("");
+
+            }
+        }
+        if (listo) {
+            $.ajax({
+                type: "POST", //Metodo de envio
+                url: "<?php echo $this->url('afiliados/getnombreafiliado') ?>", //URL del jsp que va a procesar mi solicitud asíncrona
+                traditional: true,
+                dataType: 'json',
+                data: {id: val}, //{nombre-de-parametro:Valor-para-el-parametro}
+                beforeSend: function () {
+                    $("#respuesta_id_afiliado").val("");//Limpiar el campo de respuesta
+                },
+                success: function (data) {
+
+                    if (data.estado === 'ok') {
+
+                        $("#p_nombre_afiliado").html(data.d.nombres);
+                        $("#p_num_expediente").html(data.d.id);
+                        $("#p_edad").html(data.d.edad);
+                        $("#p_servicio").html(data.d.nombre_e);
+                        $("#p_medico").html(data.d.id_medico);
+                        $("#p_motivo").html(data.d.motivo);
+
+
+                        $("#btn_enviar").removeClass('disabled');
+                    } else {
+
+                        mensajeAutoERROR('Error', data.mensaje);
+                        $("#btn_enviar").addClass('disabled');
+                    }
+                }
+
+            });
+        }
+    });
+
+
+</script>

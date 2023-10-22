@@ -1,0 +1,50 @@
+
+<?php
+$this->headTitle("FHEP| Recuperar Contraseña");
+$this->head;
+?>
+
+<?php
+$ds = [];
+
+//echo "<pre>";
+//            print_r($_SESSION);
+//            exit;
+?>
+<!-- DataTable -->
+
+<?php $this->headScript()->prependFile($this->basePath() . '/theme/js/jquery.maskedinput.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablas/js/jquery.dataTables.js') ?>
+
+
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablas/css/jquery.dataTables.css') ?>
+
+
+
+<div class="container mt-4">
+    <!-- encabezado -->
+    <!--<div class="modal fade" id="camb_pass" tabindex="-1" role="dialog" aria-labelledby="camb_pass" aria-hidden="true">-->
+    <div class="modal-dialog" role="document"> 
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="camb_pass">Debe cerrar sesion para ingresar</h5>
+            </div>
+
+            <div class="modal-body">
+                <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/usuarios/cerrarsesion" enctype="multipart/form-data" data-parsley-validate >
+
+                    <div  class="row" >
+                        <button type="submit" class="btn btn-primary"><h4> Cerrar Sesion </h4><i class="fa-regular fa-2x fa-power-off"></i></button>
+                    </div>
+                    
+                     <div  class="row mt-4 " >
+                       <a href="<?php echo $this->basePath(); ?>/" class="btn btn-danger"><h4> Cancelar </h4><i class="fa-regular fa-2x fa-rectangle-xmark"></i></a>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

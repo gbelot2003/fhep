@@ -1,0 +1,773 @@
+
+<?php
+$this->headTitle("FHEP| Recuperar Contraseña");
+$this->head;
+?>
+
+<?php
+$ds = [];
+
+
+//echo "<pre>";
+//            print_r($_SESSION);
+//            exit;
+?>
+<!-- DataTable -->
+
+<?php $this->headScript()->prependFile($this->basePath() . '/theme/js/jquery.maskedinput.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablas/js/jquery.dataTables.js') ?>
+
+
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablas/css/jquery.dataTables.css') ?>
+
+
+
+<div class="container mt-4">
+    <!-- encabezado -->
+    <!--<div class="modal fade" id="camb_pass" tabindex="-1" role="dialog" aria-labelledby="camb_pass" aria-hidden="true">-->
+    <div class="modal-dialog" role="document"> 
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="camb_pass">Recuperar Contraseña</h5>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-auto mr-auto md-4">
+                        <em><small class="text-primary">Seleccione un Método de Recuperación</small></em>
+                    </div>
+                </div>
+                    <div class="form-group">
+                        <div class="alert alert-primary" role="alert">
+                            <a href="javascript:mostrarrpregunta()" class="alert-link">Recuperación por Preguntas</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="alert alert-primary" role="alert">
+                            <a href="javascript:mostrarrcorreo()" class="alert-link">Recuperación por Correo</a>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                 <a href="<?php echo $this->basePath(); ?>/" class="btn btn-danger"><span class="btn btn-danger"></span><i class="fa-thin fa-circle-chevron-left"></i>  Cancelar</a>
+                <!--<button  href="<?php echo $this->basePath() ?>/" type="button" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>-->
+
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--MODAL-->
+<div class="modal fade" id="mod_rec_preg" tabindex="-1" role="dialog" aria-labelledby="mod_rec_preg" aria-hidden="true">
+    <div class="modal-dialog" role="document"> 
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="camb_estado">Seleccione Una Pregunta de Seguridad</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="id_frm_pregunta" method="post" action="<?php echo $this->basePath(); ?>/usuarios/recupass" enctype="multipart/form-data" data-parsley-validate >
+                <div class="modal-body">
+<!--                    <input type="hidden" id="id_cita" name="id_cita">-->
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Usuario:</label>
+                        <input type="text" class="form-control" name="usuario" id="usuario" 
+                               maxlength="20" placeholder="Nombre del Usuario" 
+                             data-parsley-pattern="/^([0-9A-Za-zñÑ]{5,20})$/"
+                               required style="text-transform:uppercase" >
+                    </div>
+                    <label for="preguntas"><i class="fad fa-seal-question"></i> Preguntas  </label>
+                    <select class="form-control form-control-lg" id="nombre_ts" required="yes" name="Id_pregunta">
+                        <option value="">Seleccione Su Pregunta *</option>
+                        <?php foreach ($this->pre as $d): ?>
+                            <option  title="<?php echo $d['pregunta'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['pregunta'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Respuesta:</label>
+                        <input type="text" class="form-control" name="respuesta"  required="yes" id="respuestas"
+                               data-parsley-pattern="/^([a-z0-9A-Z ,.#ñÑáéíóúÁÉÍÓÚ]{1,100})$/"
+                                maxlength="100"
+                               placeholder="recuerde escribir su respuesta tal y como la guardo" >
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Recuperar Contraseña</button>
+                </div> 
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!--MODAL-->
+<div class="modal fade" id="mod_rec_correo" tabindex="-1" role="dialog" aria-labelledby="mod_rec_correo" aria-hidden="true">
+    <div class="modal-dialog" role="document"> 
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="camb_estado">Hemos enviado instrucciones a su correo para restablecer la contraseña </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/usuarios/recpassmail" enctype="multipart/form-data" data-parsley-validate >
+                <div class="modal-body">
+<!--                    <input type="hidden" id="id_cita" name="id_cita">-->
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Correo eléctronico:</label>
+                        <input type="email" class="form-control" name="correo" id="correo">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Recuperar Contraseña</button>
+                </div> 
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+
+    function mostrarrpregunta() {
+
+        var mod_rec_preg = new bootstrap.Modal(document.getElementById('mod_rec_preg'), {
+            keyboard: false
+        });
+
+        mod_rec_preg.show();
+        //$('#btn_crear_rep_depto').removeClass('disabled');
+    }
+
+//            $('#frm_rep_vac_depto').on('submit', function () {
+//                $('#btn_crear_rep_depto').addClass('disabled');
+//                $('#mod_reporte_vac_depto').modal('hide');
+//            });
+
+</script>
+<script>
+
+    function mostrarrcorreo() {
+
+        var mod_rec_correo = new bootstrap.Modal(document.getElementById('mod_rec_correo'), {
+            keyboard: false
+        });
+
+        mod_rec_correo.show();
+        //$('#btn_crear_rep_depto').removeClass('disabled');
+    }
+
+//            $('#frm_rep_vac_depto').on('submit', function () {
+//                $('#btn_crear_rep_depto').addClass('disabled');
+//                $('#mod_reporte_vac_depto').modal('hide');
+//            });
+
+</script>
+
+
+
+<script type="text/javascript">
+    indice = <?php echo $this->tr ?>;
+
+
+    function eliminarRespuesta(id_pregunta, id_usuario, indice, pregunta) {
+        var r = confirm("Confirme que desea elminar la respuesta de la pregunta " + pregunta + "?");
+        if (r === true) {
+
+            $.ajax({
+                type: "POST", //Metodo de envio
+                url: "<?php echo $this->url('Usuarios/eliminarrespuestaasync') ?>", //URL del jsp que va a procesar mi solicitud asíncrona
+                traditional: true,
+                dataType: 'json',
+                data: {id_usuario: id_usuario, id_pregunta: id_pregunta}, //{nombre-de-parametro:Valor-para-el-parametro}
+                beforeSend: function () {
+                    //$("#respuesta_id_afiliado").val("");//Limpiar el campo de respuesta
+                },
+                success: function (data) {
+
+                    if (data.estado === 'ok') {
+                        $("#id_pregunta").html(data.preguntas);
+                        $(".fila_" + indice).remove();
+                        mensajeAutoSUCCESS('Eliminada!', "Respuesta eliminada exitosamente!");
+
+                    } else {
+                        mensajeAutoERROR('Error', data.mensaje);
+                    }
+                }
+
+            });
+
+        }
+    }
+
+
+    function guardarRespuesta() {
+        indice++;
+        var respuesta = $("#respuesta").val();
+        var id_pregunta = $('#id_pregunta option:selected').val();
+        var pregunta = $('#id_pregunta option:selected').text();
+        var id_usuario = "<?php echo $ds['id_usuario'] ?>";
+
+        var lista_respuestas = '<div class="row border fila_' + indice + '">'
+                + '<div class="col-lg-4 pt-3">'
+                + pregunta
+                + '</div>'
+                + '<div class="col-md-4 pt-3">'
+                + respuesta
+                + '</div>'
+                + '<div class="col-md-4 pb-4">'
+                + '<div class="mt-4">'
+                + '<a href="javascript:eliminarRespuesta(\'' + id_pregunta + '\' , \'' + id_usuario + '\' , \'' + indice + '\' , \'' + pregunta + '\')" class=""> Eliminar</a>'
+                + '</div>'
+                + '</div>'
+                + '</div>';
+
+        $.ajax({
+            type: "POST", //Metodo de envio
+            url: "<?php echo $this->url('Usuarios/guardarrespuestaasync') ?>", //URL del jsp que va a procesar mi solicitud asíncrona
+            traditional: true,
+            dataType: 'json',
+            data: {id_usuario: id_usuario, id_pregunta: id_pregunta, respuesta: respuesta}, //{nombre-de-parametro:Valor-para-el-parametro}
+            beforeSend: function () {
+                //$("#respuesta_id_afiliado").val("");//Limpiar el campo de respuesta
+            },
+            success: function (data) {
+
+                if (data.estado === 'ok') {
+
+                    $("#respuesta").val("");
+                    $("#id_pregunta").html(data.preguntas);
+                    $('#lista').append(lista_respuestas);
+                    mensajeAutoSUCCESS('Guardado!', "Respuesta guardada exitosamente!");
+                } else {
+                    mensajeAutoERROR('Error', data.mensaje);
+                }
+            }
+        });
+    }
+</script>
+
+<script type="text/javascript">
+
+    //jQuery(function($){
+
+    $("#identidad").mask("9999-9999-99999");
+    $("#tel_fijo").mask("9999-9999");
+    $("#tel_celular").mask("9999-9999");
+    $(".identidad_beneficiario").mask("9999-9999-99999");
+    $(".identidad_beneficiario").attr("placeholder", "____-____-_____");
+    $(".telefono_fijo_beneficiario").mask("9999-9999");
+    $(".celular_beneficiario").mask("9999-9999");
+    $(".telefono_fijo_beneficiario").attr("placeholder", "____-____");
+    $(".celular_beneficiario").attr("placeholder", "____-____");
+    $("#tel_emergencia_1").mask("9999-9999");
+    $("#tel_emergencia_2").mask("9999-9999");
+    $("#tel_emergencia_3").mask("9999-9999");
+    $("#cel_emergencia_1").mask("9999-9999");
+    $("#cel_emergencia_2").mask("9999-9999");
+    $("#cel_emergencia_3").mask("9999-9999");
+    //});
+
+</script>
+
+<script type="text/javascript">
+
+    $('.pestania').on('click', function () {
+
+        var bloque = $(this).data('target');
+        if ($("#li_form" + bloque).hasClass("complete")) {
+
+            for (j = bloque + 1; j <= 20; j++) {
+                //Bloques
+                $('#block' + j).removeClass('active');
+                //$('#block' + next).addClass('active');
+                //Pestañas
+                $('#li_form' + j).removeClass('active');
+                $('#li_form' + j).removeClass('complete');
+                //$('#li_form' + next).addClass('active');
+                //Numeros
+                $('#sp_form' + j).removeClass('badge-info');
+                $('#sp_form' + j).removeClass('badge-success');
+                //$('#sp_form' + next).removeClass('badge-success');
+                //$('#sp_form' + next).addClass('badge-info');
+
+            }
+
+            $('#block' + bloque).addClass('active');
+
+            $('#li_form' + bloque).removeClass('complete');
+            $('#li_form' + bloque).addClass('active');
+
+            $('#sp_form' + bloque).removeClass('badge-success');
+            $('#sp_form' + bloque).addClass('badge-info');
+
+        }
+
+
+    });
+
+
+    $('.next').on('click', function () {
+
+
+        var current = $(this).data('currentBlock'),
+                next = $(this).data('nextBlock');
+
+
+        var isOk = false;
+        // only validate going forward. If current group is invalid, do not go further
+        // .parsley().validate() returns validation result AND show errors
+        if (next > current) {
+
+            if (false === $('#frm_login1').parsley().validate('block' + current)) {
+                return;
+            } else {
+
+                //                if (next === 7) {
+                //                    isOk = (validarPorcentajeBeneficiarios() & validarIdentidadesBeneficiarios());
+                //                } else {
+                //                    isOk = true;
+                //                }
+                isOk = true;
+
+                if (isOk) {
+
+                    // Cambiar las clases para mostrar el siguiente
+                    //Bloques
+                    $('#block' + current)
+                            .removeClass('active');
+                    $('#block' + next)
+                            .addClass('active');
+                    //Pestañas
+                    $('#li_form' + current)
+                            .removeClass('active');
+                    $('#li_form' + current)
+                            .addClass('complete');
+                    $('#li_form' + next)
+                            .addClass('active');
+                    //Numeros
+                    $('#sp_form' + current)
+                            .removeClass('badge-info');
+                    $('#sp_form' + current)
+                            .addClass('badge-success');
+                    $('#sp_form' + next)
+                            .addClass('badge-info');
+                }
+            }
+        }
+        //Regresar
+        if (next < current) {
+            // Cambiar las clases para mostrar el anterior
+            //Bloques
+            $('#block' + current)
+                    .removeClass('active');
+            $('#block' + next)
+                    .addClass('active');
+            //Pestañas
+            $('#li_form' + current)
+                    .removeClass('active');
+            $('#li_form' + next)
+                    .removeClass('complete');
+            $('#li_form' + next)
+                    .addClass('active');
+            //Numeros
+            $('#sp_form' + current)
+                    .removeClass('badge-info');
+            $('#sp_form' + next)
+                    .removeClass('badge-success');
+            $('#sp_form' + next)
+                    .addClass('badge-info');
+        }
+
+
+
+        if (next === 5) {
+//            $("#p_foto").html("<img class=\"img-thumbnail\" id=\"p_img\" src=\"" + $("#foto").val() + "\" alt=\"Foto\" width=\"100\">");
+//            var nac = $('#nacionalidad option:selected').text();
+//            $("#p_nacionalidad").html(nac.toUpperCase());
+//            $("#p_identidad").html($("#n_identidad").val());
+//            $("#p_nombres").html($("#nombres").val().toUpperCase());
+//            $("#p_apellidos").html($("#apellidos").val().toUpperCase());
+//            $("#p_nacimiento").html($("#fecha_nacimiento").val());
+//            var t_sangre = $('#nombre_ts option:selected').text();
+//            $("#p_t_sangre").html(t_sangre.toUpperCase());
+//            var t_civil = $('#nombre_es option:selected').text();
+//            $("#p_est_civil").html(t_civil.toUpperCase());
+//            //$("#p_genero").html($('input:radio[name=genero]:checked').val().toUpperCase());
+//            var t_nacimiento = $('#nombre_de option:selected').text();
+//            $("#p_lugarn").html(t_nacimiento.toUpperCase());
+//            $("#p_tel_fijo").html($("#tel_fijo").val());
+//            $("#p_cel").html($("#tel_celular").val());
+//            $("#p_correo").html($("#correo").val());
+//            $("#p_direccion").html($("#direccion").val().toUpperCase());
+//
+//            var nivel_academico = $('#nivel_academico option:selected').val();
+//            $("#p_nivel_academico").html(nivel_academico.toUpperCase());
+//            $("#p_prof_oficio").html($("#profesion").val().toUpperCase());
+//
+//            if ($("#postgrado_doctorado").length > 0) {
+//
+//                $("#p_post_doc").html($("#postgrado_doctorado").val().toUpperCase());
+//            } else {
+//
+//                $(".postgrado").remove();
+//            }
+//            $("#p_nom_eme_1").html($("#nombre_emergencia_1").val().toUpperCase());
+//            $("#p_nom_eme_2").html($("#nombre_emergencia_2").val().toUpperCase());
+//            $("#p_nom_eme_3").html($("#nombre_emergencia_3").val().toUpperCase());
+//            $("#p_tel_eme_1").html($("#tel_emergencia_1").val());
+//            $("#p_tel_eme_2").html($("#tel_emergencia_2").val());
+//            $("#p_tel_eme_3").html($("#tel_emergencia_3").val());
+//            $("#p_cel_eme_1").html($("#cel_emergencia_1").val());
+//            $("#p_cel_eme_2").html($("#cel_emergencia_2").val());
+//            $("#p_cel_eme_3").html($("#cel_emergencia_3").val());
+//
+//            var id_ben = document.getElementsByName('identidad_beneficiario[]');
+//            var nom_ben = document.getElementsByName('nombre_completo_beneficiario[]');
+//            var par_ben = document.getElementsByName("parentezco[]");
+//            var tel_ben = document.getElementsByName("telefono_fijo_beneficiario[]");
+//            var cel_ben = document.getElementsByName("celular_beneficiario[]");
+//            var por_ben = document.getElementsByName("porcentaje_beneficiario[]");
+//
+//
+//            var tabla = '<table style="width: 100%;" class="table">';
+//            tabla += '<tr>';
+//            tabla += '<th>Identidad</th><th>Nombre</th><th>Parentezco</th><th>Teléfono</th><th>Celular</th><th>Porcentaje</th>';
+//            tabla += '</tr>';
+//            for (var k = 0; k < id_ben.length; ++k) {
+//                tabla += '<tr><td>' + id_ben[k].value + '</td><td>' + nom_ben[k].value.toUpperCase() + '</td><td>' + par_ben[k].value.toUpperCase() + '</td><td>' + tel_ben[k].value + '</td><td>' + cel_ben[k].value + '</td><td>' + por_ben[k].value + ' %</td></tr>';
+//            }
+//            $("#tabla_ben").html(tabla);
+
+        }
+
+    });
+
+
+    function validarPorcentajeBeneficiarios() {
+        //Validar que el porcentaje suma 100
+        var elem = document.getElementsByClassName("porcentaje_beneficiario");
+
+        var totalPorcentajeBen = 0;
+        for (var i = 0; i < elem.length; ++i) {
+            if (typeof elem[i].value !== "undefined") {
+                totalPorcentajeBen += parseFloat(elem[i].value);
+
+            }
+        }
+
+        if (totalPorcentajeBen < 100.00) {
+            mensajeERROR('Error en Porcentaje!', 'El porcentaje es menor del <b>100 %</b><br>Falta repartir el <b>' + (100.00 - totalPorcentajeBen) + ' %</b>');
+            return false;
+        } else if (totalPorcentajeBen > 100.00) {
+            mensajeERROR('Error en Porcentaje!', 'El porcentaje excede del <b>100 %</b><br>Se pasa por un <b>' + (totalPorcentajeBen - 100.00) + ' %</b>');
+            return false;
+        }
+
+        return true;
+    }
+
+    function validarIdentidadesBeneficiarios() {
+        //Validar que las identidades no esten repetidas
+        var elem = document.getElementsByClassName("identidad_beneficiario");
+        var identidades = [];
+        for (var i = 0; i < elem.length; ++i) {
+            if (typeof elem[i].value !== "undefined") {
+                if (!estaRepetido(identidades, elem[i].value)) {
+                    identidades.push(elem[i].value);
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    function estaRepetido(arreglo, valor) {
+
+        for (var i = 0; i < arreglo.length; i++) {
+
+            if (arreglo[i] === valor) {
+                mensajeERROR('Error en Identidades!', 'La identidad <b>' + valor + '</b> se encuentra repetida.');
+                return true;
+            }
+        }
+        return false;
+    }
+
+</script>
+
+<script type="text/javascript">
+
+
+
+    $("#identidaddes").keyup(function () {
+        var buscar = $(this).val();
+        //Validar Formato y longitud
+        var listo = false;
+        if (buscar.length === 15) {
+            var regexp;
+            regexp = /^[0-9]{4}[-][0-9]{4}[-][0-9]{5}$/;
+            if (!regexp.test(buscar))
+            {
+                $("#respId").html("");
+                limpiar();
+
+            } else {
+                listo = true;
+                $("#respId").html("<div class=\"semibold\"><b>Procesando....</b>   <img src=\"<?php $this->basePath() ?>/img/ajax-loader.gif\" width=\"20\" ></div>");
+            }
+        } else {
+            $("#respId").html("");
+            limpiar();
+        }
+        if (listo) {
+            limpiar();
+            $.ajax({
+                type: "POST",
+                url: "<?php echo $this->basePath() ?>/chpersonas/existe",
+                traditional: true,
+                dataType: "json",
+                data: {buscar: buscar},
+                success: function (r) {
+                    if (r.resp === "error") {
+                        $("#respId").html(r.mensaje);
+                        limpiar();
+                    } else if (r.resp === "no encontrado") {
+                        $("#respId").html("<b class=\"text-success\">" + r.mensaje + "<b/>");
+                        limpiar();
+                    } else if (r.resp === "ok") {
+                        $("#respId").html("<b class=\"text-success\">Identidad encontrada en el CNE<b/>");
+
+                        $("#nombres").val(r.d.nombres);
+                        $("#apellidos").val(r.d.apellidos);
+                        $("#fecha_nacimiento").val(r.d.fecha_nacimiento_f);
+                        $("#lugar_nacimiento").val(r.d.nombre_municipio + ", " + r.d.nombre_departamento);
+                        $("#direccion").val(r.d.direccion);
+
+                        var genero = r.d.descripcion_sexo;
+
+                        if (genero === "MASCULINO") {
+                            $("#genero_2").prop("checked", false);
+                            $("#genero_1").prop("checked", true);
+                        } else if (genero === "FEMENINO") {
+                            $("#genero_1").prop("checked", false);
+                            $("#genero_2").prop("checked", true);
+                        }
+
+
+                    } else {
+                        $("#respId").html("<b class=\"text-danger\">" + r.mensaje + "<b/>");
+                        limpiar();
+                    }
+                }
+            });
+        }
+    });
+    $("#nacionalidad").change(function () {
+
+        var nac = $('#nacionalidad option:selected').text();
+        if (nac === "Honduras") {
+            $("#identidad").mask("9999-9999-99999");
+                    $("#identidad").attr("placeholder") = "____-____-_____";
+        } else {
+            $("#identidad").mask("99-9999-9999-99999");
+                    $("#identidad").attr("placeholder") = "__-____-____-_____";
+        }
+
+    });
+
+    function limpiar() {
+
+        $("#nombres").val("");
+        $("#apellidos").val("");
+        $("#fecha_nacimiento").val("");
+        $("#lugar_nacimiento").val("");
+        $("#direccion").val("");
+
+        $("#genero_1").prop("checked", false);
+        $("#genero_2").prop("checked", false);
+
+
+    }
+
+</script>
+
+
+
+
+
+<!-- Configure a few settings and attach camera -->
+<script language="JavaScript">
+    function getFile() {
+        document.getElementById("inputFileToLoad").click();
+    }
+
+    function encodeImageFileAsURL() {
+
+        var filesSelected = document.getElementById("inputFileToLoad").files;
+        if (filesSelected.length > 0) {
+            var fileToLoad = filesSelected[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function (fileLoadedEvent) {
+                var srcData = fileLoadedEvent.target.result; // <--- data: base64
+
+                //var newImage = document.createElement('img');
+                //newImage.src = srcData;
+
+
+                $("#pic_server").html("<div class=\"semibold\"><b>Procesando....</b>   <img src=\"<?php echo $this->basePath(); ?>/ajax-loader.gif\" width=\"20\" ></div>");
+                $("#pic_server").html("<img  id=\"imagen_serv\" src=\"" + srcData + "\" alt=\"Foto\" width=\"300\">");
+                iniciarCropper();
+                //document.getElementById("imgTest").innerHTML = newImage.outerHTML;
+                // alert("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);
+                //console.log("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);
+            }
+            fileReader.readAsDataURL(fileToLoad);
+        }
+    }
+
+</script>
+
+<script language="JavaScript">
+
+    existe_campo_postgrado = false;
+    $("#nivel_academico").change(function () {
+
+        texto_insertar = '<div class="row postgrado_01">';
+        texto_insertar += '<div class="col-lg-4">';
+        texto_insertar += '<div class="form-group">';
+        texto_insertar += '<label for="postgrado_doctorado">Postgrado o Doctorado *</label>';
+        texto_insertar += '<input type="text" maxlength="150" id="postgrado_doctorado" name="postgrado_doctorado" class="form-control" style="text-transform:uppercase;"';
+        texto_insertar += 'data-parsley-pattern="/^([a-zA-Z0-9_-,:.ñÑáéíóúÁÉÍÓÚ ])$/" ';
+        texto_insertar += 'data-parsley-group="block4"  required placeholder="Ingrese el postgrado o doctorado" ';
+        texto_insertar += 'title="Ingrese el postgrado o doctorado obtenido"/>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        var nivel = $('#nivel_academico option:selected').val()
+        if (nivel === "POSTGRADO" || nivel === "DOCTORADO") {
+            //$("#for_postgrado").generaNuevosCampos("Desde", "rangos", 99);
+            if (!existe_campo_postgrado) {
+                $("#for_postgrado").html(texto_insertar);
+            }
+            existe_campo_postgrado = true;
+        } else {
+            if (existe_campo_postgrado) {
+                $(".postgrado_01").remove();
+            }
+            existe_campo_postgrado = false;
+        }
+
+    });</script>
+
+<script>
+
+    function borrarBeneficiario(clase) {
+        var r = confirm("Confirme que desea elminar este Beneficiario?");
+        if (r === true) {
+            $("." + clase).remove();
+        } else {
+
+        }
+    }
+
+    $('#nuevoBeneficiario').click(function (e) {
+        e.preventDefault();     //prevenir novos clicks
+
+        texto_insertar = '<div class="rows box box-primary ben_' + indice + '" style="width: 98%; padding: 10px;">';
+        texto_insertar += '<div class="row ">';
+        texto_insertar += '<div class="col-md-6">';
+        texto_insertar += '<h5>Beneficiario</h5>';
+        texto_insertar += '</div>';
+        texto_insertar += '<div class="col-md-6">';
+        texto_insertar += '<div class="form-group pull-right" style="padding-top: 22px;">';
+        texto_insertar += '<label></label>';
+        texto_insertar += '<a href="javascript:borrarBeneficiario(\'ben_' + indice + '\')" title="Eliminar Beneficiario." class="btn btn-outline-danger btn-xs"><span class="icon icon-std icon-minus"></span>  Eliminar</a>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '<div class="row ">';
+        texto_insertar += '<div class="col-lg-3">';
+        texto_insertar += '<div class="form-group">';
+        texto_insertar += '<label for="identidad_beneficiario">Número de Identidad *</label>';
+        texto_insertar += '<input type="text" maxlength="15" id="identidad_beneficiario[]" name="identidad_beneficiario[]" class="form-control identidad_beneficiario" required data-parsley-group="block5"/>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '<div class="col-md-3">';
+        texto_insertar += '<div class="form-group">';
+        texto_insertar += '<label for="nombre_completo_beneficiario">Nombres Completo del Beneficiario *</label>';
+        texto_insertar += '<input type="text" maxlength="120" name="nombre_completo_beneficiario[]" id="nombre_completo_beneficiario[]" class="form-control" required data-parsley-group="block5"  autocomplete="off" style="text-transform:uppercase;"';
+        texto_insertar += 'data-parsley-pattern="/^([a-zA-Z0-9_- ñÑáéíóúÁÉÍÓÚ]{2,120})$/" ';
+        texto_insertar += 'data-parsley-pattern-message="Este campo debe contener al menos 2 caracteres." />';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '<div class="col-md-3">';
+        texto_insertar += '<div class="form-group">';
+        texto_insertar += '<label for="parentezco">Parentezco *</label>';
+        texto_insertar += '<input type="text" maxlength="120" name="parentezco[]" id="parentezco[]" class="form-control" required data-parsley-group="block5"  autocomplete="off" style="text-transform:uppercase;"';
+        texto_insertar += 'data-parsley-pattern="/^([a-zA-Z0-9_- ñÑáéíóúÁÉÍÓÚ]{2,120})$/" ';
+        texto_insertar += 'data-parsley-pattern-message="Este campo debe contener al menos 2 caracteres." />';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '<div class="row ">';
+        texto_insertar += '<div class="col-md-3">';
+        texto_insertar += '<div class="form-group">';
+        texto_insertar += '<label for="telefono_fijo_beneficiario">Teléfono Fijo</label>';
+        texto_insertar += '<input type="text" maxlength="10" name="telefono_fijo_beneficiario[]" id="telefono_fijo_beneficiario[]" class="form-control telefono_fijo_beneficiario" data-parsley-group="block5" autocomplete="off"';
+        texto_insertar += 'placeholder="____-____"/>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '<div class="col-md-3">';
+        texto_insertar += '<div class="form-group">';
+        texto_insertar += '<label for="celular_beneficiario">Celular </label>';
+        texto_insertar += '<input type="text" maxlength="10" name="celular_beneficiario[]" id="celular_beneficiario[]" class="form-control celular_beneficiario" data-parsley-group="block5" autocomplete="off"';
+        texto_insertar += 'placeholder="____-____"/>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '<div class="col-md-3">';
+        texto_insertar += '<div class="form-group">';
+        texto_insertar += '<label for="porcentaje_beneficiario">Porcentaje *</label>';
+        texto_insertar += '<div class="input-group">';
+        texto_insertar += '<input type="text" maxlength="5" id="porcentaje_beneficiario[]" name="porcentaje_beneficiario[]" class="form-control porcentaje_beneficiario" ';
+        texto_insertar += 'data-parsley-pattern="/^([0-9]{1,2}[.][0-9][0-9]?)$/" ';
+        texto_insertar += 'data-parsley-group="block5"  required placeholder="Monto que será repartido" ';
+        texto_insertar += 'title="Ingrese el porcentaje."/>';
+        texto_insertar += '<span class="input-group-addon"> % </span>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+        texto_insertar += '</div>';
+
+        $('#listas').append(texto_insertar);
+        indice++;
+
+    });
+
+    var indice = 1;
+
+    function formato() {
+
+        $(".identidad_beneficiario").mask("9999-9999-99999");
+        $(".identidad_beneficiario").attr("placeholder", "____-____-_____");
+        $(".telefono_fijo_beneficiario").mask("9999-9999");
+        $(".celular_beneficiario").mask("9999-9999");
+        $(".telefono_fijo_beneficiario").attr("placeholder", "____-____");
+        $(".celular_beneficiario").attr("placeholder", "____-____");
+    }
+
+
+</script>
+

@@ -1,0 +1,226 @@
+<?php
+$this->headTitle("LogIn");
+$this->head;
+?>
+<?php if (!isset($_SESSION["auth"])): ?>
+    <div>
+        <form id="frm_login" method="post" enctype="multipart/form-data" action="<?php echo $this->basePath(); ?>/usuarios/login" data-parsley-validate >
+            <section class="vh-25 gradient-custom overflow-hidden">
+                <div class="container py-2 mt-5 mb-0">
+                    <div class="row d-flex justify-content-center align-items-center">
+                        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                            <div class="card bg-dark text-white" style="border-radius: 1rem">
+                                <div class="card-body p-5 text-center">
+                                    <div class="mb-md-2 mt-md-2 pb-2">
+                                        <h2 class="fw-bold mb-2 text-uppercase">Iniciar Sesión</h2>
+                                        <p class="text-white-50 mb-5">
+                                            ¡Por favor, introduzca su nombre de usuario y contraseña!
+                                        </p>
+                                        <div>
+                                            <input type="text" id="usuario" class="form-control form-control-lg" name="usuario"   
+                                                   required onkeypress="return soloLetras(event)" onkeyup="aaa(this, event)" 
+                                                   style="text-transform:uppercase;" onkeyup="javascript:this.value = this.value.toUpperCase();" />
+                                            <label class="form-label" for="typeEmailX">Usuario</label
+                                            >
+                                        </div>
+                                        <div >
+                                            <div >
+                                                <div style="display: flex;">                      
+                                                    <input type="password" name="contrasenia" id="Contraseña" class="form-control form-control-lg " required minlength="1" maxlength="100" onkeyup="aaa(this, event)"/>
+                                                    <button  type="button" class=" bottom form-control-lg  " onclick="mostrarContrasena()">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
+                                                            <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"/>
+                                                            <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"/>
+                                                            <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z"/>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <label class="form-label" for="typePasswordX">Contraseña</label>
+                                    </div>
+                                    <button
+                                        class="btn btn-outline-light btn-lg px-5"
+                                        type="submit" id="Ingresar"
+                                        >
+                                        INICIAR SESIÓN
+                                    </button>
+                                    <br><br>
+                                            <a class="btn btn-outline-light btn-lg px-5" 
+                                               href="<?php echo $this->basePath() ?>/usuarios/autoregistro" role="button">Registrarse</a>
+
+                                            <div class="form-outline form-white mt-5 mb-0">
+                                                <p class="small mb-5 pb-lg-2">
+                                                    <a class="text-white-50" href="olvido_.php"
+                                                       >¿Olvidó su contraseña?</a
+                                                    >
+                                                </p>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div>
+
+                                            </section>
+                                            </form>
+                                            </div>
+                                        <?php else: ?>
+
+                                            <br>
+                                                <div class="box-header">
+                                                    <h1 class="box-title"> BIENVENIDO </h1>
+                                                </div><!-- /.box-header -->
+                                                <br></br>   <br></br>
+                                                                <!--<img src="<?php echo $this->basePath() ?>/img/inicio.jpeg" width="65%" alt="...">-->
+                                                <div class="col-lg-3 col-xs-6">
+                                                    <!-- small box -->
+                                                    <div class="small-box bg-green">
+                                                        <div class="inner">
+
+                                                            <h3>
+                                                                <?php echo $this->num_medi['num_medicos'] ?>
+                                                            </h3>
+                                                            <p> Medicos<small>Total De Medicos Activos</small></p>
+                                                        </div>
+                                                        <div class="icon">
+                                                            <i class="far fa-5x fa-solid fa-user-doctor"></i>
+                                                        </div>
+                                                        <a href="../paciente/paciente.php" class="small-box-footer">Mas Info<i class="fal  fa-arrow-circle-right"></i></a>
+                                                    </div>
+                                                </div>
+
+                                                                <!--<img src="<?php echo $this->basePath() ?>/img/inicio.jpeg" width="65%" alt="...">-->
+                                                <div class="col-lg-3 col-xs-6">
+                                                    <!-- small box -->
+                                                    <div class="small-box bg-blue">
+                                                        <div class="inner">
+
+                                                            <h3>
+                                                                <?php echo $this->num_afi['num_afiliados'] ?>
+                                                            </h3>
+                                                            <p> Afiliados<small>Total De Afiliados Activos</small></p>
+                                                        </div>
+                                                        <div class="icon">
+                                                            <i class="far fa-5x fa-solid fa-user-police-tie"></i>
+                                                        </div>
+                                                        <a href="<?php echo $this->url("afiliados") ?>" class="small-box-footer">Mas Info<i class="fal  fa-arrow-circle-right"></i></a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-3 col-xs-6">
+                                                    <!-- small box -->
+                                                    <div class="small-box bg-orange">
+                                                        <div class="inner">
+
+                                                            <h3>
+                                                                <?php echo $this->num_citas['num_citas'] ?>
+                                                            </h3>
+                                                            <p> Citas<small>Total De Citas Para Hoy</small></p>
+                                                        </div>
+                                                        <div class="icon">
+                                                            <i class="far fa-5x fa-solid fa-calendar-clock"></i>
+                                                        </div>
+                                                        <a href="../paciente/paciente.php" class="small-box-footer">Mas Info<i class="fal  fa-arrow-circle-right"></i></a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-3 col-xs-6">
+                                                    <!-- small box -->
+                                                    <div class="small-box bg-red">
+                                                        <div class="inner">
+
+                                                            <h3>
+                                                                <?php echo $this->num_bene['num_beneficiarios'] ?>
+                                                            </h3>
+                                                            <p> Beneficiarios<small>Total De Beneficiarios Nuevos</small></p>
+                                                        </div>
+                                                        <div class="icon">
+                                                            <i class="far fa-5x fa-solid fa-user-friends"></i>
+                                                        </div>
+                                                        <a href="../paciente/paciente.php" class="small-box-footer">Mas Info<i class="fal  fa-arrow-circle-right"></i></a>
+                                                    </div>
+                                                </div>
+
+
+
+                                            <?php endif; ?>
+
+
+
+                                            <script>
+                                                function mostrarContrasena() {
+                                                    var tipo = document.getElementById("Contraseña");
+                                                    if (tipo.type == "password") {
+                                                        tipo.type = "text";
+                                                    } else {
+                                                        tipo.type = "password";
+                                                    }
+                                                }
+                                            </script>
+                                            <script>
+                                                window.onload = function () {
+                                                    var myInput = document.getElementById('Contraseña');
+                                                    myInput.onpaste = function (e) {
+                                                        e.preventDefault();
+                                                    }
+                                                    myInput.oncopy = function (e) {
+                                                        e.preventDefault();
+                                                    }
+
+
+                                                    var myInput1 = document.getElementById('usuario');
+                                                    myInput1.onpaste = function (e) {
+                                                        e.preventDefault();
+                                                    }
+                                                    myInput1.oncopy = function (e) {
+                                                        e.preventDefault();
+                                                    }
+                                                }
+                                            </script>
+                                            <script language="javascript">
+                                                function aaa(campo, event) {
+                                                    CadenaaReemplazar = " ";
+                                                    CadenaReemplazo = "";
+                                                    CadenaTexto = campo.value;
+                                                    CadenaTextoNueva = CadenaTexto.split(CadenaaReemplazar).join(CadenaReemplazo);
+                                                    campo.value = CadenaTextoNueva;
+                                                }
+                                            </script>
+                                            <script>
+                                                function soloLetras(e) {
+                                                    key = e.keyCode || e.which;
+                                                    tecla = String.fromCharCode(key).toLowerCase();
+                                                    letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+                                                    especiales = "8-37-39-46";
+                                                    tecla_especial = false
+                                                    for (var i in especiales) {
+                                                        if (key == especiales[i]) {
+                                                            tecla_especial = true;
+                                                            break;
+                                                        }
+                                                    }
+                                                    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                                                        return false;
+                                                    }
+                                                }
+                                            </script>
+
+                                            <script>
+                                                function soloLetras(e) {
+                                                    key = e.keyCode || e.which;
+                                                    tecla = String.fromCharCode(key).toLowerCase();
+                                                    letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+                                                    especiales = "8-37-39-46";
+                                                    tecla_especial = false
+                                                    for (var i in especiales) {
+                                                        if (key == especiales[i]) {
+                                                            tecla_especial = true;
+                                                            break;
+                                                        }
+                                                    }
+                                                    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                                                        return false;
+                                                    }
+                                                }
+                                            </script>

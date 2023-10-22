@@ -1,0 +1,105 @@
+<?php
+$this->headTitle("FHEP | Editar Parametro");
+$this->head;
+
+$info = $this->info;
+
+$DateAndTime = date('Y-m-d h:i:s');
+?>
+<!-- DataTable -->
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_conf_usuarios.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+
+<!-- encabezado -->
+<div class="container mt-4">
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Parámetros</h2>
+                <em>Editar Parámetro.</em>
+            </div>
+            <div class="col-lg-6">
+                <div class="btn-group pull-right">
+                    <a href="<?php echo $this->basePath(); ?>/parametros" class="w-75 btn btn-md btn-primary next"><span class="icon icon-std icon-back"></span><i class="fa-thin fa-circle-chevron-left"></i>  Regresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- /encabezado -->
+    <div class="border " style="padding: 10px; min-height: 700px;">
+        <div class="row">
+            <h3 class="">Editar Parámetro</h3>
+        </div><!-- /.box-header -->
+
+        <div class="content">
+            <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/parametros/editar/<?php echo $info['id'] ?>" enctype="multipart/form-data" data-parsley-validate >
+               
+                 <input type="hidden" id="id_cita" name="fecha_modificacion" value="<?php echo $DateAndTime ?>" >
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Parámetro:</label>
+                        <input type="text" class="form-control" name="descripcion" id="descripcion" maxlength="30" 
+                               placeholder="Nombre del Parámetro" required
+                               value="<?php echo $info['descripcion'] ?>">
+                    </div>
+                    <!--                             <div class="col-md-6 ">
+                                                <label for="tipo_parametro">Tipo de Parámetro *</label>
+                                                <select class="form-control" id="tipo_parametro" data-parsley-group="block3"  name="tipo_parametro">
+                                                    <option value="">Tipo de Parámetro *</option>
+                    <?php foreach ($this->asi as $d): ?>
+                                
+                                                                    <option  title="<?php echo $d['nombre_d'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['nombre_d'] ?></option>
+                                
+                    <?php endforeach; ?>
+                                                </select>
+                                            </div>-->
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Valor:</label>
+                        <input type="text" class="form-control" name="valor" id="descripcion" maxlength="100" placeholder="valor"" required
+                               value="<?php echo $info['valor'] ?>">
+                    </div>
+                    <div class="col-md-6 ">
+                        <label for="estado">Estado de Parámetro *</label>
+                        <select class="form-control" id="rol_estado" data-parsley-group="block3"  required name="estado">
+                            <option value="<?php echo $info['estado'] ?>" ><?php echo $info['estado'] ?></option>
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="row mt-4">
+                    <h3 class="">Confirmar y Guardar</h3>
+                </div>
+                <div class="col mt-2">
+                    <div class="d-grid gap-2 col-4">
+                        <button class=" btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i>  Terminar y Guardar</button>
+                        <!--<button class="btn btn-danger" onclick="cancelarform()"  type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>-->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+</script>

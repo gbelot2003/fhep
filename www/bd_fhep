@@ -1,0 +1,1546 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 11-03-2022 a las 03:53:32
+-- Versión del servidor: 10.4.22-MariaDB
+-- Versión de PHP: 7.4.27
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `bd_fhep`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `estado`
+--
+
+CREATE TABLE `estado` (
+  `id` int(11) NOT NULL,
+  `estado_e` varchar(100) NOT NULL,
+  `nombre_e` varchar(100) NOT NULL DEFAULT '',
+  `valor_e` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_afiliacion`
+--
+
+CREATE TABLE `tbl_afiliacion` (
+  `id` int(11) NOT NULL,
+  `id_tipafiliado` int(2) NOT NULL,
+  `id_persona` int(11) NOT NULL,
+  `id_status` int(11) NOT NULL DEFAULT 1,
+  `fecha_afiliacion` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_afiliacion`
+--
+
+INSERT INTO `tbl_afiliacion` (`id`, `id_tipafiliado`, `id_persona`, `id_status`, `fecha_afiliacion`) VALUES
+(5, 1, 1, 1, '2022-03-08 09:16:00'),
+(6, 1, 1, 1, '2022-03-11 03:07:27');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_categoria`
+--
+
+CREATE TABLE `tbl_categoria` (
+  `id` int(11) NOT NULL,
+  `nombre_c` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_categoria`
+--
+
+INSERT INTO `tbl_categoria` (`id`, `nombre_c`) VALUES
+(2, 'Escala Basica'),
+(3, 'Escala Administrativa'),
+(4, 'Escala De Oficiales');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_cit_medicas`
+--
+
+CREATE TABLE `tbl_cit_medicas` (
+  `id` int(50) NOT NULL,
+  `id_afiliado` int(11) NOT NULL DEFAULT 0,
+  `id_horario` int(11) NOT NULL DEFAULT 0,
+  `id_especialidad` int(5) NOT NULL,
+  `id_medico` int(20) NOT NULL,
+  `id_tipo_cita` int(11) NOT NULL DEFAULT 0,
+  `id_estado_cita` int(2) NOT NULL DEFAULT 0,
+  `fecha_cita` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_comentarios_medicos`
+--
+
+CREATE TABLE `tbl_comentarios_medicos` (
+  `id` int(11) NOT NULL DEFAULT 0,
+  `id_medico` int(11) NOT NULL DEFAULT 0,
+  `nombre` varchar(100) NOT NULL,
+  `Fecha_comentarios` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_datos_policiales`
+--
+
+CREATE TABLE `tbl_datos_policiales` (
+  `Id` int(11) NOT NULL,
+  `id_persona` int(11) DEFAULT NULL,
+  `id_cod_dependencia` int(11) DEFAULT NULL,
+  `id_rango` int(11) DEFAULT NULL,
+  `n_placa_policial` int(11) DEFAULT NULL,
+  `id_categoria` int(11) DEFAULT NULL,
+  `id_departamento` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_datos_policiales`
+--
+
+INSERT INTO `tbl_datos_policiales` (`Id`, `id_persona`, `id_cod_dependencia`, `id_rango`, `n_placa_policial`, `id_categoria`, `id_departamento`) VALUES
+(1, 1, 20, 1, 1, 2, 8);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_departamentos`
+--
+
+CREATE TABLE `tbl_departamentos` (
+  `id` int(18) NOT NULL,
+  `nombre_d` varchar(100) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_departamentos`
+--
+
+INSERT INTO `tbl_departamentos` (`id`, `nombre_d`) VALUES
+(1, 'Atlántida'),
+(2, 'Colón'),
+(3, 'Comayagüa'),
+(4, 'Copán'),
+(5, 'Córtes'),
+(6, 'Choluteca'),
+(7, 'El Paraiso'),
+(8, 'Francisco Morazán'),
+(9, 'Gracias a Dios'),
+(10, 'Intibucá'),
+(11, 'Islas de la Bahía'),
+(12, 'La Paz'),
+(13, 'Lempira'),
+(14, 'Ocotepeque'),
+(15, 'Olancho'),
+(16, 'Santa Barbara'),
+(17, 'Valle'),
+(18, 'Yoro');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_dependencias`
+--
+
+CREATE TABLE `tbl_dependencias` (
+  `id` int(11) NOT NULL,
+  `nombre_dp` varchar(100) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_dependencias`
+--
+
+INSERT INTO `tbl_dependencias` (`id`, `nombre_dp`) VALUES
+(2, 'Dirección General Policia'),
+(3, 'Dirección General Policia Nacional'),
+(4, 'Sub Dirección General Policia Nacional'),
+(5, 'Inspectoría General'),
+(6, 'Dirección de Planeamiento Procedimientos Operativos y Mejora Continua'),
+(7, 'Dirección de Logística'),
+(8, 'Direccion de Recursos Humanos'),
+(9, 'Dirección de Inteligencia Policial'),
+(10, 'Dirección Policial de Investigaciones'),
+(11, 'Dirección Policial de Telemática'),
+(12, 'Dirección de Asuntos Interinstitucional y Comunitarios'),
+(13, 'Dirección Nacional de Unidades Especiales'),
+(14, 'Dirección Nacional de Vialidad y Transporte'),
+(15, 'Dirección Nacional de Educación Policial'),
+(16, 'Dirección Nacional de Protección y Servicios Especiales'),
+(17, 'Dirección Nacional Policial Antidrogas'),
+(18, 'Dirección Nacional de Servicios Policiales Fronterizos'),
+(19, 'Direccion Administrativa Financiera Policial'),
+(20, 'Academia Nacional de Policía'),
+(21, 'Instituto Tecnico Policial'),
+(22, 'Universidad Nacional de la Policía de Honduras');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_especialidades`
+--
+
+CREATE TABLE `tbl_especialidades` (
+  `id` int(5) NOT NULL,
+  `nombre_e` varchar(100) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_estado_civil`
+--
+
+CREATE TABLE `tbl_estado_civil` (
+  `id` int(5) NOT NULL,
+  `nombre` varchar(100) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_estado_civil`
+--
+
+INSERT INTO `tbl_estado_civil` (`id`, `nombre`) VALUES
+(1, 'CASDO'),
+(2, 'SOLTERO'),
+(3, 'UNION LIBRE'),
+(4, 'VIUDO'),
+(5, 'DIVORCIADO');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_examenes_medicos`
+--
+
+CREATE TABLE `tbl_examenes_medicos` (
+  `id` int(11) NOT NULL DEFAULT 0,
+  `id_medico` int(20) NOT NULL,
+  `nombre_em` varchar(100) NOT NULL DEFAULT '',
+  `fecha` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_exp_clinico`
+--
+
+CREATE TABLE `tbl_exp_clinico` (
+  `id` int(11) NOT NULL,
+  `id_afiliado` int(11) NOT NULL DEFAULT 0,
+  `id_medico` int(11) NOT NULL DEFAULT 0,
+  `id_cita` int(11) NOT NULL DEFAULT 0,
+  `fec_consulta` date NOT NULL,
+  `genero` int(20) NOT NULL,
+  `peso` int(100) NOT NULL,
+  `estatura` int(100) NOT NULL,
+  `talla_abdominal` int(100) NOT NULL,
+  `talla_cuello` int(100) NOT NULL,
+  `glucometria` int(100) NOT NULL,
+  `presión_arterial` int(100) NOT NULL,
+  `temperatura` int(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_hist_status_afiliado`
+--
+
+CREATE TABLE `tbl_hist_status_afiliado` (
+  `id_afiliado` int(100) NOT NULL,
+  `status_anterior` varchar(20) NOT NULL,
+  `nuevo_status` varchar(20) NOT NULL,
+  `fecha` date NOT NULL,
+  `modificado_por` varchar(100) NOT NULL,
+  `comentario` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_hor_medico`
+--
+
+CREATE TABLE `tbl_hor_medico` (
+  `id` int(11) NOT NULL,
+  `id_medico` int(11) NOT NULL DEFAULT 0,
+  `fecha` date NOT NULL,
+  `hora_inicial` time NOT NULL,
+  `hora_final` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_medico`
+--
+
+CREATE TABLE `tbl_medico` (
+  `id` int(20) NOT NULL,
+  `id_persona` int(11) NOT NULL,
+  `id_especialidad` int(5) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_ms_bitacora`
+--
+
+CREATE TABLE `tbl_ms_bitacora` (
+  `id` int(11) NOT NULL,
+  `Fecha` date NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_objeto` int(11) NOT NULL,
+  `Accion` varchar(100) NOT NULL,
+  `nombre_b` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_ms_bitacora`
+--
+
+INSERT INTO `tbl_ms_bitacora` (`id`, `Fecha`, `id_usuario`, `id_objeto`, `Accion`, `nombre_b`) VALUES
+(3, '0000-00-00', 1, 1, 'INSERTAR', 'Se ha insertado un nuevo rol'),
+(4, '2022-02-21', 1, 1, 'INSERTAR', 'Se ha insertado un nuevo rol'),
+(5, '0000-00-00', 2, 1, 'Edicion', 'Se ha editado un usuario .KEVLL.'),
+(7, '2022-02-22', 2, 1, 'Registro', 'El usuario a finalizado sesión RAUL'),
+(9, '2022-02-22', 2, 1, 'Registro', 'El usuario a finalizado sesión RAUL'),
+(11, '2022-02-22', 2, 1, 'Registro', 'El usuario a finalizado sesión RAUL'),
+(12, '2022-02-22', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion con el usuario: RAUL'),
+(15, '2022-02-22', 2, 1, 'Editar', 'Se ha modificado las preguntas del usuario: RAUL'),
+(21, '2022-02-22', 2, 1, 'Editar', 'Se ha editado la contraseña del usuario: RAUL'),
+(22, '2022-02-22', 2, 1, 'Registro', 'El usuario a finalizado sesión RAUL'),
+(23, '2022-02-22', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesión con el usuario: RAUL'),
+(26, '2022-02-26', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(27, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(28, '2022-02-27', 2, 3, 'Edición', 'Se ha editado un rol: Usuario1'),
+(29, '2022-02-27', 2, 3, 'Edición', 'Se ha editado un rol: Usuario'),
+(30, '2022-02-27', 2, 3, 'Edición', 'Se ha editado un rol: Usuario'),
+(31, '2022-02-27', 2, 1, 'Editar', 'Se ha editado la contraseña del usuario:  por medio correo'),
+(32, '2022-02-27', 2, 1, 'Editar', 'Se ha editado la contraseña del usuario:  por medio correo'),
+(33, '2022-02-27', 2, 1, 'Editar', 'Se ha editado la contraseña del usuario: RAUL por medio correo'),
+(34, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(35, '2022-02-27', 2, 1, 'Desactivar', 'Se ha desactivado un usuario con el id:1'),
+(36, '2022-02-27', 2, 1, 'Desactivar', 'Se ha desactivado un usuario con el id:1'),
+(37, '2022-02-27', 2, 1, 'Activar', 'Se ha activado un usuario con el id:1'),
+(38, '2022-02-27', 2, 1, 'Desactivar', 'Se ha desactivado un usuario con el id:1'),
+(39, '2022-02-27', 2, 1, 'Edicion', 'Se ha editado un usuario CESAR'),
+(40, '2022-02-27', 2, 1, 'Edicion', 'Se ha editado un usuario RAUL'),
+(41, '2022-02-27', 2, 1, 'Edicion', 'Se ha editado un usuario RAUL'),
+(42, '2022-02-27', 2, 1, 'Registro', 'Se ha registrado un nuevo usuario DASDAS'),
+(43, '2022-02-27', 2, 1, 'Edicion', 'Se ha editado un usuario CESAR'),
+(44, '2022-02-27', 2, 1, 'Edicion', 'Se ha editado un usuario CESAR'),
+(45, '2022-02-27', 2, 1, 'Registro', 'El usuario ha cerrado su sesión RAUL'),
+(46, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(47, '2022-02-27', 2, 1, 'Eliminar', 'Se ha eliminado un usuario con el id:21'),
+(48, '2022-02-27', 2, 1, 'Registro', 'El usuario ha cerrado su sesión RAUL'),
+(49, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(50, '2022-02-27', 2, 1, 'Registro', 'Se ha registrado un nuevo usuario JAIMR'),
+(51, '2022-02-27', 2, 1, 'Registro', 'Se ha registrado un nuevo usuario JAME'),
+(52, '2022-02-27', 2, 1, 'Eliminar', 'Se ha eliminado un usuario con el id:35'),
+(53, '2022-02-27', 2, 1, 'Registro', 'Se ha registrado un nuevo usuario JAIME'),
+(54, '2022-02-27', 2, 1, 'Eliminar', 'Se ha eliminado un usuario con el id:36'),
+(55, '2022-02-27', 2, 1, 'Registro', 'Se ha registrado un nuevo usuario RAULG'),
+(56, '2022-02-27', 2, 1, 'Registro', 'Se ha registrado un nuevo usuario RAULD'),
+(57, '2022-02-27', 2, 1, 'Eliminar', 'Se ha eliminado un usuario con el id:38'),
+(58, '2022-02-27', 2, 1, 'Registro', 'Se ha registrado un nuevo usuario KEVDD'),
+(59, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(60, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(61, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(62, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(63, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(64, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(65, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(66, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(67, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(68, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(69, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(70, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(71, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(72, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(73, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(74, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(75, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(76, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(77, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(78, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(79, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(80, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(81, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(85, '2022-02-27', 34, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: DASDAS'),
+(86, '2022-02-27', 34, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: DASDAS'),
+(88, '2022-02-27', 34, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: DASDAS'),
+(89, '2022-02-27', 34, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: DASDAS'),
+(90, '2022-02-27', 34, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: DASDAS'),
+(91, '2022-02-27', 34, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: DASDAS'),
+(92, '2022-02-27', 34, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: DASDAS'),
+(94, '2022-02-27', 2, 1, 'Registro', 'El usuario ha cerrado su sesión RAUL'),
+(98, '2022-02-27', 34, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: DASDAS'),
+(99, '2022-02-27', 34, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: DASDAS'),
+(100, '2022-02-27', 34, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: DASDAS'),
+(101, '2022-02-27', 34, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: DASDAS'),
+(102, '2022-02-27', 34, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: DASDAS'),
+(118, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(119, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(120, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(121, '2022-02-27', 2, 1, 'Bloquear', 'Se ha bloqueado el usuario: RAUL'),
+(125, '2022-02-27', 2, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: RAUL'),
+(126, '2022-02-28', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(127, '2022-02-28', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(128, '2022-02-28', 1, 1, 'Edicion', 'Se ha editado un usuario OAREYES'),
+(129, '2022-02-28', 1, 4, 'Editar', 'Se ha modificado el parametro: '),
+(130, '2022-02-28', 1, 1, 'Eliminar', 'Se ha eliminado un usuario con el id:39'),
+(131, '2022-02-28', 1, 1, 'Eliminar', 'Se ha eliminado un usuario con el id:33'),
+(132, '2022-02-28', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(133, '2022-02-28', 40, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: OAREYES'),
+(134, '2022-02-28', 40, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: OAREYES'),
+(135, '2022-02-28', 40, 1, 'Eliminar', 'Se ha eliminado un usuario con el id:34'),
+(136, '2022-02-28', 40, 1, 'Eliminar', 'Se ha eliminado un usuario con el id:34'),
+(137, '2022-02-28', 40, 1, 'Edicion', 'Se ha editado un usuario DASDAS'),
+(138, '2022-02-28', 40, 4, 'Editar', 'Se ha modificado el parametro: '),
+(139, '2022-02-28', 40, 4, 'Editar', 'Se ha modificado el parametro: '),
+(140, '2022-02-28', 40, 2, 'Desactivar', 'Se ha desactivado la pregunta: 5'),
+(141, '2022-02-28', 40, 2, 'Desactivar', 'Se ha desactivado la pregunta: 6'),
+(142, '2022-02-28', 40, 2, 'Desactivar', 'Se ha desactivado la pregunta: 7'),
+(143, '2022-02-28', 40, 2, 'Desactivar', 'Se ha desactivado la pregunta: 8'),
+(144, '2022-02-28', 40, 1, 'Registro', 'El usuario ha cerrado su sesión OAREYES'),
+(145, '2022-02-28', 40, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: OAREYES'),
+(146, '2022-02-28', 40, 1, 'Registro', 'El usuario ha cerrado su sesión OAREYES'),
+(147, '2022-02-28', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(148, '2022-02-28', 1, 1, 'Eliminar', 'Se ha eliminado un usuario con el id:40'),
+(149, '2022-02-28', 1, 2, 'Eliminar', 'Se ha eliminado la pregunta: 8'),
+(150, '2022-03-01', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(153, '2022-03-01', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(154, '2022-03-01', 1, 1, 'Edicion', 'Se ha editado un usuario OARYESS'),
+(155, '2022-03-01', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(156, '2022-03-01', 41, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: OARYESS'),
+(157, '2022-03-01', 41, 1, 'Registro', 'El usuario ha cerrado su sesión OARYESS'),
+(158, '2022-03-01', 41, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: OARYESS'),
+(159, '2022-03-01', 41, 1, 'Registro', 'El usuario ha cerrado su sesión OARYESS'),
+(160, '2022-03-01', 41, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: OARYESS'),
+(161, '2022-03-01', 41, 1, 'Registro', 'El usuario ha cerrado su sesión OARYESS'),
+(162, '2022-03-01', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(163, '2022-03-01', 1, 1, 'Eliminar', 'Se ha eliminado un usuario con el id:41'),
+(165, '2022-03-01', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(166, '2022-03-01', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(167, '2022-03-01', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(168, '2022-03-01', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(169, '2022-03-01', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(170, '2022-03-01', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(171, '2022-03-01', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(172, '2022-03-01', 1, 4, 'Editar', 'Se ha modificado el parametro: '),
+(173, '2022-03-01', 1, 4, 'Editar', 'Se ha modificado el parametro: '),
+(174, '2022-03-01', 1, 4, 'Editar', 'Se ha modificado el parametro: '),
+(175, '2022-03-01', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(176, '2022-03-01', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(177, '2022-03-01', 1, 4, 'Editar', 'Se ha modificado el parametro: '),
+(178, '2022-03-01', 1, 4, 'Editar', 'Se ha modificado el parametro: '),
+(179, '2022-03-01', 1, 4, 'Editar', 'Se ha modificado el parametro: '),
+(180, '2022-03-01', 1, 4, 'Editar', 'Se ha modificado el parametro: '),
+(181, '2022-03-01', 1, 4, 'Editar', 'Se ha modificado el parametro: '),
+(182, '2022-03-01', 1, 4, 'Editar', 'Se ha modificado el parametro: '),
+(183, '2022-03-01', 1, 4, 'Editar', 'Se ha modificado el parametro: 2'),
+(184, '2022-03-01', 1, 4, 'Editar', 'Se ha modificado el parametro: 2'),
+(185, '2022-03-01', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(186, '2022-03-01', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(187, '2022-03-01', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(188, '2022-03-01', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(189, '2022-03-01', 1, 1, 'Eliminar', 'Se ha eliminado un usuario con el id:40'),
+(190, '2022-03-01', 1, 1, 'Eliminar', 'Se ha eliminado un usuario con el id:41'),
+(191, '2022-03-02', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(192, '2022-03-02', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(193, '2022-03-02', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(194, '2022-03-02', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(195, '2022-03-02', 1, 1, 'Edicion', 'Se ha editado un usuario OAQUIROZ'),
+(196, '2022-03-02', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(197, '2022-03-02', 43, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: OAQUIROZ'),
+(198, '2022-03-02', 43, 1, 'Registro', 'El usuario ha cerrado su sesión OAQUIROZ'),
+(199, '2022-03-02', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(200, '2022-03-02', 1, 1, 'Eliminar', 'Se ha eliminado un usuario con el id:41'),
+(201, '2022-03-04', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(202, '2022-03-04', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(203, '2022-03-04', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(204, '2022-03-05', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(205, '2022-03-06', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(206, '2022-03-07', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(207, '2022-03-07', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(208, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: medico'),
+(209, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: medico'),
+(210, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: rtrtrt'),
+(211, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: medico'),
+(212, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: medico'),
+(213, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: sdsdsd'),
+(214, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: dadasdas'),
+(215, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: sadsad'),
+(216, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: adasda'),
+(217, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: sddasdasd'),
+(218, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: sdfsdfsdf'),
+(219, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: dfgdfgdfg'),
+(220, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: usuario1'),
+(221, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: assdas'),
+(222, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: medico'),
+(223, '2022-03-07', 1, 3, 'Registro', 'Se ha registrado un nuevo objeto: medico'),
+(224, '2022-03-07', 1, 3, 'Desactivación', 'Se ha desactivado un rol: 5'),
+(225, '2022-03-07', 1, 3, 'Activación', 'Se ha activado un rol: 5'),
+(226, '2022-03-07', 1, 1, 'Edicion', 'Se ha editado un usuario OAREYES'),
+(227, '2022-03-07', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(228, '2022-03-07', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(229, '2022-03-08', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(230, '2022-03-08', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(231, '2022-03-09', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(232, '2022-03-09', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(233, '2022-03-09', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(234, '2022-03-09', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(235, '2022-03-09', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(236, '2022-03-09', 1, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: ADMIN'),
+(237, '2022-03-09', 1, 1, 'Edicion', 'Se ha editado un usuario HOLAMUNDO'),
+(238, '2022-03-09', 1, 1, 'Registro', 'El usuario ha cerrado su sesión ADMIN'),
+(239, '2022-03-09', 44, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: HOLAMUNDO'),
+(240, '2022-03-09', 44, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: HOLAMUNDO'),
+(241, '2022-03-09', 44, 1, 'Registro', 'El usuario ha cerrado su sesión HOLAMUNDO'),
+(242, '2022-03-09', 44, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: HOLAMUNDO'),
+(243, '2022-03-09', 44, 1, 'Registro', 'El usuario ha cerrado su sesión HOLAMUNDO'),
+(244, '2022-03-09', 44, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: HOLAMUNDO'),
+(245, '2022-03-09', 40, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: OAREYES'),
+(246, '2022-03-09', 44, 1, 'Registro', 'El usuario ha cerrado su sesión HOLAMUNDO'),
+(247, '2022-03-09', 40, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: OAREYES'),
+(248, '2022-03-09', 40, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: OAREYES'),
+(249, '2022-03-09', 40, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: OAREYES'),
+(250, '2022-03-09', 40, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: OAREYES'),
+(251, '2022-03-09', 40, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: OAREYES'),
+(252, '2022-03-09', 40, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: OAREYES'),
+(253, '2022-03-09', 40, 1, 'Iniciar Sesion', 'Se ha iniciado sesion el usuario: OAREYES');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_ms_objetos`
+--
+
+CREATE TABLE `tbl_ms_objetos` (
+  `id` int(11) NOT NULL,
+  `objeto` varchar(100) NOT NULL,
+  `tipo_objeto` varchar(15) NOT NULL,
+  `nombre_o` varchar(100) NOT NULL DEFAULT '',
+  `fecha_creacion` date NOT NULL,
+  `creado_por` varchar(15) NOT NULL,
+  `fecha_modificacion` date NOT NULL,
+  `modificado_por` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_ms_objetos`
+--
+
+INSERT INTO `tbl_ms_objetos` (`id`, `objeto`, `tipo_objeto`, `nombre_o`, `fecha_creacion`, `creado_por`, `fecha_modificacion`, `modificado_por`) VALUES
+(1, 'USUARIO', '', '', '0000-00-00', '', '0000-00-00', ''),
+(2, 'PREGUNTAS', '', '', '0000-00-00', '', '0000-00-00', ''),
+(3, 'ROL', '', '', '0000-00-00', '', '0000-00-00', ''),
+(4, 'PARAMETROS\r\n', '', '', '0000-00-00', '', '0000-00-00', ''),
+(8, 'assdas', '', 'asdads', '2022-03-07', 'ADMIN', '2022-03-07', 'ADMIN'),
+(9, 'medico', '', 'asdads', '2022-03-07', 'ADMIN', '2022-03-07', 'ADMIN'),
+(10, 'medico', '', '1111', '2022-03-07', 'ADMIN', '2022-03-07', 'ADMIN');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_ms_parametros`
+--
+
+CREATE TABLE `tbl_ms_parametros` (
+  `id` int(11) NOT NULL,
+  `parametro` varchar(50) NOT NULL,
+  `valor` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_ms_parametros`
+--
+
+INSERT INTO `tbl_ms_parametros` (`id`, `parametro`, `valor`) VALUES
+(1, 'Intentos de Contraseña', '3'),
+(2, 'Tamaño maximo de contraseña', '20'),
+(3, 'Tamaño minimo de contraseña', '5'),
+(4, 'Fecha de vencimiento', '360');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_ms_preguntas`
+--
+
+CREATE TABLE `tbl_ms_preguntas` (
+  `id` int(20) NOT NULL,
+  `pregunta` varchar(100) NOT NULL,
+  `estado_p` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_ms_preguntas`
+--
+
+INSERT INTO `tbl_ms_preguntas` (`id`, `pregunta`, `estado_p`) VALUES
+(1, 'Nombre de su primera mascota?', 1),
+(2, 'Nombre de su mejor amigo?', 1),
+(3, 'Color favorito?', 1),
+(5, 'ffsadas', 0),
+(6, 'sadasd', 0),
+(7, 'SDASD', 0);
+
+--
+-- Disparadores `tbl_ms_preguntas`
+--
+DELIMITER $$
+CREATE TRIGGER `Inser pegruntas` BEFORE INSERT ON `tbl_ms_preguntas` FOR EACH ROW INSERT into bitacora   (Fecha,	id_usuario,id_objeto,Accion,Descripcion) VALUES (NOW(),CURRENT_USER,'1','insert','Descripcion')
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_ms_preguntas_x_usuario`
+--
+
+CREATE TABLE `tbl_ms_preguntas_x_usuario` (
+  `Id_pregunta` int(20) NOT NULL,
+  `id_usuario` int(20) NOT NULL,
+  `respuesta` text NOT NULL,
+  `fecha_creacion` date NOT NULL,
+  `creado_por` varchar(15) NOT NULL,
+  `fecha_modificacion` date NOT NULL,
+  `modificado_por` varchar(15) NOT NULL,
+  `nun` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_ms_preguntas_x_usuario`
+--
+
+INSERT INTO `tbl_ms_preguntas_x_usuario` (`Id_pregunta`, `id_usuario`, `respuesta`, `fecha_creacion`, `creado_por`, `fecha_modificacion`, `modificado_por`, `nun`) VALUES
+(1, 2, 'w', '0000-00-00', '', '0000-00-00', '', 1),
+(2, 2, 'r', '0000-00-00', '', '0000-00-00', '', 2),
+(3, 2, 'q', '0000-00-00', '', '0000-00-00', '', 3),
+(1, 44, 'candi', '0000-00-00', '', '0000-00-00', '', 1),
+(2, 44, 'marlon', '0000-00-00', '', '0000-00-00', '', 2),
+(3, 44, 'verde', '0000-00-00', '', '0000-00-00', '', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_ms_roles`
+--
+
+CREATE TABLE `tbl_ms_roles` (
+  `id` int(11) NOT NULL,
+  `rol` varchar(30) NOT NULL,
+  `nombre_r` varchar(100) NOT NULL,
+  `fecha_creacion` date NOT NULL,
+  `creado_por` varchar(15) NOT NULL,
+  `fecha_modificacion` date NOT NULL,
+  `modificado_por` varchar(15) NOT NULL,
+  `rol_estado` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_ms_roles`
+--
+
+INSERT INTO `tbl_ms_roles` (`id`, `rol`, `nombre_r`, `fecha_creacion`, `creado_por`, `fecha_modificacion`, `modificado_por`, `rol_estado`) VALUES
+(1, 'Admin', 'Administrador del sistema', '0000-00-00', 'Admin', '0000-00-00', 'Admin', 1),
+(2, 'Usuario', 'Usuario comun del sistema', '2022-02-20', 'Rau', '0000-00-00', 'RAUL', 1),
+(3, 'Manco', 'Manco', '2022-02-21', 'RAUL', '2022-02-21', 'RAUL', 1),
+(4, 'dasd', 'dasdas', '2022-02-21', 'RAUL', '2022-02-21', 'RAUL', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_ms_roles_objetos`
+--
+
+CREATE TABLE `tbl_ms_roles_objetos` (
+  `id` int(100) NOT NULL,
+  `id_objeto` int(100) NOT NULL,
+  `permiso_insercion` varchar(5) NOT NULL,
+  `permiso_eliminacion` varchar(5) NOT NULL,
+  `permiso_actualizacion` varchar(5) NOT NULL,
+  `permiso_consultar` varchar(5) NOT NULL,
+  `fecha_creacion` date NOT NULL,
+  `creado_por` varchar(15) NOT NULL,
+  `fecha_modificacion` date NOT NULL,
+  `modificado_por` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_ms_usuarios`
+--
+
+CREATE TABLE `tbl_ms_usuarios` (
+  `id` int(20) NOT NULL,
+  `usuario` varchar(15) NOT NULL,
+  `estado_usuario` varchar(100) NOT NULL,
+  `contrasenia` varchar(100) NOT NULL,
+  `id_rol` int(100) NOT NULL,
+  `fecha_ultima_conexion` date NOT NULL,
+  `preguntas_contestadas` int(100) NOT NULL,
+  `primer_ingreso` int(1) NOT NULL,
+  `fecha_vencimiento` date NOT NULL,
+  `correo_electronico` varchar(50) NOT NULL,
+  `creado_por` varchar(15) NOT NULL,
+  `fecha_creacion` date NOT NULL,
+  `modificado_por` varchar(15) NOT NULL,
+  `fecha_modificacion` date NOT NULL,
+  `reseteo_clave` varchar(100) NOT NULL,
+  `intentos` int(1) NOT NULL,
+  `nuevo` int(1) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `estado_u` int(11) NOT NULL,
+  `id_objeto` int(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_ms_usuarios`
+--
+
+INSERT INTO `tbl_ms_usuarios` (`id`, `usuario`, `estado_usuario`, `contrasenia`, `id_rol`, `fecha_ultima_conexion`, `preguntas_contestadas`, `primer_ingreso`, `fecha_vencimiento`, `correo_electronico`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `reseteo_clave`, `intentos`, `nuevo`, `nombre`, `estado_u`, `id_objeto`) VALUES
+(1, 'ADMIN', '1', '12345', 1, '2022-03-09', 0, 1, '2022-02-28', 'Admin@Admin.com', 'Admin', '2022-02-19', 'Admin', '2022-02-19', '', 0, 1, 'admin', 1, 0),
+(2, 'RAUL', '1', 'Raul123-', 2, '2022-02-27', 0, 1, '0000-00-00', 'fhep22@gmail.com', 'Rau', '2022-02-20', 'Rau1', '2022-02-20', '', 0, 1, '', 0, 0),
+(31, 'CESAR', '1', '123456', 2, '0000-00-00', 0, 1, '2023-02-21', 'cesar@hn.com', 'CESAR', '2022-02-26', 'RAUL', '0000-00-00', '', 0, 0, 'cesar', 1, 0),
+(32, 'BRUNO', '1', 'Bruno123*', 2, '0000-00-00', 0, 1, '2023-02-21', 'bruno@aa.com', 'BRUNO', '2022-02-26', '', '2022-02-26', '', 0, 0, '', 0, 0),
+(34, 'DASDAS', '0', 'Hola1#a', 2, '0000-00-00', 0, 1, '2023-02-22', 'Admindadasd@Admin.com', 'RAUL', '2022-02-27', 'OAREYES', '0000-00-00', '', 0, 0, 'dasdasd', 2, 0),
+(37, 'RAULG', '1', '123456', 1, '0000-00-00', 0, 1, '2023-02-22', 'rauamador318@gmail.com', 'RAUL', '2022-02-27', 'RAUL', '2022-02-27', '', 0, 0, 'cesar', 1, 0),
+(40, 'OAREYES', '1', 'Holamu#1', 1, '2022-02-28', 0, 1, '2023-02-23', 'oscareyes3016@gmial.com', 'OAREYES', '2022-02-28', 'ADMIN', '0000-00-00', '', 0, 1, 'oscar reyes', 1, 0),
+(41, 'OARYESS', '1', 'Holamu#1', 2, '2022-03-01', 0, 1, '2023-02-24', 'oscareyes3019@gmail.com', 'OARYESS', '2022-03-01', 'ADMIN', '0000-00-00', '', 0, 0, 'oscar quiroz', 1, 0),
+(43, 'OAQUIROZ', '1', 'Holamu#1', 2, '2022-03-02', 0, 1, '2023-02-25', 'oscaryes3016@gmail.com', 'OAQUIROZ', '2022-03-02', 'ADMIN', '0000-00-00', '', 0, 0, 'oscar quiroz', 1, 0),
+(44, 'HOLAMUNDO', '1', 'Holamu#1', 2, '2022-03-09', 0, 1, '2023-03-04', 'oscareyes3019@gmial.com', 'HOLAMUNDO', '2022-03-09', 'ADMIN', '0000-00-00', '', 0, 1, 'oscar', 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_parentesco`
+--
+
+CREATE TABLE `tbl_parentesco` (
+  `Id` int(11) NOT NULL,
+  `nombre_parentesco` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_personas`
+--
+
+CREATE TABLE `tbl_personas` (
+  `id` int(11) NOT NULL,
+  `nombres` varchar(255) NOT NULL,
+  `apellidos` varchar(255) NOT NULL,
+  `n_identidad` bigint(100) NOT NULL,
+  `departamento` int(11) NOT NULL,
+  `domicilio_actual` varchar(100) NOT NULL,
+  `telefono` int(10) DEFAULT NULL,
+  `fecha_nacimiento` date NOT NULL,
+  `id_estado_civil` int(5) NOT NULL,
+  `id_tipo_sangre` int(10) NOT NULL,
+  `Nom_contacto_emergencia` varchar(50) DEFAULT NULL,
+  `telefono_contacto_emergencia` int(11) DEFAULT NULL,
+  `celular` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_personas`
+--
+
+INSERT INTO `tbl_personas` (`id`, `nombres`, `apellidos`, `n_identidad`, `departamento`, `domicilio_actual`, `telefono`, `fecha_nacimiento`, `id_estado_civil`, `id_tipo_sangre`, `Nom_contacto_emergencia`, `telefono_contacto_emergencia`, `celular`) VALUES
+(1, 'oscar ', 'reyes', 801198824036, 12, 'lomas del dorado', 55887469, '2012-03-22', 5, 4, 'marlon', 14254785, NULL),
+(2, 'Bessy ', 'Castillo', 801199000023, 8, 'Colonia Centro America', 22571215, '2022-03-10', 2, 3, 'Sepa', 22347867, 98976543),
+(3, 'Darwin', 'Lopez', 71719000045, 7, 'COlonia Kennedy', 98976543, '2022-03-10', 3, 1, 'Popeye', 22575678, 98765412);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_placa_policial`
+--
+
+CREATE TABLE `tbl_placa_policial` (
+  `Id` int(11) NOT NULL,
+  `numero` varchar(255) DEFAULT NULL,
+  `id_persona` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_placa_policial`
+--
+
+INSERT INTO `tbl_placa_policial` (`Id`, `numero`, `id_persona`) VALUES
+(1, 'PNHEB-00001', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_rangos`
+--
+
+CREATE TABLE `tbl_rangos` (
+  `id` int(50) NOT NULL,
+  `nombre_r` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_rangos`
+--
+
+INSERT INTO `tbl_rangos` (`id`, `nombre_r`) VALUES
+(1, 'Agente de Policia'),
+(2, 'Clase I de Policia'),
+(3, 'Clase II de Policia'),
+(4, 'Clase III de Policia'),
+(5, 'Clase Subalterno'),
+(6, 'Clase Jefe'),
+(7, 'Clase Superior'),
+(8, 'Clase Mayor'),
+(9, 'Policia Tecnico'),
+(10, 'Policia Tecnico I'),
+(11, 'Policia Tecnico II'),
+(12, 'Policia Tecnico III'),
+(13, 'Sub Oficial Subalterno'),
+(14, 'Sub Oficial Jefe'),
+(15, 'Sub Oficial Superior'),
+(16, 'Sub Oficial Mayor'),
+(17, 'Sub Inspector de Policia'),
+(18, 'Sub Inspector de los Servicios'),
+(19, 'Inspector de Policia'),
+(20, 'Inspector de los Servicios'),
+(21, 'Sub Comisario de Policia'),
+(22, 'Sub Comisario de los Servicios'),
+(23, 'Comisario de Policia'),
+(24, 'Comisario de los Servicios'),
+(25, 'Sub Comisionado de Policia'),
+(26, 'Sub Comisionado de los Servicios'),
+(27, 'Comisionado de Policia'),
+(28, 'Comisionado de los Servicios'),
+(29, 'Comisionado Genral'),
+(30, 'General Director');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_receta_medicas`
+--
+
+CREATE TABLE `tbl_receta_medicas` (
+  `id` int(11) NOT NULL,
+  `cod_medico` int(20) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `fecha` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_rel_afiliado_benef`
+--
+
+CREATE TABLE `tbl_rel_afiliado_benef` (
+  `Id_rel` int(11) NOT NULL,
+  `id` int(11) DEFAULT NULL,
+  `id_beneficiario` int(11) DEFAULT NULL,
+  `id_parentesco` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_rel_afiliado_benef`
+--
+
+INSERT INTO `tbl_rel_afiliado_benef` (`Id_rel`, `id`, `id_beneficiario`, `id_parentesco`) VALUES
+(1, 1, 2, 0),
+(2, 1, 3, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_roles_usuarios`
+--
+
+CREATE TABLE `tbl_roles_usuarios` (
+  `Id` int(11) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `descripcion` text DEFAULT NULL,
+  `estado` int(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_sta_afiliado`
+--
+
+CREATE TABLE `tbl_sta_afiliado` (
+  `id` int(11) NOT NULL,
+  `nombre_ea` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_sta_afiliado`
+--
+
+INSERT INTO `tbl_sta_afiliado` (`id`, `nombre_ea`) VALUES
+(1, 'ALTA'),
+(2, 'BAJA');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_sta_cit_med`
+--
+
+CREATE TABLE `tbl_sta_cit_med` (
+  `id` int(2) NOT NULL,
+  `nombre_ecm` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_tipo_cita`
+--
+
+CREATE TABLE `tbl_tipo_cita` (
+  `id` int(20) NOT NULL,
+  `nombre_tc` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_tipo_sangre`
+--
+
+CREATE TABLE `tbl_tipo_sangre` (
+  `id` int(10) NOT NULL,
+  `nombre_ts` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_tipo_sangre`
+--
+
+INSERT INTO `tbl_tipo_sangre` (`id`, `nombre_ts`) VALUES
+(1, 'O +'),
+(2, 'O -'),
+(3, 'A +'),
+(4, 'A -'),
+(5, 'B - '),
+(6, 'B +'),
+(7, 'AB -'),
+(8, 'AB +');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_tip_afiliado`
+--
+
+CREATE TABLE `tbl_tip_afiliado` (
+  `id` int(11) NOT NULL,
+  `nombre_ta` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_tip_afiliado`
+--
+
+INSERT INTO `tbl_tip_afiliado` (`id`, `nombre_ta`) VALUES
+(1, 'AFILIADO DIRECTO'),
+(2, 'BENEFICIARIO');
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `estado`
+--
+ALTER TABLE `estado`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_afiliacion`
+--
+ALTER TABLE `tbl_afiliacion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK cod_status` (`id_status`) USING BTREE,
+  ADD KEY `FK cod_persona` (`id_persona`) USING BTREE,
+  ADD KEY `tbl_ afiliacion_ibfk_5` (`id_tipafiliado`);
+
+--
+-- Indices de la tabla `tbl_categoria`
+--
+ALTER TABLE `tbl_categoria`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_cit_medicas`
+--
+ALTER TABLE `tbl_cit_medicas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK cod_estado_cita` (`id_estado_cita`) USING BTREE,
+  ADD KEY `FK cod_tipo_cita` (`id_tipo_cita`) USING BTREE,
+  ADD KEY `FK cod_medico` (`id_medico`) USING BTREE,
+  ADD KEY `FK cod_especialidad` (`id_especialidad`) USING BTREE,
+  ADD KEY `FK cod_horario` (`id_horario`) USING BTREE,
+  ADD KEY `FK cod_afiliado` (`id_afiliado`) USING BTREE;
+
+--
+-- Indices de la tabla `tbl_comentarios_medicos`
+--
+ALTER TABLE `tbl_comentarios_medicos`
+  ADD KEY `FK cod_medico` (`id_medico`) USING BTREE,
+  ADD KEY `FK Id_expediente_clinico` (`id`) USING BTREE;
+
+--
+-- Indices de la tabla `tbl_datos_policiales`
+--
+ALTER TABLE `tbl_datos_policiales`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `id_persona` (`id_persona`),
+  ADD KEY `n_placa_policial` (`n_placa_policial`),
+  ADD KEY `id_cod_dependencia` (`id_cod_dependencia`),
+  ADD KEY `id_rango` (`id_rango`),
+  ADD KEY `id_categoria` (`id_categoria`),
+  ADD KEY `id_departamento` (`id_departamento`);
+
+--
+-- Indices de la tabla `tbl_departamentos`
+--
+ALTER TABLE `tbl_departamentos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_dependencias`
+--
+ALTER TABLE `tbl_dependencias`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_especialidades`
+--
+ALTER TABLE `tbl_especialidades`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_estado_civil`
+--
+ALTER TABLE `tbl_estado_civil`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_examenes_medicos`
+--
+ALTER TABLE `tbl_examenes_medicos`
+  ADD KEY `FK Id_expediente_clinico` (`id`) USING BTREE,
+  ADD KEY `FK cod_medico` (`id_medico`) USING BTREE;
+
+--
+-- Indices de la tabla `tbl_exp_clinico`
+--
+ALTER TABLE `tbl_exp_clinico`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK cod_cita` (`id_cita`) USING BTREE,
+  ADD KEY `FK cod_medico` (`id_medico`) USING BTREE,
+  ADD KEY `FK cod_afiliado` (`id_afiliado`) USING BTREE;
+
+--
+-- Indices de la tabla `tbl_hist_status_afiliado`
+--
+ALTER TABLE `tbl_hist_status_afiliado`
+  ADD PRIMARY KEY (`id_afiliado`);
+
+--
+-- Indices de la tabla `tbl_hor_medico`
+--
+ALTER TABLE `tbl_hor_medico`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK cod_medico` (`id_medico`) USING BTREE,
+  ADD KEY `cod_medico` (`id_medico`);
+
+--
+-- Indices de la tabla `tbl_medico`
+--
+ALTER TABLE `tbl_medico`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK cod_persona` (`id_persona`) USING BTREE,
+  ADD KEY `FK cod_especialidad` (`id_especialidad`) USING BTREE;
+
+--
+-- Indices de la tabla `tbl_ms_bitacora`
+--
+ALTER TABLE `tbl_ms_bitacora`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_objeto` (`id_objeto`);
+
+--
+-- Indices de la tabla `tbl_ms_objetos`
+--
+ALTER TABLE `tbl_ms_objetos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_ms_parametros`
+--
+ALTER TABLE `tbl_ms_parametros`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_ms_preguntas`
+--
+ALTER TABLE `tbl_ms_preguntas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_ms_preguntas_x_usuario`
+--
+ALTER TABLE `tbl_ms_preguntas_x_usuario`
+  ADD KEY `FK Id_pregunta` (`Id_pregunta`) USING BTREE,
+  ADD KEY `FK id_usuario` (`id_usuario`) USING BTREE;
+
+--
+-- Indices de la tabla `tbl_ms_roles`
+--
+ALTER TABLE `tbl_ms_roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_ms_roles_objetos`
+--
+ALTER TABLE `tbl_ms_roles_objetos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK Id_rol` (`id`) USING BTREE,
+  ADD KEY `FK id_objeto` (`id_objeto`) USING BTREE;
+
+--
+-- Indices de la tabla `tbl_ms_usuarios`
+--
+ALTER TABLE `tbl_ms_usuarios`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK id_rol` (`id_rol`) USING BTREE;
+
+--
+-- Indices de la tabla `tbl_parentesco`
+--
+ALTER TABLE `tbl_parentesco`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indices de la tabla `tbl_personas`
+--
+ALTER TABLE `tbl_personas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK cod_estado_civil` (`id_estado_civil`) USING BTREE,
+  ADD KEY `FK cod_tipo_sangre` (`id_tipo_sangre`) USING BTREE,
+  ADD KEY `tbl_ personas_ibfk_4` (`departamento`);
+
+--
+-- Indices de la tabla `tbl_placa_policial`
+--
+ALTER TABLE `tbl_placa_policial`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `id_persona` (`id_persona`);
+
+--
+-- Indices de la tabla `tbl_rangos`
+--
+ALTER TABLE `tbl_rangos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_receta_medicas`
+--
+ALTER TABLE `tbl_receta_medicas`
+  ADD KEY `FK Id_expediente_clinico` (`id`) USING BTREE,
+  ADD KEY `FK cod_medico` (`cod_medico`) USING BTREE;
+
+--
+-- Indices de la tabla `tbl_rel_afiliado_benef`
+--
+ALTER TABLE `tbl_rel_afiliado_benef`
+  ADD PRIMARY KEY (`Id_rel`),
+  ADD KEY `id_afilado` (`id`),
+  ADD KEY `id_beneficiario` (`id_beneficiario`);
+
+--
+-- Indices de la tabla `tbl_roles_usuarios`
+--
+ALTER TABLE `tbl_roles_usuarios`
+  ADD PRIMARY KEY (`Id`,`nombre`);
+
+--
+-- Indices de la tabla `tbl_sta_afiliado`
+--
+ALTER TABLE `tbl_sta_afiliado`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_sta_cit_med`
+--
+ALTER TABLE `tbl_sta_cit_med`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_tipo_cita`
+--
+ALTER TABLE `tbl_tipo_cita`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_tipo_sangre`
+--
+ALTER TABLE `tbl_tipo_sangre`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_tip_afiliado`
+--
+ALTER TABLE `tbl_tip_afiliado`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `estado`
+--
+ALTER TABLE `estado`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_afiliacion`
+--
+ALTER TABLE `tbl_afiliacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_categoria`
+--
+ALTER TABLE `tbl_categoria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_cit_medicas`
+--
+ALTER TABLE `tbl_cit_medicas`
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_datos_policiales`
+--
+ALTER TABLE `tbl_datos_policiales`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_dependencias`
+--
+ALTER TABLE `tbl_dependencias`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_especialidades`
+--
+ALTER TABLE `tbl_especialidades`
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_estado_civil`
+--
+ALTER TABLE `tbl_estado_civil`
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_exp_clinico`
+--
+ALTER TABLE `tbl_exp_clinico`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_hist_status_afiliado`
+--
+ALTER TABLE `tbl_hist_status_afiliado`
+  MODIFY `id_afiliado` int(100) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_hor_medico`
+--
+ALTER TABLE `tbl_hor_medico`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_medico`
+--
+ALTER TABLE `tbl_medico`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_ms_bitacora`
+--
+ALTER TABLE `tbl_ms_bitacora`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=254;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_ms_objetos`
+--
+ALTER TABLE `tbl_ms_objetos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_ms_parametros`
+--
+ALTER TABLE `tbl_ms_parametros`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_ms_preguntas`
+--
+ALTER TABLE `tbl_ms_preguntas`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_ms_preguntas_x_usuario`
+--
+ALTER TABLE `tbl_ms_preguntas_x_usuario`
+  MODIFY `Id_pregunta` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_ms_roles`
+--
+ALTER TABLE `tbl_ms_roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_ms_roles_objetos`
+--
+ALTER TABLE `tbl_ms_roles_objetos`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_ms_usuarios`
+--
+ALTER TABLE `tbl_ms_usuarios`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_parentesco`
+--
+ALTER TABLE `tbl_parentesco`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_personas`
+--
+ALTER TABLE `tbl_personas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_placa_policial`
+--
+ALTER TABLE `tbl_placa_policial`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_rangos`
+--
+ALTER TABLE `tbl_rangos`
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_rel_afiliado_benef`
+--
+ALTER TABLE `tbl_rel_afiliado_benef`
+  MODIFY `Id_rel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_roles_usuarios`
+--
+ALTER TABLE `tbl_roles_usuarios`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_sta_afiliado`
+--
+ALTER TABLE `tbl_sta_afiliado`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_sta_cit_med`
+--
+ALTER TABLE `tbl_sta_cit_med`
+  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_tipo_cita`
+--
+ALTER TABLE `tbl_tipo_cita`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_tipo_sangre`
+--
+ALTER TABLE `tbl_tipo_sangre`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_tip_afiliado`
+--
+ALTER TABLE `tbl_tip_afiliado`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `tbl_afiliacion`
+--
+ALTER TABLE `tbl_afiliacion`
+  ADD CONSTRAINT `tbl_afiliacion_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `tbl_personas` (`id`),
+  ADD CONSTRAINT `tbl_afiliacion_ibfk_4` FOREIGN KEY (`id_status`) REFERENCES `tbl_sta_afiliado` (`id`),
+  ADD CONSTRAINT `tbl_afiliacion_ibfk_5` FOREIGN KEY (`id_tipafiliado`) REFERENCES `tbl_tip_afiliado` (`id`),
+  ADD CONSTRAINT `tbl_afiliacion_ibfk_7` FOREIGN KEY (`id_status`) REFERENCES `tbl_sta_afiliado` (`id`);
+
+--
+-- Filtros para la tabla `tbl_cit_medicas`
+--
+ALTER TABLE `tbl_cit_medicas`
+  ADD CONSTRAINT `tbl_cit_medicas_ibfk_1` FOREIGN KEY (`id_afiliado`) REFERENCES `tbl_afiliacion` (`id`),
+  ADD CONSTRAINT `tbl_cit_medicas_ibfk_2` FOREIGN KEY (`id_tipo_cita`) REFERENCES `tbl_tipo_cita` (`id`),
+  ADD CONSTRAINT `tbl_cit_medicas_ibfk_3` FOREIGN KEY (`id_estado_cita`) REFERENCES `tbl_sta_cit_med` (`id`);
+
+--
+-- Filtros para la tabla `tbl_comentarios_medicos`
+--
+ALTER TABLE `tbl_comentarios_medicos`
+  ADD CONSTRAINT `tbl_comentarios_medicos_ibfk_1` FOREIGN KEY (`id`) REFERENCES `tbl_exp_clinico` (`id`);
+
+--
+-- Filtros para la tabla `tbl_datos_policiales`
+--
+ALTER TABLE `tbl_datos_policiales`
+  ADD CONSTRAINT `tbl_datos_policiales_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `tbl_personas` (`id`),
+  ADD CONSTRAINT `tbl_datos_policiales_ibfk_2` FOREIGN KEY (`n_placa_policial`) REFERENCES `tbl_placa_policial` (`Id`),
+  ADD CONSTRAINT `tbl_datos_policiales_ibfk_3` FOREIGN KEY (`id_cod_dependencia`) REFERENCES `tbl_dependencias` (`id`),
+  ADD CONSTRAINT `tbl_datos_policiales_ibfk_4` FOREIGN KEY (`id_rango`) REFERENCES `tbl_rangos` (`id`),
+  ADD CONSTRAINT `tbl_datos_policiales_ibfk_5` FOREIGN KEY (`id_categoria`) REFERENCES `tbl_categoria` (`id`),
+  ADD CONSTRAINT `tbl_datos_policiales_ibfk_6` FOREIGN KEY (`id_departamento`) REFERENCES `tbl_departamentos` (`id`);
+
+--
+-- Filtros para la tabla `tbl_examenes_medicos`
+--
+ALTER TABLE `tbl_examenes_medicos`
+  ADD CONSTRAINT `tbl_examenes_medicos_ibfk_1` FOREIGN KEY (`id`) REFERENCES `tbl_exp_clinico` (`id`);
+
+--
+-- Filtros para la tabla `tbl_exp_clinico`
+--
+ALTER TABLE `tbl_exp_clinico`
+  ADD CONSTRAINT `tbl_exp_clinico_ibfk_1` FOREIGN KEY (`id_afiliado`) REFERENCES `tbl_afiliacion` (`id`),
+  ADD CONSTRAINT `tbl_exp_clinico_ibfk_2` FOREIGN KEY (`id_medico`) REFERENCES `tbl_medico` (`id`),
+  ADD CONSTRAINT `tbl_exp_clinico_ibfk_3` FOREIGN KEY (`id_cita`) REFERENCES `tbl_cit_medicas` (`id`);
+
+--
+-- Filtros para la tabla `tbl_medico`
+--
+ALTER TABLE `tbl_medico`
+  ADD CONSTRAINT `tbl_medico_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `tbl_personas` (`id`),
+  ADD CONSTRAINT `tbl_medico_ibfk_2` FOREIGN KEY (`id_especialidad`) REFERENCES `tbl_especialidades` (`id`);
+
+--
+-- Filtros para la tabla `tbl_ms_bitacora`
+--
+ALTER TABLE `tbl_ms_bitacora`
+  ADD CONSTRAINT `tbl_ms_bitacora_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tbl_ms_usuarios` (`id`),
+  ADD CONSTRAINT `tbl_ms_bitacora_ibfk_2` FOREIGN KEY (`id_objeto`) REFERENCES `tbl_ms_objetos` (`id`);
+
+--
+-- Filtros para la tabla `tbl_ms_preguntas_x_usuario`
+--
+ALTER TABLE `tbl_ms_preguntas_x_usuario`
+  ADD CONSTRAINT `tbl_ms_preguntas_x_usuario_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tbl_ms_usuarios` (`id`);
+
+--
+-- Filtros para la tabla `tbl_ms_roles_objetos`
+--
+ALTER TABLE `tbl_ms_roles_objetos`
+  ADD CONSTRAINT `tbl_ms_roles_objetos_ibfk_1` FOREIGN KEY (`id_objeto`) REFERENCES `tbl_ms_objetos` (`id`),
+  ADD CONSTRAINT `tbl_ms_roles_objetos_ibfk_2` FOREIGN KEY (`id`) REFERENCES `tbl_ms_roles` (`id`);
+
+--
+-- Filtros para la tabla `tbl_ms_usuarios`
+--
+ALTER TABLE `tbl_ms_usuarios`
+  ADD CONSTRAINT `tbl_ms_usuarios_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `tbl_ms_roles` (`id`);
+
+--
+-- Filtros para la tabla `tbl_personas`
+--
+ALTER TABLE `tbl_personas`
+  ADD CONSTRAINT `tbl_personas_ibfk_2` FOREIGN KEY (`id_tipo_sangre`) REFERENCES `tbl_tipo_sangre` (`id`),
+  ADD CONSTRAINT `tbl_personas_ibfk_3` FOREIGN KEY (`id_estado_civil`) REFERENCES `tbl_estado_civil` (`id`),
+  ADD CONSTRAINT `tbl_personas_ibfk_4` FOREIGN KEY (`departamento`) REFERENCES `tbl_departamentos` (`id`);
+
+--
+-- Filtros para la tabla `tbl_placa_policial`
+--
+ALTER TABLE `tbl_placa_policial`
+  ADD CONSTRAINT `tbl_placa_policial_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `tbl_personas` (`id`);
+
+--
+-- Filtros para la tabla `tbl_receta_medicas`
+--
+ALTER TABLE `tbl_receta_medicas`
+  ADD CONSTRAINT `tbl_receta_medicas_ibfk_1` FOREIGN KEY (`id`) REFERENCES `tbl_exp_clinico` (`id`),
+  ADD CONSTRAINT `tbl_receta_medicas_ibfk_2` FOREIGN KEY (`cod_medico`) REFERENCES `tbl_medico` (`id`);
+
+--
+-- Filtros para la tabla `tbl_rel_afiliado_benef`
+--
+ALTER TABLE `tbl_rel_afiliado_benef`
+  ADD CONSTRAINT `tbl_rel_afiliado_benef_ibfk_1` FOREIGN KEY (`id`) REFERENCES `tbl_personas` (`id`),
+  ADD CONSTRAINT `tbl_rel_afiliado_benef_ibfk_2` FOREIGN KEY (`id_beneficiario`) REFERENCES `tbl_personas` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

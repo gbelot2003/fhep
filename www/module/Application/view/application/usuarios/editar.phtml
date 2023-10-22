@@ -1,0 +1,186 @@
+<?php
+$this->headTitle("FHEP| Editar Usuario");
+$this->head;
+
+$info = $this->info;
+
+if (isset($_SESSION["auth"])) {
+
+    $nombre_usuario = $_SESSION["auth"]['usuario'];
+    
+    $DateAndTime = date('Y-m-d H:i:s');
+}
+
+
+?>
+<!-- DataTable -->
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_conf_usuarios.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+<div class="container mt-4">
+    <!-- encabezado -->
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Usuarios</h2>
+                <em>Editar Usuario.</em>
+            </div>
+            <div class="col-lg-6">
+                <div class="btn-group pull-right">
+                    <a href="<?php echo $this->basePath(); ?>/usuarios" class="w-75 btn btn-md btn-primary next"><span class="icon icon-std icon-back"></span><i class="fa-thin fa-circle-chevron-left"></i>  Regresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /encabezado -->
+    <div class="border " style="padding: 10px; min-height: 700px;">
+        <div class="row">
+            <h3 class="">Identificación del Usuario</h3>
+        </div><!-- /.box-header -->
+
+        <div class="content">
+            <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/usuarios/editar/<?php echo $info['id_usuario'] ?>" enctype="multipart/form-data" data-parsley-validate >
+               <input type="hidden" name="id" value="<?php echo $info['id_persona'] ?>"">
+               <input type="hidden" name="correo" value="<?php echo $info['correo'] ?>"">
+                <input type="hidden" name="usuario" value="<?php echo $info['usuario'] ?>"">
+                 <input type="hidden" name="contrasenia" value="<?php echo $info['contrasenia'] ?>"">
+                 <input type="hidden" name="id_rol" value="<?php echo $info['id_rol'] ?>"">
+                  <input type="hidden" id="modificacion" name="fecha_modificacion" value="<?php echo $DateAndTime ?>" >
+                   <input type="hidden" id="id_cita" name="modificado_por" value="<?php echo $nombre_usuario ?>"  >
+                 
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-6 ">
+                            <i class="fad fa-user"></i>
+                            <label class="form-label" for="usuario">Usuario</label>
+                            <div class="input-group flex-nowrap">
+                                <input type="text"  name="usuario" class="form-control form-control-lg" value="<?php echo $info['usuario'] ?>" id="usuario"  autocomplete="off" placeholder="" disabled="true" readonly >
+                                <span    class="input-group-text" onclick="habilitarCampos('usuario')"> <i id="icon_edit" class="fa-thin fa-pencil"></i></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 ">
+                            <i class="fad fa-envelope"></i>
+                            <label class="form-label" for="correo">Correo</label>
+                            <div class="input-group flex-nowrap">
+                                <input type="text"  name="correo" class="form-control form-control-lg" id="correo"  autocomplete="off" placeholder="" 
+                                       value="<?php echo $info['correo'] ?>" disabled="true" >
+                                <span    class="input-group-text" onclick="habilitarCampos('correo')"> <i id="icon_edit" class="fa-thin fa-pencil"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-6 ">
+                            <i class="fad fa-key"></i>
+                            <label class="form-label" for="pass">Contraseña</label>
+                            <div class="input-group flex-nowrap">
+                                <input type="password"  name="contrasenia" class="form-control form-control-lg" id="pass" value="<?php echo $info['contrasenia'] ?>" autocomplete="off" placeholder="" disabled="true" >
+                                <span class="input-group-text" onclick="habilitarCampos('pass')"> <i id="icon_edit" class="fa-thin fa-pencil"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-2 ">
+                            <div class="form-group">
+                                <label for="rol" ><i class="fa-duotone fa-key-skeleton-left-right"></i> Rol  </label>
+                                <select class="form-control form-control-lg" id="nombre_ts" data-parsley-group="block1"  name="id_rol" >
+                                    <option value="<?php echo $info['id_rol'] ?>" ><?php echo $info['nombre_rol'] ?></option>
+                                    <?php foreach ($this->roles as $d): ?> 
+                                        <option  title="<?php echo $d['nombre_rol'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['nombre_rol'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>                   
+                        </div>
+                    </div>
+                    
+                       <div class="row mt-4 ">
+                    <div class="col-md-6">
+                        <h3 class="">Estado</h3>
+                    </div> 
+                    <div class="col-md-6">
+                        <h3 class="">Sucursal</h3>
+                    </div> 
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                                <label for="rol" ><i class="fa-duotone fa-key-skeleton-left-right"></i> Estados  </label>
+                                <select class="form-control form-control" id="nombre_ts" data-parsley-group="block1"  name="estado_u" >
+                                    <option value="<?php echo $info['id_estado'] ?>" ><?php echo $info['nombre'] ?></option>
+                                    <?php foreach ($this->estados as $d): ?> 
+                                        <option  title="<?php echo $d['nombre'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['nombre'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="rol">Selecione Su Sucursal</label>
+                            <select class="form-control" id="id_sucursal" required="required"  name="id_sucursal">
+                                <option value="<?php echo $info['id_sucursal'] ?>" ><?php echo $info['nombre_sucursal'] ?></option>
+                                <?php foreach ($this->sucursales as $d): ?>
+                                    <option  title="<?php echo $d['nombre_sucursal'] ?>" value="<?php echo $d['Id'] ?>" ><?php echo $d['nombre_sucursal'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <h3 class="">Editar Preguntas de Seguridad </h3>
+                    </div>
+                    <div class="row md-2">
+                        <div class="col-md-6 ">
+                            <label for="preguntas"><i class="fad fa-seal-question"></i> Preguntas  </label>
+                            <select class="form-control form-control-lg" id="nombre_ts" data-parsley-group="block1"  name="Id_pregunta">
+                                <option value="">Seleccione Su Pregunta *</option>
+                                <?php foreach ($this->pre as $d): ?>
+                                    <option  title="<?php echo $d['pregunta'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['pregunta'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row md-2">
+                        <div class="col-md-6 ">
+                            <i class="fa-duotone fa-comments-question-check"></i>
+                            <label class="form-label" for="respuesta">Respuestas</label>
+                            <div class="input-group flex-nowrap">
+                                <input type="edit"  name="respuesta" class="form-control form-control-lg" id="respuestas"  autocomplete="off" placeholder="" disabled="true" >
+                                <span    class="input-group-text" onclick="habilitarCampos('respuestas')"> <i id="icon_edit" class="fa-thin fa-pencil"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                    <h3 class="">Confirmar y Guardar</h3>
+                </div>
+                <div class="col mt-2">
+                  <div class="d-grid gap-2 col-4">
+                    <button class=" btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Terminar y Guardar</button>
+                    <!--<button class="btn btn-danger" onclick="cancelarform()"  type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>-->
+                </div>
+                     </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div><!-- /.box -->
+
+<script>
+    function habilitarCampos(campoCantidad)
+    {
+        var estadoActual = document.getElementById(campoCantidad);
+        estadoActual.disabled = !estadoActual.disabled;
+    }
+
+
+</script>
+
+<script type="text/javascript">
+
+
+</script>

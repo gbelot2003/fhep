@@ -1,0 +1,37 @@
+
+.file {
+    margin-bottom: 16px;
+}
+
+.preview {
+    height: 300px;
+    width: 100%;
+    border: 2px solid black;
+    position: relative;
+    display: none;
+}
+
+.photo {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.close-icon {
+    position: absolute;
+    bottom: 95%;
+    left: 95%;
+    font-size: 30px;
+    color: #4f4f4f;
+    background: #f0f0f0;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.btn-submit {
+  display: none;
+}
+
+.submit {
+  margin-top: 1rem;
+}

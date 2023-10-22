@@ -1,0 +1,296 @@
+<?php
+$this->headTitle("FHEP| Nuevo Permiso");
+$this->head;
+
+if (isset($_SESSION["auth"])) {
+
+    $nombre_usuario = $_SESSION["auth"]['usuario'];
+    $DateAndTime = date('Y-m-d h:i:s a', time());
+}
+
+$info_r = $this->inforol;
+$info = $this->obje;
+?>
+<!-- DataTable -->
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_conf_usuarios.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+<div class="container mt-4">
+    <!-- encabezado -->
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Permisos</h2>
+                <em>Asignación de Permisos.</em>
+            </div>
+            <div class="col-lg-6">
+                <div class="btn-group pull-right">
+                    <a href="<?php echo $this->basePath(); ?>/roles" class="w-75 btn btn-md btn-primary next"><span class="icon icon-std icon-back"></span><i class="fa-thin fa-circle-chevron-left"></i>  Regresar</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- /encabezado -->
+    <div class="border " style="padding: 10px; min-height: 700px;">
+
+        <div class="content">
+            <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/permisos/asinaciondepermisos/<?php echo $info_r['id'] ?>" enctype="multipart/form-data" data-parsley-validate >
+
+                <input type="hidden" name="id_rol" value="<?php echo $info_r['id'] ?>">
+                <input type="hidden" name="tipo_asignacion" id="tipo_asignacion">
+
+                <input type="hidden" id="creado" name="creado_por" value="<?php echo $nombre_usuario ?>"  >
+                <input type="hidden" id="creacion" name="fecha_creacion" value="<?php echo $DateAndTime ?>"  >
+                <input type="hidden" id="creacion" name="fecha_modificacion" value="<?php echo $DateAndTime ?>"  >
+
+
+
+                <div class="row-md">
+                    <h3 class="">Objetos y Roles </h3>
+                </div> 
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="rol">Tipo de Rol *</label>
+                            <input type="text"  id="n_identidad" name="nombre_rol" 
+                                   class="form-control" readonly="readonly" value="<?php echo $info_r['nombre_rol'] ?>" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="asignacion">Pantallas de acceso *</label>
+                            <select class="form-control" id="id_objeto" name="id_objeto" required="required">
+                                <option value="">Pantallas de acceso *</option>
+                                <?php foreach ($this->obje as $d): ?>
+
+                                    <option  title="<?php echo $d['objeto'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['objeto'] ?></option>
+
+                                <?php endforeach; ?>
+
+
+
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div id="resp_objeto">
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row mt-4">
+                    <h3 class="">Permisos a asignar</h3>
+                </div>
+                <div class="row ms-2">
+                    <div class="col-2">
+                        <div class="checkbox" data-toggle="tooltip" >
+                            <label>
+                                <input type="checkbox" value="1" name="permiso_consultar" id="permiso_consultar" data-toggle="toggle" data-on="Si" data-off="No" data-onstyle="warning" data-offstyle="secondary" data-size="mini">
+                                Consultar
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="checkbox" data-toggle="tooltip" >
+                            <label>
+                                <input type="checkbox" value="1" name="permiso_insercion" id="permiso_insercion" data-toggle="toggle" data-on="Si" data-off="No" data-onstyle="warning" data-offstyle="secondary" data-size="mini">
+                                Guardar
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="checkbox" data-toggle="tooltip" >
+                            <label>
+                                <input type="checkbox"  value="1" name="permiso_actualizacion" id="permiso_actualizacion" data-toggle="toggle" data-on="Si" data-off="No" data-onstyle="warning" data-offstyle="secondary" data-size="mini">
+                                Modificar
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="checkbox" data-toggle="tooltip" >
+                            <label>
+                                <input type="checkbox" value="1" name="permiso_eliminacion" id="permiso_eliminacion" data-toggle="toggle" data-on="Si" data-off="No"  data-onstyle="warning" data-offstyle="secondary" data-size="mini">
+                                Eliminar
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="checkbox" data-toggle="tooltip" >
+                            <label>
+                                <input type="checkbox" value="1" name="permiso_reportes" id="permiso_reportes" data-toggle="toggle" data-on="Si" data-off="No"  data-onstyle="warning" data-offstyle="secondary" data-size="mini">
+                                Reportes
+                            </label>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+
+                <div class="row ms-2 mt-4">
+
+                    <div class="col-2">
+                        <div class="checkbox" data-toggle="tooltip" >
+                            <label>
+                                <input type="checkbox" value="1" name="permiso_expedientes" id="permiso_expedientes" data-toggle="toggle" data-on="Si" data-off="No"  data-onstyle="warning" data-offstyle="secondary" data-size="mini">
+                                Expedientes
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="checkbox" data-toggle="tooltip" >
+                            <label>
+                                <input type="checkbox" value="1" name="permiso_triaje" id="permiso_triaje" data-toggle="toggle" data-on="Si" data-off="No"  data-onstyle="warning" data-offstyle="secondary" data-size="mini">
+                                Triaje
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="checkbox" data-toggle="tooltip" >
+                            <label>
+                                <input type="checkbox" value="1" name="permiso_gestion_medicos" id="permiso_gestion_medicos" data-toggle="toggle" data-on="Si" data-off="No"  data-onstyle="warning" data-offstyle="secondary" data-size="mini">
+                                Gestion de medicos
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+                <!--                    <div class="col-2">
+                                <div class="checkbox" data-toggle="tooltip" >
+                                    <label>
+                                        <input type="checkbox" value="2" name="chk1" id="name1" data-toggle="toggle" data-on="Si" data-off="No" data-onstyle="primary" data-offstyle="secondary" data-size="mini">
+                                        Total
+                                    </label>
+                                </div>
+                            </div>-->
+                <!--                </div>
+                                <br>
+                                <input type="checkbox" value="1" name="chg" id="chg"> Cambiar permiso<br><br>
+                                <input type="checkbox" value="1" name="chg2" id="chg2"> Cambiar permiso 2<br><br>
+                                <input type="checkbox" value="1" name="chg3" id="chg3"> Cambiar permiso 3<br><br>-->
+
+                <div class="row mt-4">
+                    <h3 class="">Confirmar y Guardar</h3>
+                </div>
+                <div class="col mt-2">
+                    <div class="d-grid gap-2 col-4">
+                        <button class=" btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Terminar y Guardar</button>
+                        <!--<button class="btn btn-danger" onclick="cancelarform()"  type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>-->
+                    </div>
+                </div>
+                <!-- /.box -->
+            </form>
+        </div>
+    </div>  
+</div>
+<script type="text/javascript">
+
+    $("#id_objeto").change(function () {//Elemento que voy a observar "#nombreIdElemento"
+
+        var id_objeto = $(this).val();
+
+
+        $.ajax({
+            type: "POST", //Metodo de envio
+            url: "<?php echo $this->url('permisos/validarpermisousuario') ?>", //URL del jsp que va a procesar mi solicitud asíncrona
+            traditional: true,
+            dataType: 'json',
+            data: {id_objeto: id_objeto, id_rol:<?php echo $info_r['id'] ?>}, //{nombre-de-parametro:Valor-para-el-parametro}
+            beforeSend: function () {
+                $("#resp_objeto").val("");//Limpiar el campo de respuesta
+            },
+            success: function (data) {
+
+                if (data.estado === 'nuevo') {
+                    $("#resp_objeto").html("Nuevo permiso");
+                    $("#tipo_asignacion").val("nuevo");
+                    //apagar todos
+                    $("#permiso_insercion").prop('checked', false).change();
+                    $("#permiso_consultar").prop('checked', false).change();
+                    $("#permiso_actualizacion").prop('checked', false).change();
+                    $("#permiso_eliminacion").prop('checked', false).change();
+                    $("#permiso_reportes").prop('checked', false).change();
+                    $("#permiso_expedientes").prop('checked', false).change();
+                    $("#permiso_triaje").prop('checked', false).change();
+                    $("#permiso_gestion_medicos").prop('checked', false).change();
+
+
+                } else if (data.estado === 'mod') {
+                    $("#resp_objeto").html("Modificar permiso");
+                    $("#tipo_asignacion").val("modificando");
+//                    alert(data.p.permiso_consultar);
+//                    alert(data.p.permiso_actualizacion);
+//                    alert(data.p.permiso_insercion);
+//                    alert(data.p.permiso_eliminacion);
+
+
+
+                    if (data.p.permiso_insercion === '1') {
+                        $("#permiso_insercion").prop('checked', true).change();
+                    } else {
+                        $("#permiso_insercion").prop('checked', false).change();
+                    }
+
+                    if (data.p.permiso_consultar === '1') {
+                        $("#permiso_consultar").prop('checked', true).change();
+                    } else {
+                        $("#permiso_consultar").prop('checked', false).change();
+                    }
+
+                    if (data.p.permiso_actualizacion === '1') {
+                        $("#permiso_actualizacion").prop('checked', true).change();
+                    } else {
+                        $("#permiso_actualizacion").prop('checked', false).change();
+                    }
+
+                    if (data.p.permiso_eliminacion === '1') {
+                        $("#permiso_eliminacion").prop('checked', true).change();
+                    } else {
+                        $("#permiso_eliminacion").prop('checked', false).change();
+                    }
+
+                    if (data.p.permiso_reportes === '1') {
+                        $("#permiso_reportes").prop('checked', true).change();
+                    } else {
+                        $("#permiso_reportes").prop('checked', false).change();
+                    }
+
+                    if (data.p.permiso_expedientes === '1') {
+                        $("#permiso_expedientes").prop('checked', true).change();
+                    } else {
+                        $("#permiso_expedientes").prop('checked', false).change();
+                    }
+
+                    if (data.p.permiso_triaje === '1') {
+                        $("#permiso_triaje").prop('checked', true).change();
+                    } else {
+                        $("#permiso_triaje").prop('checked', false).change();
+                    }
+
+                    if (data.p.permiso_gestion_medicos === '1') {
+                        $("#permiso_gestion_medicos").prop('checked', true).change();
+                    } else {
+                        $("#permiso_gestion_medicos").prop('checked', false).change();
+                    }
+
+                }
+            }
+
+        });
+
+    });
+
+</script>

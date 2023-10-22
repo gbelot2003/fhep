@@ -1,0 +1,89 @@
+<?php
+$this->headTitle("FHEP| Ver Usuario");
+$this->head;
+?>
+<!-- DataTable -->
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_conf_usuarios.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+<div class="container mt-4">
+    <!-- encabezado -->
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Usuarios</h2>
+                <em>Información de Usuario.</em>
+            </div>
+            <div class="col-lg-6">
+                <div class="btn-group pull-right">
+                    <a href="<?php echo $this->basePath(); ?>/usuarios" class="w-75 btn btn-md btn-primary next"><span class="icon icon-std icon-back"></span><i class="fa-thin fa-circle-chevron-left"></i>  Regresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /encabezado -->
+    <div class="border " style="padding: 10px; min-height: 700px;">
+           <div class="text-primary">
+        <div class="row">
+            <h3 class="">Identificación del Usuario</h3>
+        </div><!-- /.box-header -->
+
+        <div class="content">
+            <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/controller/action" enctype="multipart/form-data" data-parsley-validate >
+             
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Nombre de Usuario:</label>
+                            <input type="text" class="form-control" name="objeto" id="objeto" maxlength="30" placeholder="Nombre del Usuario" required readonly>
+                        </div>
+                        <div class="col-md-6 ">
+                            <label>Correo eléctronico:</label>
+                            <input type="email" class="form-control" name="tipo_objeto" id="tipo_objeto" maxlength="100" placeholder="Correo eléctronico" required readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Nombres:</label>
+                            <input type="text" class="form-control" name="descripcion" id="descripcion" maxlength="100" placeholder="Nombres" required readonly>
+                        </div>
+                        <div class="col-md-6 ">
+                            <label>Apellidos:</label>
+                            <input type="text" class="form-control" name="dato" id="dato" maxlength="100" placeholder="Apellidos" required readonly>
+                        </div>
+                    </div>
+
+
+                    <div class="row-md mt-2">
+                        <h3 class="">Rol y Estado</h3>
+                    </div> 
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="rol">Rol  Asignado</label>
+                                <input type="text" class="form-control" name="rol" id="dato" maxlength="100" placeholder="Rol" required readonly>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="estado">Estado </label>
+                                <input type="text" class="form-control" name="estado" id="dato" maxlength="100" placeholder="Estado" required readonly>
+                            </div>
+                        </div>
+
+
+
+                        </form>
+                    </div>
+                </div>
+        </div>
+    </div><!-- /.box -->
+
+    <script type="text/javascript">
+
+
+    </script>

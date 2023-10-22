@@ -1,0 +1,126 @@
+<?php
+$this->headTitle("Autoregistro");
+$this->head;
+?>
+<?php if (!isset($_SESSION["auth"])): ?>
+    <form id="frm_autoregiostro" method="post"  action="<?php echo $this->basePath(); ?>/usuarios/autoregistro" enctype="multipart/form-data" data-parsley-validate >
+        <div class="container py-2 mt-5 mb-0">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card bg-dark text-white" style="border-radius: 1rem">
+                        <div class="card-body p-5 text-center">
+                            <div class="mb-md-2 mt-md-2 pb-2">
+                                <h2></h2>
+                                <h4>Bienvenido por favor llene los campos para poder ingresar al sistema</h4>
+
+                                <p class="login-box-msg"><h3>Ingrese Datos Del Usuario</h3></p>
+
+
+                                <label for="Ncontraseña1">Ingrese Su Nombre </label><br>
+                                    <div class="form-group has-feedback mt-2 ">
+                                        <input type="text" class="form-control " placeholder="Ingrese Su Nombre " name="nombres" id="nusuario" required onkeypress="return soloLetras(event)" onkeyup="aaa(this, event)" style="text-transform:uppercase;" onkeyup="javascript:this.value = this.value.toUpperCase();">
+                                    </div>
+
+
+                                    <div class="form-group has-feedback mt-3">
+                                        <label for="Ncontraseña1">Ingrese Su Apellido</label><br>
+                                            <input type="text" class="form-control " placeholder="Ingrese Su Apellido" name="apellidos" id="nusuario" required onkeypress="return soloLetras(event)" onkeyup="aaa(this, event)" style="text-transform:uppercase;" onkeyup="javascript:this.value = this.value.toUpperCase();">
+                                                </div>
+
+                                                <div class="form-group has-feedback mt-3">
+                                                    <label for="">Nombre De Usuario</label><br>
+                                                        <input type="text" class="form-control " placeholder="Ingrese Nombre Del  Usuario" name="usuario" id="usuario" required onkeypress="return soloLetras(event)" onkeyup="aaa(this, event)" style="text-transform:uppercase;" onkeyup="javascript:this.value = this.value.toUpperCase();">
+                                                            </div>
+
+                                                            <label for="Ncontraseña1">Correo Electronico</label><br>
+                                                                <div class="form-group has-feedback mt-2 ">
+                                                                    <input type="email" class="form-control " placeholder="Ingrese Un Correo Electronico" 
+                                                                           name="correo" id="cusuario" required>
+                                                                </div>
+
+                                                                <label for="Ncontraseña1">Contraseña </label><br>
+                                                                    <div class="form-group has-feedback mt-2 ">
+                                                                        <div style="display: flex;">
+
+                                                                            <input type="password" class="form-control " placeholder="Ingrese Una Contraseña" name="contrasenia" id="ncontra" minlength="<?php echo $valormin; ?>" maxlength="<?php echo $valormax ?>" orequired onkeyup="aaa(this, event)" required>
+                                                                                <button class="" type="button" onclick="mostrarContrasena13()"> 
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
+                                                                                        <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z" />
+                                                                                        <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z" />
+                                                                                        <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z" />
+                                                                                    </svg></button>
+                                                                        </div>
+                                                                        <div id="strengthMessage"></div>
+                                                                    </div>
+
+                                                                    <br>
+                                                                        <!-- /.col -->
+                                                                        <div class center="col-xs-4">
+                                                                            <button type="submit" class="btn btn-success">Registrarse</button>
+                                            <!--                                                                                        <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>-->
+                                                                            <br></br>
+
+                                                                            <a class="btn btn-danger" href="<?php echo $this->basePath() ?>/usuarios/cerrarsesion" role="button">Cancelar</a>
+                                                                        </div>
+                                                                        </div>
+                                                                        </div>
+                                                                        </div>
+                                                                        </div>
+                                                                        </div>
+                                                                        </div>
+                                                                        </form> 
+                                                                    <?php endif; ?>
+
+
+
+
+
+                                                                    <script language="javascript">
+                                                                        function aaa(campo, event) {
+                                                                            CadenaaReemplazar = " ";
+                                                                            CadenaReemplazo = "";
+                                                                            CadenaTexto = campo.value;
+                                                                            CadenaTextoNueva = CadenaTexto.split(CadenaaReemplazar).join(CadenaReemplazo);
+                                                                            campo.value = CadenaTextoNueva;
+                                                                        }
+                                                                    </script>
+
+
+                                                                    <script languaje="javascript">
+                                                                        function CheckUserName(ele) {
+                                                                            if (/\s/.test(ele.value)) {
+                                                                                $.notify(datos, 'success');
+                                                                                ("no se permiten espacios en blanco");
+                                                                            }
+                                                                        }
+                                                                    </script>
+
+
+
+                                                                    <script>
+                                                                        function mostrarContrasena13() {
+                                                                            var tipo = document.getElementById("ncontra");
+                                                                            if (tipo.type == "password") {
+                                                                                tipo.type = "text";
+                                                                            } else {
+                                                                                tipo.type = "password";
+                                                                            }
+                                                                        }
+                                                                    </script>
+
+
+                                                                    <script>
+                                                                        function mostrarContrasena12() {
+                                                                            var tipo = document.getElementById("rcontra");
+                                                                            if (tipo.type == "password") {
+                                                                                tipo.type = "text";
+                                                                            } else {
+                                                                                tipo.type = "password";
+                                                                            }
+                                                                        }
+                                                                    </script>
+
+                                                                    <script src="<?php echo $this->basePath() ?>/js_validaciones/validar.js"></script>
+                                                                    <script src="<?php echo $this->basePath() ?>/js_validaciones/autoregistro.js"></script>
+                                                                    <script src="<?php echo $this->basePath() ?>/js_validaciones/contra.js"></script>
+

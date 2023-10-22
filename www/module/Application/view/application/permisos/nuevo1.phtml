@@ -1,0 +1,158 @@
+<?php
+$this->headTitle("APP | Title");
+$this->head;
+?>
+<!-- DataTable -->
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_conf_usuarios.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+
+<!-- encabezado -->
+<div class="container mt-4">
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Permisos</h2>
+                <em>Crear Permisos.</em>
+            </div>
+            <div class="col-lg-6">
+                <div class="btn-group pull-right">
+                    <a href="<?php echo $this->basePath(); ?>/permisos" class="w-75 btn btn-md btn-primary next"><span class="icon icon-std icon-back"></span><i class="fa-thin fa-circle-chevron-left"></i>  Regresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- /encabezado -->
+    <div class="border " style="padding: 10px; min-height: 700px;">
+        <div class="row">
+            <h3 class="">Agregar Permisos</h3>
+        </div><!-- /.box-header -->
+
+        <div class="content">
+            <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/controller/action" enctype="multipart/form-data" data-parsley-validate >
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Permiso:</label>
+                        <input type="text" class="form-control" name="objeto" id="objeto" maxlength="30" placeholder="Nombre del Permiso" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Descripcion:</label>
+                        <input type="text" class="form-control" name="descripcion" id="descripcion" maxlength="100" placeholder="Descripcion"" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 ">
+                        <label for="estado">Estado *</label>
+                        <select class="form-control" id="rol_estado" data-parsley-group="block3"  name="rol_estado">
+                            <option value="">Estado de Permiso *</option>
+                            <?php foreach ($this->asi as $d): ?>
+
+                                <option  title="<?php echo $d['nombre_d'] ?>" value="<?php echo $d['id'] ?>" ><?php echo $d['nombre_d'] ?></option>
+
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+
+        </div>
+        <div class="row mt-4">
+            <h3 class="">Privilegios a asignar</h3>
+        </div>
+        <div class="row ms-2">
+            <div class="col-2">
+                <div class="checkbox" data-toggle="tooltip" >
+                    <label>
+                        <input type="checkbox" value="1" name="chk1" id="name1" data-toggle="toggle" data-on="Si" data-off="No" data-onstyle="primary" data-offstyle="secondary" data-size="mini">
+                        Consultar
+                    </label>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="checkbox" data-toggle="tooltip" >
+                    <label>
+                        <input type="checkbox" value="1" name="chk1" id="name1" data-toggle="toggle" data-on="Si" data-off="No" data-onstyle="primary" data-offstyle="secondary" data-size="mini">
+                        Modificar
+                    </label>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="checkbox" data-toggle="tooltip" >
+                    <label>
+                        <input type="checkbox" value="1" name="chk1" id="name1" data-toggle="toggle" data-on="Si" data-off="No" data-onstyle="primary" data-offstyle="secondary" data-size="mini">
+                        Guardar
+                    </label>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="checkbox" data-toggle="tooltip" >
+                    <label>
+                        <input type="checkbox" value="1" name="chk1" id="name1" data-toggle="toggle" data-on="Si" data-off="No" data-onstyle="primary" data-offstyle="secondary" data-size="mini">
+                        Eliminar
+                    </label>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="checkbox" data-toggle="tooltip" >
+                    <label>
+                        <input type="checkbox" value="1" name="chk1" id="name1" data-toggle="toggle" data-on="Si" data-off="No" data-onstyle="primary" data-offstyle="secondary" data-size="mini">
+                        Total
+                    </label>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="row mt-4">
+            <h3 class="">Confirmación</h3>
+        </div>
+        <div class="row ms-2">
+            <div class="col-4">
+
+                <div class="checkbox" data-toggle="tooltip" title="">
+                    <label>
+                        <input type="checkbox" value="1" name="chk3" id="Name3" data-toggle="toggle" data-on="Confirmado!" data-off="Terminar y Guardar" data-onstyle="success" data-offstyle="primary" data-size="normal" data-width="330" data-height="15">
+                    </label>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+</script>

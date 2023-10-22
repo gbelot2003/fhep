@@ -1,0 +1,198 @@
+<?php
+$this->headTitle("APP | Title");
+$this->head;
+?>
+<!-- DataTable -->
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_conf_usuarios.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+
+<!-- encabezado -->
+<div class="main-header">
+    <div class="row">
+        <div class="col-lg-7">
+            <h2>Título de Página</h2>
+            <em>Descripción de página.</em>
+        </div>
+        <div class="col-lg-5" style="margin-top: 0px;">
+            <div class="btn-group pull-right" style="padding-top: 10px;">
+                <a href="<?php echo $this->basePath(); ?>/controller/action"  class="btn btn-primary btn-sm"><span class="bi bi-std-14 bi-plus-lg"></span>  Agregar Nuevo</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /encabezado -->
+<div class="border " style="padding: 10px; min-height: 700px;">
+    <div class="">
+        <h5 class="">Contenido</h5>
+    </div><!-- /.box-header -->
+    <div class="content">
+
+        <div class="content-wrapper">
+            <section class="content-header">
+                <h1>MANTENIMIENTO OBJETOS</h1>
+                <ol class="breadcrumb ">
+                    <li class="btn btn-success  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+                    <li class="btn btn-success  fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
+                    <li class="btn btn-success  active fw-bold"><a href="#"><i class="fas fa-cogs"></i> Mantenimiento Objetos</a></li>
+
+                </ol>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+
+                <!-- Default box -->
+                <div class="box" oncopy="return false" onpaste="return false">
+                    <div class="box-header with-border">
+
+                    </div>
+                    <div class="box-body">
+                        <!--LLamar al formulario aqui-->
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Listado de objetos</div>
+                                    </div> <!-- /panel-heading -->
+                                    <div class="panel-body">
+                                        <div class="remove-messages"></div>
+                                        <!--<div class="div-action pull pull-right" style="padding-bottom:20px;">-->
+                                            <button class="btn btn-success btnCrearObjeto glyphicon glyphicon-plus-sign" >Agregar Nuevo Objeto</button>
+
+                                        <!--</div>  /div-action -->
+
+                                        <table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="managerObjetos">
+                                            <thead style=" background-color: #222d32; color: white;">
+                                                <tr>
+
+                                                    <th>Objeto</th>
+                                                    <th>Tipo Objeto</th>
+                                                    <th>descripcion</th>
+                                                    <th>creado por</th>
+                                                    <th>Fecha creacion</th>
+                                                    <th>Modificado por</th>
+                                                    <th>Fecha modificacion</th>
+                                                    
+                                                
+
+
+
+                    <!--<div class="modal fade" id="modalEditarObjeto" tabindex="-1"-->
+                         role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                        <!--<div class="modal-dialog">-->
+                            <!--<div class="modal-content">-->
+                                <div class="modal-header">
+                                    <div class="d-flex justify-content-between">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <i aria-hidden="true">&times;</i>
+                                        </button>
+                                        <h3 class="modal-title" id="exampleModalLabel">Actualizar Objeto</h3>
+                                    </div>
+                                </div>
+                                <!--<div class="modal-body">-->
+<!--                                    <form name="formEditarProducto">
+                                        <div class="ingreso-producto form-group">
+
+                                            <div class="campos">
+                                                <label for="">Nombre objeto: </label>
+                                                <input id="nombre_Objeto" class="form-control  modal-roles secundary text-uppercase" type="text" name="objeto" placeholde="Escriba el producto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value = this.value.toUpperCase()" autocomplete="off"/>
+
+                                            </div>
+                                            <div class="campos form-group">
+                                                <label for="">Tipo objeto: </label>
+                                                <input id="tipo_Objeto" class="form-control  modal-roles secundary text-uppercase" type="text" name="tipo_objeto" autocomplete="off" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value = this.value.toUpperCase()"/>
+
+                                            </div>
+                                            <div class="campos form-group">
+                                                <label for="">Descripcion objeto: </label>
+                                                <input autocomplete="off" id="descripcionObjeto" class="form-control  modal-roles secundary text-uppercase" type="tel" name="descripcion" placeholde="Escriba el producto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value = this.value.toUpperCase()"/>
+
+                                            </div>
+
+
+                                            <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+                                        </div>
+
+                                    </form>
+                                </div>-->
+<!--                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar Objeto</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+
+                    <!-- /.box-footer-->
+                    <!-- crear nuevos Objetos -->
+<!--                    <div class="modal fade" id="modalCrearObjeto" tabindex="-1"
+                         role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div class="d-flex justify-content-between">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <i aria-hidden="true">&times;</i>
+                                        </button>
+                                        <h3 class="modal-title" id="exampleModalLabel">Registrar Nuevo Objeto</h3>
+                                    </div>
+                                </div>-->
+                                <div class="modal-body">
+                                    <form name="" id="formObjeto">
+                                        <div class="ingreso-producto form-group">
+
+                                            <div class="campos">
+                                                <label for="">Nombre objeto: </label>
+                                                <input autocomplete="off" id="nombreObjeto" class="form-control modal-roles secundary text-uppercase" type="text" name="Objeto" placeholder="Escriba el objeto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value = this.value.toUpperCase()"/>
+
+                                            </div>
+                                            <div class="campos form-group">
+                                                <label for="">Tipo objeto: </label>
+                                                <input id="tObjeto" class="form-control  modal-roles secundary text-uppercase" type="tex"  placeholder="tipo del objeto" required  autocomplete="off" onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value = this.value.toUpperCase()"/>
+
+                                            </div>
+                                            <div class="campos form-group">
+                                                <label for="">Descripcion objeto: </label>
+                                                <input id="descripcion" class="form-control  modal-roles secundary text-uppercase" type="text"  placeholder="Describa el objeto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value = this.value.toUpperCase()" autocomplete="off"/>
+
+                                            </div>
+
+
+                                            <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" id="close" data-dismiss="modal">Cerrar</button>
+                                            <button id="" type="submit"  name="ingresarProducto" class=" btn btn-success">Registrar Objeto</button>
+                                        </div>
+
+
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.box -->
+
+            </section>
+            <!-- /.content -->
+        </div>
+
+        
+
+
+
+    </div>
+</div><!-- /.box -->
+
+
+<script type="text/javascript">
+
+
+</script>

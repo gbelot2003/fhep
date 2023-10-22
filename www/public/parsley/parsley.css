@@ -1,0 +1,42 @@
+
+
+input.parsley-success,
+select.parsley-success,
+textarea.parsley-success {
+    color: #468847;
+    //background-color: #DFF0D8;
+    border: 1px solid #3C9739;
+}
+
+input.parsley-error,
+select.parsley-error,
+textarea.parsley-error {
+    color: #D02127;
+    // background-color: #F2DEDE;
+    border: 1px solid #D02127;
+
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(198, 46, 29, .9);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(198, 46, 29, .9);
+
+}
+
+.parsley-errors-list {
+    margin: 2px 0 3px 0;
+    padding: 0;
+    list-style-type: none;
+    font-size: 0.9em;
+    line-height: 0.9em;
+    opacity: 0;
+    -moz-opacity: 0;
+    -webkit-opacity: 0;
+    color: red;
+    transition: all .3s ease-in;
+    -o-transition: all .3s ease-in;
+    -ms-transition: all .3s ease-in;
+    -moz-transition: all .3s ease-in;
+    -webkit-transition: all .3s ease-in;
+}
+
+.parsley-errors-list.filled {
+    opacity: 1;
+}

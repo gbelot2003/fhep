@@ -1,0 +1,280 @@
+<?php
+$this->headTitle("FHEP| Historial Clinico");
+$this->head;
+$info = $this->info_afiliado;
+$info_cita = $this->info_citas;
+$id_persona = $this->id_persona;
+?>
+<!-- DataTable -->
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/tbl_list_beneficiarios.js') ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/tablaEditable/js/editablegrid-2.1.0-b13.js') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/style.css') ?>
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/tablaEditable/css/responsive.css') ?>
+
+
+
+
+<div class="container mt-4">
+    <div class="main-header">
+        <div class="row">
+            <div class="col-lg-4">
+                <h2>Beneficiarios</h2>
+                <em>Historial De Beneficiarios.</em>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="btn-group pull-right">
+<!--                    <a href="javascript:mostraragregarcategoria()" class="btn btn-md btn-success next"><i class="fa-solid fa-file-pdf "></i>  Exportar a Excel</a>
+                    <a href="javascript:mostarpdf()" class="btn btn-md btn-danger next"><i class="fa-solid fa-file-pdf "></i>  Exportar a PDF</a>-->
+                    <a href="<?php echo $this->basePath(); ?>/afiliados" class="btn btn-md btn-primary next"><span class="icon icon-std icon-back"></span><i class="fa-solid fa-circle-arrow-left"></i>  Regresar</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /encabezado -->
+    <form id="id_frm_name" method="post" action="<?php echo $this->basePath(); ?>/pacientes/expedientemedico" enctype="multipart/form-data" data-parsley-validate >
+        <div id="_imprimir">
+            <div class="border " style="padding: 10px; min-height: 700px;">
+                <div class="form-group row">
+                    <div class="text-primary">
+
+                        <div class="row">
+                            <h4 class="">Datos del Afiliado</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+
+                                <span class="fw-bold">Nombre Completo:</span><span> <?php echo $info['nombre'] ?> </span>
+<!--                                <span class="fw-bold">Nombre Completo:</span><span> <?php echo $this->id_ ?> </span>-->
+                            </div>
+                            <div class="col-md-5 pa">
+                                <span class="fw-bold">Número de Expediente:</span><span> <?php echo $info['dni'] ?></span>                          
+                            </div>             
+                        </div>
+                    </div>
+
+                    <!--tabla--> 
+
+                    <div class="border " style="padding: 10px;">
+                        <div class="">
+                            <h5 class="">Tabla de Beneficiarios</h5>
+                        </div><!-- /.box-header -->
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-sm-5  me-auto ">
+                                    <div class="form-group" style="padding-top: 30px; ">
+                                        Mostrando 
+                                        <select class="form-contr" id="pagesizes" data-parsley-group="block2" name="pagesizes">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                            <option value="500">500</option>
+                                        </select>
+                                        Resultados por página
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 ms-auto">
+                                    <div class="input-group flex-nowrap">
+                                        <label></label>
+                                        <input type="text" class="form-control" id="filter"  autocomplete="off" placeholder="">
+                                        <span class="input-group-text" ><i class="bi bi-std bi-search form-control-feedback"></i></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-12 ">
+                                    <!-- Grid contents -->
+                                    <div id="divtabla" style="min-height: 400px; overflow-x: auto;">
+                                        <center>
+                                            <div style="margin: 100px;">
+                                                <span >
+                                                    <img src="<?php echo $this->basePath(); ?>/img/ajax-loader.gif" width="80" >
+                                                </span>
+                                            </div>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Paginator control -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="paginator" class="pull-right"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+
+
+                    <!--fin de tabla-->
+                </div>  
+                <div class="col-12 mt-5">
+<!--                    <a href="javascript:imprimirDiv()" class="btn btn-success"><i class="fal fa-1x fa-print"></i> Imprimir</a>-->
+                </div>
+            </div>   
+        </div><!-- /.box -->  
+    </form>
+</div>
+
+
+
+<script type="text/javascript">
+    // direcciones("<?php echo $this->basePath() ?>/pacientes/gettablahistorialpacientes/<?php echo $this->id_ ?>", "<?php echo $this->basePath() ?>");
+
+//    direcciones("<?php echo $this->basePath() ?>/pacientes/gettablapacientes", "<?php echo $this->basePath() ?>");
+
+    direcciones("<?php echo $this->basePath() ?>/afiliados/gettblbeneficiarios/<?php echo $this->id_persona ?>", "<?php echo $this->basePath() ?>");
+        var datagrid = new DatabaseGrid("tbl_personas");//me falta saber de donde la llamare 
+
+        window.onload = function () {
+            $("#filter").keyup(function () {
+                datagrid.editableGrid.filter($(this).val());
+            });
+            $("#pagesizes").change(function () {
+                datagrid.editableGrid.setPageSize($(this).val());
+            });
+        };
+
+</script>
+
+<script>
+
+    function mostraragregarcategoria() {
+
+        var mod_add_categoria = new bootstrap.Modal(document.getElementById('mod_add_categoria'), {
+            keyboard: false
+        });
+
+        mod_add_categoria.show();
+        //$('#btn_crear_rep_depto').removeClass('disabled');
+    }
+
+    $("#todo").change(function () {
+        
+        if($("input[type='checkbox']").is(':checked') === true) {
+            $("#fi").attr("required", false);
+            $("#ff").attr("required", false);
+        }else{
+            $("#fi").attr("required", true);
+            $("#ff").attr("required", true);
+        }
+
+    });
+    
+     $("#todo_e").change(function () {
+        
+        if($("input[type='checkbox']").is(':checked') === true) {
+            $("#fi_e").attr("required", false);
+            $("#ff_e").attr("required", false);
+        }else{
+            $("#fi_e").attr("required", true);
+            $("#ff_e").attr("required", true);
+        }
+
+    });
+
+</script>
+
+<script>
+
+    function mostarpdf() {
+
+        var mod_add_pdf = new bootstrap.Modal(document.getElementById('mod_add_pdf'), {
+            keyboard: false
+        });
+
+        mod_add_pdf.show();
+        //$('#btn_crear_rep_depto').removeClass('disabled');
+    }
+
+
+
+</script>
+
+<script>
+    $("#dni").keyup(function () {//Elemento que voy a observar "#nombreIdElemento"
+        var val = $(this).val(); //Asignamos el valor del elemento observado
+        $("#nombre_afiliado").val("");
+        $("#num_expediente").val("");
+        $("#edad").val("");
+        $("#servicio").val("");
+        $("#medico").val("");
+        $("#motivo").val("");
+
+
+        var listo = false;
+        if (val.length >= 13 && val.length <= 15) {
+            var regexp;
+
+            regexp = /^[0-9]{4}[-| ]?[0-9]{4}[-| ]?[0-9]{5}$/;
+
+            if (regexp.test(val))
+            {
+                listo = true;
+                $("#respId").html("<div class=\"semibold\"><b>Procesando....</b>   <img src=\"<?php $this->basePath() ?>/img/ajax-loader.gif\" width=\"20\" ></div>");
+
+            } else {
+                listo = false;
+                $("#respId").html("");
+
+            }
+        }
+        if (listo) {
+            $.ajax({
+                type: "POST", //Metodo de envio
+                url: "<?php echo $this->url('afiliados/getnombreafiliado') ?>", //URL del jsp que va a procesar mi solicitud asíncrona
+                traditional: true,
+                dataType: 'json',
+                data: {id: val}, //{nombre-de-parametro:Valor-para-el-parametro}
+                beforeSend: function () {
+                    $("#respuesta_id_persona").val("");//Limpiar el campo de respuesta
+                },
+                success: function (data) {
+
+                    if (data.estado === 'ok') {
+
+                        $("#p_nombre_afiliado").html(data.d.nombres);
+                        $("#p_num_expediente").html(data.d.id);
+                        $("#p_edad").html(data.d.edad);
+                        $("#p_servicio").html(data.d.nombre_e);
+                        $("#p_medico").html(data.d.id_medico);
+                        $("#p_motivo").html(data.d.motivo);
+
+
+                        $("#btn_enviar").removeClass('disabled');
+                    } else {
+
+                        mensajeAutoERROR('Error', data.mensaje);
+                        $("#btn_enviar").addClass('disabled');
+                    }
+                }
+
+            });
+        }
+    });
+
+
+</script>
+
+<!--<script type="text/javascript">
+    direcciones("<?php echo $this->basePath() ?>/pacientes/gettablapacientes", "<?php echo $this->basePath() ?>");
+    var datagrid = new DatabaseGrid("tbl_afiliados");//me falta saber de donde la llamare 
+
+    window.onload = function () {
+        $("#filter").keyup(function () {
+            datagrid.editableGrid.filter($(this).val());
+        });
+        $("#pagesizes").change(function () {
+            datagrid.editableGrid.setPageSize($(this).val());
+        });
+    };
+
+
+</script>-->
+
+
+
+

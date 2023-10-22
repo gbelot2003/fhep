@@ -1,0 +1,200 @@
+<?php
+$this->headTitle("FHEP | Autoregistro");
+$this->head;
+
+$max_len_pass = $this->max;
+$min_len_pass = $this->min;
+
+$DateAndTime = date('Y-m-d H:i:s');
+$p = [];
+if (isset($_SESSION['parametros'])) {
+    $DateAndTime = date('Y-m-d H:i:s');
+}
+?>
+<?php if (!isset($_SESSION["auth"])): ?>
+    <div class="container  mt-4">
+
+
+
+
+
+        <form id="frm_autoregiostro" method="post"  action="<?php echo $this->basePath(); ?>/usuarios/autoregistro" enctype="multipart/form-data" data-parsley-validate >
+
+            <input type="hidden" id="id_cita" name="fecha_creacion" value="<?php echo $DateAndTime ?>" >
+            <input type="hidden" id="id_cita" name="fecha_reset_pass" value="<?php echo $DateAndTime ?>" >
+
+            <div class="row  mt-4 "> 
+                <div class="col-md-10 mx-auto ">
+
+                    <div class="col-md-5 ">
+                        <div class="row">
+                            <div class="row mt-4">
+                                <h1>Registrar Usuario</h1>
+                                <p class="font-weight-bold text-muted mb-0">Por favor complete todos los campos solicitados,
+                                    para registrarse .</p>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-md-12 my-auto">
+                                <img src="<?php echo $this->basePath(); ?>/img/logo.png"  class ="img-fluid"  alt="inicio" >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--           
+                    <!-- Nombres -->
+
+                    <div class="col-md-7">
+
+                        <div class="row mt-2">                                          
+                            <div class="col-md-12">
+                                <label for="Ncontraseña1">Ingrese Su Nombre: </label><br>
+                                <div class="form-group has-feedback mt-2 ">
+                                    <input type="text" class="form-control " placeholder="Nombres " name="nombres" id="nombres"required onkeypress="
+                                    return soloLetras(event)" onkeyup="aaa(this, event)" style="text-transform:uppercase;" onkeyup="javascript:this.value = 
+                                    this.value.toUpperCase();"  data-parsley-pattern="/^[A-Za-zñÑ]{1,60}$/" >
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Apellidos -->
+                        <div class="row mt-2">                                          
+                            <div class="col-md-12">
+                                <label for="Ncontraseña1">Ingrese Su Apellido:</label>
+                                <div class="form-group has-feedback mt-2 ">
+                                    <input type="text" class="form-control " placeholder="Apellidos" name="apellidos" 
+                                           id="apellidos" required onkeypress="return soloLetras(event)" onkeyup="aaa(this, event)" 
+                                            data-parsley-pattern="/^[A-Za-zñÑ]{1,60}$/"
+                                           style="text-transform:uppercase;" onkeyup="javascript:this.value = this.value.toUpperCase();">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Nombre de usuario -->
+                        <div class="row mt-2">                                          
+                            <div class="col-md-12">
+                                <label for="">Nombre De Usuario:</label>
+                                <div class="form-group has-feedback mt-2 ">
+                                    <input type="text" class="form-control " placeholder="Ingrese Nombre Del  Usuario" 
+                                           name="usuario" id="usuario" onkeyup="aaa(this, event)" 
+                                           data-parsley-pattern="/^[A-Z0-9a-zñÑ]{5,20}$/"
+                                           style="text-transform:uppercase;" onkeyup="javascript:this.value = this.value.toUpperCase();">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email Address -->
+                        <div class="row mt-2">                                          
+                            <div class="col-md-12">
+                                <label for="Ncontraseña1">Correo Electrónico:</label><br>
+                                <div class="form-group has-feedback mt-2 ">
+                                    <input type="email" class="form-control " placeholder="Ingrese Un Correo Electrónico" 
+                                           name="correo" id="cusuario" required
+                                           data-parsley-pattern="/^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Password -->
+                        <div class="row mt-2">                                          
+                            <div class="col-md-12">
+                                <label for="Ncontraseña1">Contraseña: </label>
+                                <div class="form-group has-feedback mt-2 ">
+                                    <input type="password" class="form-control" name="contrasenia" id="ncontra"
+                                           data-parsley-pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$-$_]*$" 
+                                           data-parsley-pattern-message="requiere al menos, 1 número,1 mayúscula y 1 caracter especial (#*-)." required>
+                                </div>
+                                <div id="strengthMessage"></div>
+                            </div>
+                        </div>
+
+                        <!-- Password Confirmation -->
+                        <div class="row mt-2">                                          
+                            <div class="col-md-12">
+                                <label for="Ncontraseña1"> Confirmar Contraseña: </label>
+                                <div class="form-group has-feedback mt-2 ">
+                                    <input type="password" class="form-control" name="rpass" id="rpass"
+                                           data-parsley-range="[<?php echo $min_len_pass ?>,<?php echo $max_len_pass ?>]" class="form-control" 
+                                           required data-parsley-equalto="#ncontra" 
+                                           data-parsley-equalto-message="Las contraseñas no coinciden.">
+                                </div>
+
+
+                                <div id="strengthMessage1"></div>
+                            </div>
+                        </div>
+                        <!-- Submit Button -->
+
+                        <div class="row mt-3">                                          
+                            <div class="col md-5">
+                                <div class="form-group has-feedback mt-2 ">
+                                    <button type="submit" class="btn btn-primary pr-lg-5" id="btnGuardar">Registrar Usuario </button>
+                                </div>
+                            </div>
+                            <div class="col md-5">
+                                <p class="text-muted font-weight-bold">ya tienes usuario?<br><a href="<?php echo $this->basePath() ?>/usuarios/cerrarsesion"   class="text-primary ml-2">Ingresar</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form> 
+    </div>
+
+<?php endif; ?>
+
+
+
+<script src="<?php echo $this->basePath() ?>/js_validaciones/validar.js"></script>
+<script src="<?php echo $this->basePath() ?>/js_validaciones/autoregistro.js"></script>
+<script src="<?php echo $this->basePath() ?>/js_validaciones/contra.js"></script>
+<!--<script language="javascript">
+                                           function aaa(campo, event) {
+                                               CadenaaReemplazar = " ";
+                                               CadenaReemplazo = "";
+                                               CadenaTexto = campo.value;
+                                               CadenaTextoNueva = CadenaTexto.split(CadenaaReemplazar).join(CadenaReemplazo);
+                                               campo.value = CadenaTextoNueva;
+                                           }
+
+                                           paramPass('<?php echo $min_len_pass ?>', '<?php echo $max_len_pass ?>');
+
+</script>-->
+
+
+<script languaje="javascript">
+    function CheckUserName(ele) {
+        if (/\s/.test(ele.value)) {
+            $.notify(datos, 'success');
+            ("no se permiten espacios en blanco");
+        }
+    }
+</script>
+
+
+
+<script>
+    function mostrarContrasena13() {
+        var tipo = document.getElementById("ncontra");
+        if (tipo.type == "password") {
+            tipo.type = "text";
+        } else {
+            tipo.type = "password";
+        }
+    }
+</script>
+
+
+<script>
+    function mostrarContrasena12() {
+        var tipo = document.getElementById("rcontra");
+        if (tipo.type == "password") {
+            tipo.type = "text";
+        } else {
+            tipo.type = "password";
+        }
+    }
+</script>
+
+
+
