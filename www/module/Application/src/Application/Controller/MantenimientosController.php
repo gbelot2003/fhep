@@ -134,6 +134,21 @@ class MantenimientosController extends AbstractActionController {
         return $vista;
     }
 
+    public function firmaselloEditAction()
+    {
+        $objeto = 'Mantenimientos';
+        $permiso = 'permiso_consultar';
+        if (!isset($_SESSION['auth']) || !isset($_SESSION['permisos'][$objeto]) || $_SESSION['permisos'][$objeto][$permiso] != '1') {
+            $_SESSION['mnsAutoInfo'] = array('titulo' => 'Acceso Denegado !', 'texto' => "no cuenta con el permiso necesario para acceder.");
+            return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . "/");
+        }
+        $id = $this->params()->fromRoute("id", null);
+
+        $vista = new ViewModel([]); //Instancia de la vista
+        $this->layout(); //Parametro pasado al layout Titulo de la página
+        return $vista;
+    }
+
     private function saveFirmaOrSelloToDisk($name) {
         // 1. Make sure the file exists in the request:
         if (empty($_FILES[$name])) {

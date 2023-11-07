@@ -601,6 +601,20 @@ return array(
                             ],
                         ],
                     ],
+
+                    'firmaselloEdit' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/firmasello-edit/:id',
+                            'constraints' => [
+                                'id' => '[0-9]+', //Expresión regular que acepta
+                            ],
+                            'defaults' => [
+                                'controller' => 'Application\Controller\Mantenimientos',
+                                'action' => 'firmaselloEdit',
+                            ],
+                        ],
+                    ],
                     
                     //Subruta  guardarFirmaSello
                     'guardarFirmaSello' => [

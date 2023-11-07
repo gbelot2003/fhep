@@ -31,7 +31,7 @@ $endpoint =  "{$this->basePath()}/mantenimientos/guardar-firma-sello"
                 <?php foreach($this->model as $model => $value) : ?>
                     <tr>        
                             <td><?php echo $value['id'] ?></td>
-                            <td><a href="#" class="btn btn-primary"><?php echo $value['usuario'] ?></a></td>
+                            <td><a href="<?php echo $this->basePath(); ?>/mantenimientos/firmasello-edit/<?php echo $value['id'] ?>" class="btn btn-primary"><?php echo $value['usuario'] ?></a></td>
                             <td><a href="#"  ><img src="/public/<?php echo $value['Firma'] ?>" width="100" alt="firma1" /></a> </td>
                     </tr>
                     <?php endforeach; ?>
