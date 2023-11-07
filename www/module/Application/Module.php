@@ -11,6 +11,11 @@ namespace Application;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+ // Add these import statements:
+ use Album\Model\FirmaSello;
+ use Album\Model\FirmaSelloTable;
+ use Zend\Db\ResultSet\ResultSet;
+ use Zend\Db\TableGateway\TableGateway;
 
 class Module
 {
@@ -24,6 +29,25 @@ class Module
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
+    }
+
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'Application\Model\FirmaSelloTable' =>  function($sm) {
+                    $tableGateway = $sm->get('TableGateway');
+                    $table = new FirmaSello($tableGateway);
+                    return $table;
+                },
+                'TableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Album());
+                    return new TableGateway('album', $dbAdapter, null, $resultSetPrototype);
+                },
+            ),
+        );
     }
 
     public function getAutoloaderConfig()

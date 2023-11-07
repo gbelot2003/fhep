@@ -2,51 +2,55 @@
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Application\Model\Rangos;
+use Application\Model\Objetos;
 
 /* Aquí los Modelos */
-use Application\Model\Estadosoli; 
-use Application\Model\Categoriavalor;
+use Zend\View\Model\ViewModel;
+use Application\Model\Estadosu;
 use Application\Model\Tipodato;
 use Application\Model\Tiposoli;
-use Application\Model\FirmaSello;
-use Application\Model\Dependencias;
-use Application\Model\Esciviles;
-use Application\Model\Asignaciones;
-use Application\Model\Rangos;
-use Application\Model\Categorias;
-use Application\Model\Especialidades;
-use Application\Model\Sucursales;
-use Application\Model\Estadosu;
 use Application\Model\Bitacoras;
-use Application\Model\Objetos;
+use Application\Model\Esciviles;
+use Application\Model\Categorias;
+use Application\Model\FirmaSello;
+use Application\Model\Sucursales;
 use Application\Model\Tipoexamen;
+use Application\Model\Estadosoli; 
+use Application\Model\Preclinicas;
+use Application\Model\Asignaciones;
+use Application\Model\Dependencias;
+use Application\Model\Categoriavalor;
+use Application\Model\Especialidades;
+use Zend\Db\TableGateway\TableGateway;
+
 //Para el Excel
-use Application\Extras\Excel\EstilosExcel;
 use Application\Extras\Utilidades\Texto;
+use Application\Extras\Excel\EstilosExcel;
 use Application\Extras\Utilidades\Bitacora;
+use Zend\Mvc\Controller\AbstractActionController;
 
 /* use Application\Model\Mimodelo; */
 
 class MantenimientosController extends AbstractActionController {
 
+    protected $tableGateway;
+
     public function __construct() {
+        
+        //$this->tableGateway = $tableGateway;
+
         /* $_SESSION['unidades'] = 'active'; */
+        
     }
 
     public function mantenimientosAction() {
-
-
-
-
 
         if ($this->getRequest()->isXmlHttpRequest()) {
             //para AJAX
             exit;
         } else if ($this->getRequest()->isPost()) {
-            $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-
+            
             //$id = $this->params()->fromRoute("id", null);
             //$datosFormularios = $this->request->getPost()->toArray();
         } else {
@@ -120,9 +124,12 @@ class MantenimientosController extends AbstractActionController {
         $tiposoli_model = new Tiposoli($this->dbAdapter);
         $utl_bitacora = new Bitacora($this->dbAdapter);
         $objetos_model = new Objetos($this->dbAdapter);
+        $model = new FirmaSello($this->dbAdapter);
+
+        //$resultSet = $this->FirmaSello->select();
 
         //Normal GET
-        $vista = new ViewModel([]); //Instancia de la vista
+        $vista = new ViewModel(['model' => $model->getAll()]); //Instancia de la vista
         $this->layout(); //Parametro pasado al layout Titulo de la página
         return $vista;
     }

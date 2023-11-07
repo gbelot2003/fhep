@@ -20,7 +20,29 @@ $endpoint =  "{$this->basePath()}/mantenimientos/guardar-firma-sello"
         </div>
     </div>
     <div class="firma-sello container">
-      <form id="firma-sello" action="<?php echo $endpoint ?>" method="post" enctype="multipart/form-data">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Firma</th>
+                    <th>Sello</th>
+                </thead>
+                <tbody>
+                <?php foreach($this->model as $model => $value) : ?>
+                    <tr>        
+                            <td><?php echo $value['id'] ?></td>
+                            <td></td>
+                            <td><?php echo $value['Firma'] ?></td>
+                            <td><?php echo $value['Sello'] ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>    
+
+        
+      <!-- <form id="firma-sello" action="<?php echo $endpoint ?>" method="post" enctype="multipart/form-data">
         <div class="row files">
             <div class="col firma">
                 <h4 class="title">Firma</h4>
@@ -44,6 +66,6 @@ $endpoint =  "{$this->basePath()}/mantenimientos/guardar-firma-sello"
             <button type="submit" class="btn-submit btn btn-primary">Guardar firma y sello</button>
           </div>
         </div>
-      </form>
+      </form> -->
     </div>
 </div>
