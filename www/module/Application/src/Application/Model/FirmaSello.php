@@ -4,6 +4,7 @@ namespace Application\Model;
 
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Adapter\Adapter;
+use Zend\Db\Sql\Select; 
 
 class FirmaSello extends TableGateway {
 
@@ -38,10 +39,15 @@ class FirmaSello extends TableGateway {
      }
 
      public function getAll() {
-        $r = $this->select();
+        $r = $this->select(function (Select $select){
+            $select->join('tbl_ms_usuarios', 'tbl_ms_usuarios.id = tbl_lab_firma_sello.ID_Usuario', array('usuario'));
+        });
+
         return $r->toArray();
     }
     
+ 
+
     public function save($data = array()) {
         return $this->insert($data);
     }

@@ -9,11 +9,11 @@
 
 namespace Application;
 
-use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Application\Model\FirmaSello;
+use Zend\Mvc\ModuleRouteListener;
  // Add these import statements:
- use Album\Model\FirmaSello;
- use Album\Model\FirmaSelloTable;
+ use Application\Model\FirmaSelloTable;
  use Zend\Db\ResultSet\ResultSet;
  use Zend\Db\TableGateway\TableGateway;
 
@@ -43,8 +43,8 @@ class Module
                 'TableGateway' => function ($sm) {
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
-                    $resultSetPrototype->setArrayObjectPrototype(new Album());
-                    return new TableGateway('album', $dbAdapter, null, $resultSetPrototype);
+                    $resultSetPrototype->setArrayObjectPrototype(new FirmaSello());
+                    return new TableGateway('Application', $dbAdapter, null, $resultSetPrototype);
                 },
             ),
         );
