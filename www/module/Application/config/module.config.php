@@ -612,6 +612,20 @@ return array(
                         ],
                     ],
 
+                    'firmaselloEliminar' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/firmasello-eliminar/:id',
+                            'constraints' => [
+                                'id' => '[0-9]+', //Expresión regular que acepta
+                            ],
+                            'defaults' => [
+                                'controller' => 'Application\Controller\Mantenimientos',
+                                'action' => 'firmaselloEliminar',
+                            ],
+                        ],
+                    ],
+                    
                     'firmaselloEdit' => [
                         'type' => 'Segment',
                         'options' => [

@@ -59,6 +59,11 @@ class FirmaSello extends TableGateway {
 
         return $fila;
     }
+
+    public function deleteData($id){
+        return $this->delete(array('id' => $id));
+    }
+
     
     public function updateData($data = array(), $id)
     {

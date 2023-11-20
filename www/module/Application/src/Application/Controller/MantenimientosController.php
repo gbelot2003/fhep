@@ -174,6 +174,22 @@ class MantenimientosController extends AbstractActionController {
         return $vista;
     }
 
+    public function firmaselloEliminarAction()
+    {
+ 
+
+        $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+        $id = $this->params()->fromRoute("id", null);
+        $model = new FirmaSello($dbAdapter);
+        $firma = $model->getById($id);
+
+        unlink($_SERVER["DOCUMENT_ROOT"] . "/public" . $firma->Firma);
+        unlink($_SERVER["DOCUMENT_ROOT"] . "/public" . $firma->Sello);
+
+        $model->deleteData($id);
+        return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . "/mantenimientos/firmasello");
+    }
+
     private function saveFirmaOrSelloToDisk($name) {
         // 1. Make sure the file exists in the request:
         if (empty($_FILES[$name])) {
@@ -273,6 +289,7 @@ class MantenimientosController extends AbstractActionController {
 
       exit;
     }
+
 
     public function editartiposoliAction() {
         $objeto = 'Mantenimientos';
