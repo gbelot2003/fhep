@@ -10,6 +10,7 @@ use Zend\View\Model\ViewModel;
 use Application\Model\Estadosu;
 use Application\Model\Tipodato;
 use Application\Model\Tiposoli;
+use Application\Model\Usuarios;
 use Application\Model\Bitacoras;
 use Application\Model\Esciviles;
 use Application\Model\Categorias;
@@ -36,8 +37,10 @@ class MantenimientosController extends AbstractActionController {
 
     protected $tableGateway;
 
+    public $model; 
+
     public function __construct() {
-        
+       // $this->model =  new FirmaSello($this->dbAdapter);
         //$this->tableGateway = $tableGateway;
 
         /* $_SESSION['unidades'] = 'active'; */
@@ -142,9 +145,16 @@ class MantenimientosController extends AbstractActionController {
             $_SESSION['mnsAutoInfo'] = array('titulo' => 'Acceso Denegado !', 'texto' => "no cuenta con el permiso necesario para acceder.");
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . "/");
         }
-        $id = $this->params()->fromRoute("id", null);
+        $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+        $model = new FirmaSello($this->dbAdapter);
+        $usuario = new Usuarios($this->dbAdapter);
 
-        $vista = new ViewModel([]); //Instancia de la vista
+        $id = $this->params()->fromRoute("id", null);
+        $data = $model->getById($id);
+        $user = $usuario->getPorId($data->ID_Usuario);
+        //var_dump($id);
+
+        $vista = new ViewModel(['model' => $data, 'user' => $user]); //Instancia de la vista
         $this->layout(); //Parametro pasado al layout Titulo de la página
         return $vista;
     }

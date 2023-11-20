@@ -21,5 +21,37 @@ $endpoint =  "{$this->basePath()}/mantenimientos/guardar-firma-sello"
 
     <div class="firma-sello container">
         <h2>Edición</h2>
+        <h3>Nombre: <?php echo $user->usuario ?> </h3>
+
+        <form id="firma-sello" action="/public/mantenimientos/guardar-firma-sello" method="post" enctype="multipart/form-data">
+            <div class="row files">
+                <div class="col firma">
+                    <h4 class="title">Firma</h4>
+                    <input class="file" type="file" id="firma-file" name="firma" accept="image/png, image/jpeg" />
+                    <div class="preview">
+                        <img class="photo" id="firma-photo" alt="Imagen de firma" />
+                        <i class="close-icon fa-regular fa-circle-xmark"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col sello">
+                <h4 class="title">Sello</h4>
+                <input class="file" type="file" id="sello-file" name="sello" accept="image/png, image/jpeg" />
+                <div class="preview">
+                    <img class="photo" id="sello-photo" alt="Imagen de sello" />
+                    <i class="close-icon fa-regular fa-circle-xmark"></i>
+                </div>
+            </div>
+            <div class="row submit">
+                <div class="col-12">
+                    <button type="submit" class="btn-submit btn btn-primary">Guardar firma y sello</button>
+                </div>
+            </div>
+        </form>
+        <br />
+        <br />
+        <pre><?php var_dump($model)  ?></pre>
+        <pre><?php var_dump($user)  ?></pre>
+
     </div>
 </div>
