@@ -200,6 +200,9 @@ class MantenimientosController extends AbstractActionController {
         }
 
         // 4. Save the file uploaded into 'uploads' directory:
+        // Si presenta problemas de permisos en windows
+        // revisar y/o cambiar / por \
+        //  $file['file_location'] = 'public\\img\\'.$file['signed_name'];
         $file['signed_name'] = rand(1, 1000000).'-'.$_FILES[$name]['name'];
         $file['file_location'] = 'public/img/'.$file['signed_name'];
         move_uploaded_file($_FILES[$name]['tmp_name'], $file['file_location']);
@@ -213,8 +216,8 @@ class MantenimientosController extends AbstractActionController {
         
         $data = array(
             'ID_Usuario' => $idUsuario,
-            'Firma' => $firma,
-            'Sello' => $sello,
+            'Firma' => "/img/{$firma}",
+            'Sello' => "/img/{$sello}",
         );
         $model->save($data);
     }

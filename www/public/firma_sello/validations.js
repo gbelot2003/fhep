@@ -42,7 +42,7 @@ $(document).ready(() => {
         success: () => {
           $(".firma .close-icon").trigger('click');
           $(".sello .close-icon").trigger('click');
-          //location. reload();
+          location.reload();
         },
         error: (e) => {
           console.log('TENEMOS UN ERROR!', e);

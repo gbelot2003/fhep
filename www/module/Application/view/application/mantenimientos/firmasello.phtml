@@ -32,8 +32,8 @@ $endpoint =  "{$this->basePath()}/mantenimientos/guardar-firma-sello"
                     <tr>        
                             <td><?php echo $value['id'] ?></td>
                             <td><a href="<?php echo $this->basePath(); ?>/mantenimientos/firmasello-edit/<?php echo $value['id'] ?>" class="btn btn-primary"><?php echo $value['usuario'] ?></a></td>
-                            <td><a href="#"  ><img src="/public/<?php echo $value['Firma'] ?>" width="100" alt="<?php echo $value['Firma'] ?>" /></a> </td>
-                            <td><a href="#"  ><img src="/public/<?php echo $value['Sello'] ?>" width="100" alt="<?php echo $value['Sello'] ?>" /></a> </td>
+                            <td><a href="#"  ><img src="/public<?php echo $value['Firma'] ?>" width="100" alt="<?php echo $value['Firma'] ?>" /></a> </td>
+                            <td><a href="#"  ><img src="/public<?php echo $value['Sello'] ?>" width="100" alt="<?php echo $value['Sello'] ?>" /></a> </td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
