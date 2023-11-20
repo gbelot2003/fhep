@@ -202,7 +202,7 @@ class MantenimientosController extends AbstractActionController {
         // 4. Save the file uploaded into 'uploads' directory:
         // Si presenta problemas de permisos en windows
         // revisar y/o cambiar / por \
-        //  $file['file_location'] = 'public\\img\\'.$file['signed_name'];
+
         $file['signed_name'] = rand(1, 1000000).'-'.$_FILES[$name]['name'];
         $file['file_location'] = 'public/img/'.$file['signed_name'];
         move_uploaded_file($_FILES[$name]['tmp_name'], $file['file_location']);
@@ -214,6 +214,8 @@ class MantenimientosController extends AbstractActionController {
         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
         $model = new FirmaSello($dbAdapter);
         
+        // Si presenta problemas de permisos en windows
+        // revisar y/o cambiar / por \
         $data = array(
             'ID_Usuario' => $idUsuario,
             'Firma' => "/img/{$firma}",
@@ -237,6 +239,8 @@ class MantenimientosController extends AbstractActionController {
         $firma = $this->saveFirmaOrSelloToDisk('firma');
         $sello = $this->saveFirmaOrSelloToDisk('sello');
 
+        // Si presenta problemas de permisos en windows
+        // revisar y/o cambiar / por \
         $data = array(
             'Firma' => "/img/{$firma}",
             'Sello' => "/img/{$sello}",
