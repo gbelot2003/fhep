@@ -28,9 +28,9 @@
     cursor: pointer;
 }
 
-/* .btn-submit {
+.btn-submit {
   display: none;
-} */
+}
 
 .submit {
   margin-top: 1rem;

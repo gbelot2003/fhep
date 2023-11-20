@@ -37,7 +37,6 @@ class MantenimientosController extends AbstractActionController {
 
     protected $tableGateway;
 
-    public $model; 
 
     public function __construct() {
        // $this->model =  new FirmaSello($this->dbAdapter);
@@ -186,7 +185,7 @@ class MantenimientosController extends AbstractActionController {
 
         // 4. Save the file uploaded into 'uploads' directory:
         $file['signed_name'] = rand(1, 1000000).'-'.$_FILES[$name]['name'];
-        $file['file_location'] = 'uploads\\'.$file['signed_name'];
+        $file['file_location'] = 'public/img/'.$file['signed_name'];
         move_uploaded_file($_FILES[$name]['tmp_name'], $file['file_location']);
 
         return $file['signed_name'];
@@ -204,16 +203,45 @@ class MantenimientosController extends AbstractActionController {
         $model->save($data);
     }
 
+    public function editarFirmaSelloAction(){
+        $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+        $id = $this->params()->fromRoute("id", null);
+        $model = new FirmaSello($dbAdapter);
+
+        $firma = $model->getById($id);
+        $firma = $this->saveFirmaOrSelloToDisk('firma');
+        $sello = $this->saveFirmaOrSelloToDisk('sello');
+
+        $data = array(
+            'Firma' => "/img/{$firma}",
+            'Sello' => "/img/{$sello}",
+        );
+
+        $model->updateData($data, $id);
+
+        // $firma = $this->saveFirmaOrSelloToDisk('firma');
+        // $sello = $this->saveFirmaOrSelloToDisk('sello');
+
+        // $user->Firma =  $firma;
+        // $user->Sello =  $Sello;
+        // $user->save();
+
+        echo 'Files Uploaded successfully';
+
+        exit;
+    }
+
     public function guardarfirmaselloAction() {
         // 1. Check request is only of AJAX type:
-        if (!$this->getRequest()->isXmlHttpRequest()) {
-            echo 'Only available for AJAX calls.';
-            exit;
-        }
+        // if (!$this->getRequest()->isXmlHttpRequest()) {
+        //     echo 'Only available for AJAX calls.';
+        //     exit;
+        // }
 
         // 2. Save Firma & Sello to disk:
         $firma = $this->saveFirmaOrSelloToDisk('firma');
         $sello = $this->saveFirmaOrSelloToDisk('sello');
+
 
         // 3. Save Firma & Sello names into database:
         $this->saveFirmaAndSelloToDB($firma, $sello);

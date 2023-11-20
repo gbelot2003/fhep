@@ -23,7 +23,7 @@ $endpoint =  "{$this->basePath()}/mantenimientos/guardar-firma-sello"
         <h2>Edición</h2>
         <h3>Nombre: <?php echo $user->usuario ?> </h3>
 
-        <form id="firma-sello" action="/public/mantenimientos/guardar-firma-sello" method="post" enctype="multipart/form-data">
+        <form id="firma-sello" action="/public/mantenimientos/editar-firma-sello/<?php echo $model->id ?>" method="post" enctype="multipart/form-data">
             <div class="row files">
                 <div class="col firma">
                     <h4 class="title">Firma</h4>
@@ -50,8 +50,14 @@ $endpoint =  "{$this->basePath()}/mantenimientos/guardar-firma-sello"
         </form>
         <br />
         <br />
-        <pre><?php var_dump($model)  ?></pre>
-        <pre><?php var_dump($user)  ?></pre>
+        <div class="row">
+            <div class="col-md-6">
+                <img width="300" src="<?php echo "/public" .$model->Firma ?>" class="img-fluid img-thumbnail" alt="<?php echo "/public" . $model->Firma ?>" />
+            </div>
+            <div class="col-md-6">
+                <img width="300" src="<?php echo "/public" .$model->Sello ?>" class="img-fluid img-thumbnail" alt="<?php echo "/public" . $model->Sello ?>" />
+            </div>
+        </div>
 
     </div>
 </div>

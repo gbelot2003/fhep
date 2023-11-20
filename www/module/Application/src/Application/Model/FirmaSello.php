@@ -34,8 +34,8 @@ class FirmaSello extends TableGateway {
      {
          $this->id     = (!empty($data['id'])) ? $data['id'] : null;
          $this->id_user = (!empty($data['ID_Usuario'])) ? $data['ID_Usuario'] : null;
-         $this->firma  = (!empty($data['firma'])) ? $data['firma'] : null;
-         $this->sello  = (!empty($data['sello'])) ? $data['sello'] : null;
+         $this->Firma  = (!empty($data['Firma'])) ? $data['Firma'] : null;
+         $this->Sello  = (!empty($data['Sello'])) ? $data['Sello'] : null;
      }
 
      public function getAll() 
@@ -50,7 +50,6 @@ class FirmaSello extends TableGateway {
     public function getById($idT) 
     {
         $id = (int) $idT;
-        //var_dump($id);
         $rowset = $this->select(array('id' => $id));
         $fila = $rowset->current();
 
@@ -61,7 +60,10 @@ class FirmaSello extends TableGateway {
         return $fila;
     }
     
- 
+    public function updateData($data = array(), $id)
+    {
+         return $this->update($data, array('id' => $id));
+    }
 
     public function save($data = array()) {
         return $this->insert($data);

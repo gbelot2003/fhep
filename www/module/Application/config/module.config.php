@@ -616,6 +616,20 @@ return array(
                         ],
                     ],
                     
+                    'editarFirmaSello' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/editar-firma-sello/:id',
+                            'constraints' => [
+                                'id' => '[0-9]+', //Expresión regular que acepta
+                            ],
+                            'defaults' => [
+                                'controller' => 'Application\Controller\Mantenimientos',
+                                'action' => 'editarFirmaSello',
+                            ],
+                        ],
+                    ],
+
                     //Subruta  guardarFirmaSello
                     'guardarFirmaSello' => [
                         'type' => 'Segment',
