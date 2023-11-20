@@ -17,10 +17,9 @@ $endpoint =  "{$this->basePath()}/mantenimientos/guardar-firma-sello"
     </div>
 
     <div class="firma-sello container">
-        <h2>Edición de Firmas</h2>
-        <h4>Nombre: <?php echo $user->usuario ?> </h4>
+        <h2>Creación de Firmas</h2>
 
-        <form id="firma-sello" action="/public/mantenimientos/editar-firma-sello/<?php echo $model->id ?>" method="post" enctype="multipart/form-data">
+        <form id="firma-sello" action="/public/mantenimientos/guardar-firma-sello" method="post" enctype="multipart/form-data">
             <div class="row files">
                 <div class="col firma">
                     <h4 class="title">Firma</h4>
@@ -39,22 +38,20 @@ $endpoint =  "{$this->basePath()}/mantenimientos/guardar-firma-sello"
                     <i class="close-icon fa-regular fa-circle-xmark"></i>
                 </div>
             </div>
+            <div class="col usuario">
+                <h4 class="title">Usuario</h4>
+                <select class="form-control" name="ID_Usuario">
+                    <?php foreach($users as $user) : ?>
+                    <option value="<?php echo $user['id'] ?>"><?php echo $user['usuario']  ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <small>Usuario a quien la firma y sello pertenece</small>
+            </div>
             <div class="row submit">
                 <div class="col-12">
                     <button type="submit" class="btn-submit btn btn-primary">Guardar firma y sello</button>
                 </div>
             </div>
         </form>
-        <br />
-        <br />
-        <div class="row">
-            <div class="col-md-6">
-                <img width="300" src="<?php echo "/public" .$model->Firma ?>" class="img-fluid img-thumbnail" alt="<?php echo "/public" . $model->Firma ?>" />
-            </div>
-            <div class="col-md-6">
-                <img width="300" src="<?php echo "/public" .$model->Sello ?>" class="img-fluid img-thumbnail" alt="<?php echo "/public" . $model->Sello ?>" />
-            </div>
-        </div>
-
     </div>
 </div>

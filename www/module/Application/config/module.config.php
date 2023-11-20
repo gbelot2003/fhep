@@ -601,6 +601,16 @@ return array(
                             ],
                         ],
                     ],
+                    'firmaselloCreate' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/firmasello-create',
+                            'defaults' => [
+                                'controller' => 'Application\Controller\Mantenimientos',
+                                'action' => 'firmaselloCreate', 
+                            ],
+                        ],
+                    ],
 
                     'firmaselloEdit' => [
                         'type' => 'Segment',

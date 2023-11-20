@@ -151,9 +151,25 @@ class MantenimientosController extends AbstractActionController {
         $id = $this->params()->fromRoute("id", null);
         $data = $model->getById($id);
         $user = $usuario->getPorId($data->ID_Usuario);
-        //var_dump($id);
 
         $vista = new ViewModel(['model' => $data, 'user' => $user]); //Instancia de la vista
+        $this->layout(); //Parametro pasado al layout Titulo de la página
+        return $vista;
+    }
+
+    public function firmaselloCreateAction() 
+    {
+        $objeto = 'Mantenimientos';
+        $permiso = 'permiso_consultar';
+        if (!isset($_SESSION['auth']) || !isset($_SESSION['permisos'][$objeto]) || $_SESSION['permisos'][$objeto][$permiso] != '1') {
+            $_SESSION['mnsAutoInfo'] = array('titulo' => 'Acceso Denegado !', 'texto' => "no cuenta con el permiso necesario para acceder.");
+            return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . "/");
+        }
+        $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+        $usuario = new Usuarios($this->dbAdapter);
+        $users = $usuario->getAll();
+
+        $vista = new ViewModel(['users' => $users]); //Instancia de la vista
         $this->layout(); //Parametro pasado al layout Titulo de la página
         return $vista;
     }
@@ -191,10 +207,10 @@ class MantenimientosController extends AbstractActionController {
         return $file['signed_name'];
     }
 
-    private function saveFirmaAndSelloToDB($firma, $sello) {
+    private function saveFirmaAndSelloToDB($firma, $sello, $idUsuario) {
         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
         $model = new FirmaSello($dbAdapter);
-        $idUsuario = $_SESSION['auth']['id_usuario'];
+        
         $data = array(
             'ID_Usuario' => $idUsuario,
             'Firma' => $firma,
@@ -204,6 +220,12 @@ class MantenimientosController extends AbstractActionController {
     }
 
     public function editarFirmaSelloAction(){
+        // 1. Check request is only of AJAX type:
+        if (!$this->getRequest()->isXmlHttpRequest()) {
+            echo 'Only available for AJAX calls.';
+            exit;
+        }
+
         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
         $id = $this->params()->fromRoute("id", null);
         $model = new FirmaSello($dbAdapter);
@@ -219,13 +241,6 @@ class MantenimientosController extends AbstractActionController {
 
         $model->updateData($data, $id);
 
-        // $firma = $this->saveFirmaOrSelloToDisk('firma');
-        // $sello = $this->saveFirmaOrSelloToDisk('sello');
-
-        // $user->Firma =  $firma;
-        // $user->Sello =  $Sello;
-        // $user->save();
-
         echo 'Files Uploaded successfully';
 
         exit;
@@ -233,18 +248,18 @@ class MantenimientosController extends AbstractActionController {
 
     public function guardarfirmaselloAction() {
         // 1. Check request is only of AJAX type:
-        // if (!$this->getRequest()->isXmlHttpRequest()) {
-        //     echo 'Only available for AJAX calls.';
-        //     exit;
-        // }
+        if (!$this->getRequest()->isXmlHttpRequest()) {
+            echo 'Only available for AJAX calls.';
+            exit;
+        }
 
-        // 2. Save Firma & Sello to disk:
+        $idUsuario = $_POST['ID_Usuario'];
+
         $firma = $this->saveFirmaOrSelloToDisk('firma');
         $sello = $this->saveFirmaOrSelloToDisk('sello');
-
-
+        
         // 3. Save Firma & Sello names into database:
-        $this->saveFirmaAndSelloToDB($firma, $sello);
+        $this->saveFirmaAndSelloToDB($firma, $sello, $idUsuario);
 
       // 4. Send OK response to client:
       echo 'Files Uploaded successfully';
