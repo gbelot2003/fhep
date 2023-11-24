@@ -24,7 +24,7 @@ $endpoint =  "{$this->basePath()}/mantenimientos/guardar-firma-sello"
         <br />
         <br />
 
-        <form id="firma-sello" action="/public/mantenimientos/guardar-firma-sello" method="post" enctype="multipart/form-data">
+        <form id="firma-sello" action="<?php echo $this->basePath(); ?>/mantenimientos/guardar-firma-sello" method="post" enctype="multipart/form-data">
             <div class="row files">
                 <div class="col firma">
                     <h4 class="title">Firma</h4>
